@@ -3,7 +3,6 @@ plugins {
 	id "fabric-loom" version "1.8-SNAPSHOT"
 	id 'com.gradleup.shadow' version '9.0.0-beta4'
 	id 'io.freefair.lombok' version '8.11'
-	id 'com.github.gmazzo.buildconfig' version '5.5.1'
 }
 
 version = project.mod_version
@@ -32,31 +31,6 @@ dependencies {
 
 	implementation(shadow("org.reflections:reflections:0.10.2"))
 	implementation(shadow("meteordevelopment:discord-ipc:1.1"))
-}
-
-def getCommitHash = { ->
-	def gitProcess = 'git rev-parse HEAD'.execute()
-	gitProcess.waitFor()
-	return gitProcess.text.trim().take(10)
-}
-
-def getRevisionCount = { ->
-	def gitProcess = 'git rev-list --all --count'.execute()
-	gitProcess.waitFor()
-	return gitProcess.text.trim()
-}
-
-
-buildConfig {
-	className("BuildConstants")
-	packageName(group)
-
-	buildConfigField(String, 'MOD_NAME', project.mod_name)
-	buildConfigField(String, 'MOD_ID', project.mod_id)
-	buildConfigField(String, 'MOD_VERSION', project.mod_version)
-	buildConfigField(String, 'MINECRAFT_VERSION', project.minecraft_version)
-	buildConfigField(String, 'GIT_HASH', getCommitHash())
-	buildConfigField(String, 'GIT_REVISION', getRevisionCount())
 }
 
 processResources {

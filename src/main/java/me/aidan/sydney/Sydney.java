@@ -20,12 +20,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Sydney implements ModInitializer {
-	public static final String MOD_NAME = BuildConstants.MOD_NAME;
-	public static final String MOD_ID = BuildConstants.MOD_ID;
-	public static final String MOD_VERSION = BuildConstants.MOD_VERSION;
-	public static final String MINECRAFT_VERSION = BuildConstants.MINECRAFT_VERSION;
-	public static final String GIT_HASH = BuildConstants.GIT_HASH;
-	public static final String GIT_REVISION = BuildConstants.GIT_REVISION;
+	public static final String MOD_NAME = "ISU-Ware";
+	public static final String MOD_ID = "isu-ware";
+	public static final String MOD_VERSION = "1.0.0";
+	public static final String MINECRAFT_VERSION = "1.21.4";
+	public static final String GIT_HASH = "0";
+	public static final String GIT_REVISION = "0";
 	public static final long UPTIME = System.currentTimeMillis();
 
 	public static final EventHandler EVENT_HANDLER = new EventHandler();
