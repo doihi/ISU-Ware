@@ -6,7 +6,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.impl.ConsumeItemEvent;
 import me.aidan.sydney.events.impl.PlayerJumpEvent;
-import me.aidan.sydney.modules.impl.miscellaneous.SydneyRoboticsModule;
 import me.aidan.sydney.modules.impl.movement.*;
 import me.aidan.sydney.modules.impl.player.SwingModule;
 import me.aidan.sydney.utils.IMinecraft;
