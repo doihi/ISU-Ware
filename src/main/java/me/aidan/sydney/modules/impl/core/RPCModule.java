@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.core;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.TickEvent;
 import me.aidan.sydney.modules.Module;
@@ -28,7 +28,7 @@ public class RPCModule extends Module {
     @Override
     public void onEnable() {
         DiscordIPC.start(1306415893160661003L, null);
-        rpc.setStart(Sydney.UPTIME/1000);
+        rpc.setStart(ISU.UPTIME/1000);
         setImage();
         if(detailsMode.getValue().equals("Random")) rpc.setDetails(getDetails());
     }
@@ -76,7 +76,7 @@ public class RPCModule extends Module {
     }
 
     private void setImage() {
-        rpc.setLargeImage(getImageIndex() + "", Sydney.MOD_NAME + " " + Sydney.MOD_VERSION);
+        rpc.setLargeImage(getImageIndex() + "", ISU.MOD_NAME + " " + ISU.MOD_VERSION);
     }
 
     private int getImageIndex() {

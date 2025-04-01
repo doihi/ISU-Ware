@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.miscellaneous.NameProtectModule;
 import me.aidan.sydney.utils.IMinecraft;
 import me.aidan.sydney.utils.text.CustomFormatting;
@@ -27,7 +27,7 @@ public class TextVisitFactoryMixin implements IMinecraft {
 
     @ModifyVariable(method = "visitFormatted(Ljava/lang/String;ILnet/minecraft/text/Style;Lnet/minecraft/text/Style;Lnet/minecraft/text/CharacterVisitor;)Z", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     private static String replaceText(String value) {
-        NameProtectModule module = Sydney.MODULE_MANAGER.getModule(NameProtectModule.class);
+        NameProtectModule module = ISU.MODULE_MANAGER.getModule(NameProtectModule.class);
         if (module.isToggled()) return value.replaceAll(mc.getSession().getUsername(), module.name.getValue());
         return value;
     }

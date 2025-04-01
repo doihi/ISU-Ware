@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.miscellaneous;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.ClientConnectEvent;
 import me.aidan.sydney.events.impl.PlayerDeathEvent;
@@ -37,7 +37,7 @@ public class NotificationsModule extends Module {
 
                 if (!loadedPlayers.contains(player)) {
                     loadedPlayers.add(player);
-                    Sydney.CHAT_MANAGER.message(ChatUtils.getPrimary() + player.getName().getString() + ChatUtils.getSecondary() + " has entered your visual range.", "visual-range-" + player.getName().getString());
+                    ISU.CHAT_MANAGER.message(ChatUtils.getPrimary() + player.getName().getString() + ChatUtils.getSecondary() + " has entered your visual range.", "visual-range-" + player.getName().getString());
                 }
             }
 
@@ -45,7 +45,7 @@ public class NotificationsModule extends Module {
                 for (PlayerEntity player : new ArrayList<>(loadedPlayers)) {
                     if (!mc.world.getPlayers().contains(player)) {
                         loadedPlayers.remove(player);
-                        Sydney.CHAT_MANAGER.message(ChatUtils.getPrimary() + player.getName().getString() + ChatUtils.getSecondary() + " has left your visual range.", "visual-range-" + player.getName().getString());
+                        ISU.CHAT_MANAGER.message(ChatUtils.getPrimary() + player.getName().getString() + ChatUtils.getSecondary() + " has left your visual range.", "visual-range-" + player.getName().getString());
                     }
                 }
             }
@@ -57,7 +57,7 @@ public class NotificationsModule extends Module {
                 if(pearl.getOwner() == null || thrownPearls.contains(pearl.getId())) continue;
 
                 String name = pearl.getOwner().getName().getString();
-                Sydney.CHAT_MANAGER.message(ChatUtils.getPrimary() + name + ChatUtils.getSecondary() + " threw a pearl towards " + EntityUtils.getPearlDirection(pearl).toString() + ".", "pearl-throws-" + name);
+                ISU.CHAT_MANAGER.message(ChatUtils.getPrimary() + name + ChatUtils.getSecondary() + " threw a pearl towards " + EntityUtils.getPearlDirection(pearl).toString() + ".", "pearl-throws-" + name);
                 thrownPearls.add(pearl.getId());
             }
 
@@ -73,15 +73,15 @@ public class NotificationsModule extends Module {
     @SubscribeEvent
     public void onPlayerPop(PlayerPopEvent event) {
         if (totemPops.getValue()) {
-            Sydney.CHAT_MANAGER.message(ChatUtils.getPrimary() + event.getPlayer().getName().getString() + ChatUtils.getSecondary() + " has popped " + ChatUtils.getPrimary() + event.getPops() + ChatUtils.getSecondary() + " totem" + (event.getPops() > 1 ? "s" : "") + ".", "totem-pop-" + event.getPlayer().getName().getString());
+            ISU.CHAT_MANAGER.message(ChatUtils.getPrimary() + event.getPlayer().getName().getString() + ChatUtils.getSecondary() + " has popped " + ChatUtils.getPrimary() + event.getPops() + ChatUtils.getSecondary() + " totem" + (event.getPops() > 1 ? "s" : "") + ".", "totem-pop-" + event.getPlayer().getName().getString());
         }
     }
 
     @SubscribeEvent
     public void onPlayerDeath(PlayerDeathEvent event) {
-        int pops = Sydney.WORLD_MANAGER.getPoppedTotems().getOrDefault(event.getPlayer().getUuid(), 0);
+        int pops = ISU.WORLD_MANAGER.getPoppedTotems().getOrDefault(event.getPlayer().getUuid(), 0);
         if (totemPops.getValue() && pops > 0) {
-            Sydney.CHAT_MANAGER.message(ChatUtils.getPrimary() + event.getPlayer().getName().getString() + ChatUtils.getSecondary() + " has died after popping " + ChatUtils.getPrimary() + pops + ChatUtils.getSecondary() + " totem" + (pops > 1 ? "s" : "") + ".", "totem-pop-" + event.getPlayer().getName().getString());
+            ISU.CHAT_MANAGER.message(ChatUtils.getPrimary() + event.getPlayer().getName().getString() + ChatUtils.getSecondary() + " has died after popping " + ChatUtils.getPrimary() + pops + ChatUtils.getSecondary() + " totem" + (pops > 1 ? "s" : "") + ".", "totem-pop-" + event.getPlayer().getName().getString());
         }
     }
 }

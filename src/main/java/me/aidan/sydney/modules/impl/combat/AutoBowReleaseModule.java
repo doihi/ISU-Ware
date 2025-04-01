@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.combat;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PlayerUpdateEvent;
 import me.aidan.sydney.modules.Module;
@@ -19,7 +19,7 @@ public class AutoBowReleaseModule extends Module {
 
     @SubscribeEvent
     public void onPlayerUpdate(PlayerUpdateEvent event) {
-        if (Sydney.MODULE_MANAGER.getModule(SelfBowModule.class).isToggled()) return;
+        if (ISU.MODULE_MANAGER.getModule(SelfBowModule.class).isToggled()) return;
         if ((mc.player.getOffHandStack().getItem() == Items.BOW || mc.player.getMainHandStack().getItem() == Items.BOW) && mc.player.isUsingItem()) {
             if (mc.player.getItemUseTime() >= ticks.getValue().intValue()) {
                 mc.getNetworkHandler().sendPacket(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, mc.player.getHorizontalFacing()));

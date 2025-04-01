@@ -1,6 +1,6 @@
 package me.aidan.sydney.mixins;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.miscellaneous.UnfocusedFPSModule;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.InactivityFpsLimiter;
@@ -17,8 +17,8 @@ public class InactivityFpsLimiterMixin {
 
     @Inject(method = "update", at = @At("HEAD"), cancellable = true)
     private void getFramerateLimit(CallbackInfoReturnable<Integer> info) {
-        if (Sydney.MODULE_MANAGER.getModule(UnfocusedFPSModule.class).isToggled() && !client.isWindowFocused()) {
-            info.setReturnValue(Sydney.MODULE_MANAGER.getModule(UnfocusedFPSModule.class).limit.getValue().intValue());
+        if (ISU.MODULE_MANAGER.getModule(UnfocusedFPSModule.class).isToggled() && !client.isWindowFocused()) {
+            info.setReturnValue(ISU.MODULE_MANAGER.getModule(UnfocusedFPSModule.class).limit.getValue().intValue());
         }
     }
 }

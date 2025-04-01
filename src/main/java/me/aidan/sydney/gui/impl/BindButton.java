@@ -1,6 +1,6 @@
 package me.aidan.sydney.gui.impl;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.gui.api.Button;
 import me.aidan.sydney.gui.api.Frame;
 import me.aidan.sydney.settings.impl.BindSetting;
@@ -22,10 +22,10 @@ public class BindButton extends Button {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        Sydney.FONT_MANAGER.drawTextWithShadow(context, setting.getTag(), getX() + getTextPadding() + 1, getY() + 2, Color.WHITE);
+        ISU.FONT_MANAGER.drawTextWithShadow(context, setting.getTag(), getX() + getTextPadding() + 1, getY() + 2, Color.WHITE);
 
         String bind = listening ? "..." : KeyboardUtils.getKeyName(setting.getValue());
-        Sydney.FONT_MANAGER.drawTextWithShadow(context, Formatting.GRAY + bind, getX() + getWidth() - getTextPadding() - 1 - Sydney.FONT_MANAGER.getWidth(bind), getY() + 2, Color.WHITE);
+        ISU.FONT_MANAGER.drawTextWithShadow(context, Formatting.GRAY + bind, getX() + getWidth() - getTextPadding() - 1 - ISU.FONT_MANAGER.getWidth(bind), getY() + 2, Color.WHITE);
     }
 
     @Override

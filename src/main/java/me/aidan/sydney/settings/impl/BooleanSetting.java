@@ -1,7 +1,7 @@
 package me.aidan.sydney.settings.impl;
 
 import lombok.Setter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.impl.SettingChangeEvent;
 import me.aidan.sydney.settings.Setting;
 
@@ -40,7 +40,7 @@ public class BooleanSetting extends Setting {
 
     public void setValue(boolean value) {
         this.value = value;
-        Sydney.EVENT_HANDLER.post(new SettingChangeEvent(this));
+        ISU.EVENT_HANDLER.post(new SettingChangeEvent(this));
     }
 
 

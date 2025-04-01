@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.movement;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PlayerMoveEvent;
 import me.aidan.sydney.events.impl.TickEvent;
@@ -49,7 +49,7 @@ public class SpeedModule extends Module {
 
     @Override
     public void onDisable() {
-        Sydney.WORLD_MANAGER.setTimerMultiplier(1.0f);
+        ISU.WORLD_MANAGER.setTimerMultiplier(1.0f);
         if(pressed) mc.options.jumpKey.setPressed(false);
     }
 
@@ -60,7 +60,7 @@ public class SpeedModule extends Module {
         if (mode.getValue().equalsIgnoreCase("Strafe") || mode.getValue().equalsIgnoreCase("StrafeStrict")) {
             distance = Math.sqrt(MathHelper.square(mc.player.getX() - mc.player.prevX) + MathHelper.square(mc.player.getZ() - mc.player.prevZ));
             boolean flag = MovementUtils.isMoving() && !mc.player.isSneaking() && !mc.player.isInFluid() && mc.player.fallDistance < 5.0f;
-            Sydney.WORLD_MANAGER.setTimerMultiplier(useTimer.getValue() && flag && (ticks > bypassThreshold.getValue().intValue() || !timerBypass.getValue()) ? timerMultiplier.getValue().floatValue() : 1.0f);
+            ISU.WORLD_MANAGER.setTimerMultiplier(useTimer.getValue() && flag && (ticks > bypassThreshold.getValue().intValue() || !timerBypass.getValue()) ? timerMultiplier.getValue().floatValue() : 1.0f);
         }
 
         if (mode.getValue().equalsIgnoreCase("Grim")) {
@@ -76,7 +76,7 @@ public class SpeedModule extends Module {
 
             int collisions = 0;
             for (Entity entity : mc.world.getEntities()) {
-                if (entity != null && entity != mc.player && entity instanceof LivingEntity && !(Sydney.MODULE_MANAGER.getModule(FakePlayerModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(FakePlayerModule.class).getPlayer() == entity) && !(entity instanceof ArmorStandEntity) && MathHelper.sqrt((float) mc.player.squaredDistanceTo(entity)) <= 1.5) {
+                if (entity != null && entity != mc.player && entity instanceof LivingEntity && !(ISU.MODULE_MANAGER.getModule(FakePlayerModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(FakePlayerModule.class).getPlayer() == entity) && !(entity instanceof ArmorStandEntity) && MathHelper.sqrt((float) mc.player.squaredDistanceTo(entity)) <= 1.5) {
                     collisions++;
                 }
             }
@@ -91,7 +91,7 @@ public class SpeedModule extends Module {
     @SubscribeEvent
     public void onPlayerMove(PlayerMoveEvent event) {
         if (mode.getValue().equalsIgnoreCase("Strafe") || mode.getValue().equalsIgnoreCase("StrafeStrict")) {
-            if ((Sydney.MODULE_MANAGER.getModule(HoleSnapModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(HoleSnapModule.class).hole != null)) return;
+            if ((ISU.MODULE_MANAGER.getModule(HoleSnapModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(HoleSnapModule.class).hole != null)) return;
 
             if (mc.player.fallDistance >= 5.0f || mc.player.isSneaking() || mc.player.isClimbing() || mc.world.getBlockState(mc.player.getBlockPos()).getBlock() == Blocks.COBWEB || mc.player.getAbilities().flying || (mc.player.isInFluid() && !speedInWater.getValue()))
                 return;

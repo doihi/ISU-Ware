@@ -1,7 +1,7 @@
 package me.aidan.sydney.modules.impl.miscellaneous;
 
 import lombok.Getter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PacketReceiveEvent;
 import me.aidan.sydney.events.impl.TickEvent;
@@ -47,7 +47,7 @@ public class FastLatencyModule extends Module {
             if (packet.id() == 1000) {
                 int ping = (int) (System.currentTimeMillis() - time);
                 if (spikeNotifier.getValue() && ping - latency > threshold.getValue().intValue()) {
-                    Sydney.CHAT_MANAGER.message("Your ping has spiked to " + ChatUtils.getPrimary() + ping + "ms" + ChatUtils.getSecondary() + " from " + ChatUtils.getPrimary() + latency + "ms" + ChatUtils.getSecondary() + "!", "module-" + getName().toLowerCase() + "-spike");
+                    ISU.CHAT_MANAGER.message("Your ping has spiked to " + ChatUtils.getPrimary() + ping + "ms" + ChatUtils.getSecondary() + " from " + ChatUtils.getPrimary() + latency + "ms" + ChatUtils.getSecondary() + "!", "module-" + getName().toLowerCase() + "-spike");
                 }
 
                 latency = ping;

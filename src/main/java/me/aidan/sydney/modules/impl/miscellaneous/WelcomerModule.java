@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.miscellaneous;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.ChatInputEvent;
 import me.aidan.sydney.events.impl.PlayerConnectEvent;
@@ -45,7 +45,7 @@ public class WelcomerModule extends Module {
         if (messageTimer.hasTimeElapsed(delay.getValue().intValue() * 1000) && !queue.isEmpty() && !clientside.getValue()) {
             String message = queue.poll();
 
-            if (clientside.getValue()) Sydney.CHAT_MANAGER.message(message);
+            if (clientside.getValue()) ISU.CHAT_MANAGER.message(message);
             else mc.player.networkHandler.sendChatMessage((greenText.getValue() ? "> " : "") + message);
 
             messageTimer.reset();
@@ -64,7 +64,7 @@ public class WelcomerModule extends Module {
 
         PlayerEntity player = mc.world.getPlayerByUuid(event.getId());
         if(player != null && joins.getValue()) {
-            if(clientside.getValue()) Sydney.CHAT_MANAGER.message(Formatting.DARK_GRAY + "[" + Formatting.GREEN + (unicode.getValue() ? "»" : ">") + Formatting.DARK_GRAY + "] " + Formatting.GRAY + player.getName().getString());
+            if(clientside.getValue()) ISU.CHAT_MANAGER.message(Formatting.DARK_GRAY + "[" + Formatting.GREEN + (unicode.getValue() ? "»" : ">") + Formatting.DARK_GRAY + "] " + Formatting.GRAY + player.getName().getString());
             else queue.add(JOIN_MESSAGES[(int) MathUtils.random(JOIN_MESSAGES.length, 0)] + player.getName().getString());
         }
     }
@@ -75,7 +75,7 @@ public class WelcomerModule extends Module {
 
         PlayerEntity player = mc.world.getPlayerByUuid(event.getId());
         if(player != null && leaves.getValue()) {
-            if(clientside.getValue()) Sydney.CHAT_MANAGER.message(Formatting.DARK_GRAY + "[" + Formatting.RED + (unicode.getValue() ? "«" : "<")+ Formatting.DARK_GRAY + "] " + Formatting.GRAY + player.getName().getString());
+            if(clientside.getValue()) ISU.CHAT_MANAGER.message(Formatting.DARK_GRAY + "[" + Formatting.RED + (unicode.getValue() ? "«" : "<")+ Formatting.DARK_GRAY + "] " + Formatting.GRAY + player.getName().getString());
             else queue.add(LEAVE_MESSAGES[(int) MathUtils.random(LEAVE_MESSAGES.length, 0)] + player.getName().getString());
         }
     }

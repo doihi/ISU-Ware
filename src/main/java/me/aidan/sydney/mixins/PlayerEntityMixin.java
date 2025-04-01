@@ -1,7 +1,7 @@
 package me.aidan.sydney.mixins;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.impl.PlayerTravelEvent;
 import me.aidan.sydney.modules.impl.movement.KeepSprintModule;
 import me.aidan.sydney.modules.impl.movement.SafeWalkModule;
@@ -29,14 +29,14 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IMinecra
 
     @ModifyReturnValue(method = "isPushedByFluids", at = @At("RETURN"))
     private boolean isPushedByFluids(boolean original) {
-        if ((Object) this == mc.player && Sydney.MODULE_MANAGER.getModule(VelocityModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(VelocityModule.class).antiLiquidPush.getValue()) return false;
+        if ((Object) this == mc.player && ISU.MODULE_MANAGER.getModule(VelocityModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(VelocityModule.class).antiLiquidPush.getValue()) return false;
         return original;
     }
 
     @Inject(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;setSprinting(Z)V", shift = At.Shift.AFTER))
     private void attack(CallbackInfo callbackInfo) {
-        if (Sydney.MODULE_MANAGER.getModule(KeepSprintModule.class).isToggled()) {
-            float multiplier = 0.6f + 0.4f * Sydney.MODULE_MANAGER.getModule(KeepSprintModule.class).motion.getValue().floatValue();
+        if (ISU.MODULE_MANAGER.getModule(KeepSprintModule.class).isToggled()) {
+            float multiplier = 0.6f + 0.4f * ISU.MODULE_MANAGER.getModule(KeepSprintModule.class).motion.getValue().floatValue();
             mc.player.setVelocity(mc.player.getVelocity().x / 0.6 * multiplier, mc.player.getVelocity().y, mc.player.getVelocity().z / 0.6 * multiplier);
             mc.player.setSprinting(true);
         }
@@ -45,7 +45,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IMinecra
     @Inject(method = "travel", at = @At("HEAD"), cancellable = true)
     private void travel(Vec3d movementInput, CallbackInfo info) {
         PlayerTravelEvent event = new PlayerTravelEvent(movementInput);
-        Sydney.EVENT_HANDLER.post(event);
+        ISU.EVENT_HANDLER.post(event);
 
         if (event.isCancelled()) {
             move(MovementType.SELF, getVelocity());
@@ -55,29 +55,29 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IMinecra
 
     @Inject(method = "getBlockInteractionRange", at = @At("HEAD"), cancellable = true)
     private void getBlockInteractionRange(CallbackInfoReturnable<Double> info) {
-        if (Sydney.MODULE_MANAGER.getModule(ReachModule.class).isToggled()) {
-            info.setReturnValue(Sydney.MODULE_MANAGER.getModule(ReachModule.class).amount.getValue().doubleValue());
+        if (ISU.MODULE_MANAGER.getModule(ReachModule.class).isToggled()) {
+            info.setReturnValue(ISU.MODULE_MANAGER.getModule(ReachModule.class).amount.getValue().doubleValue());
         }
     }
 
     @Inject(method = "getEntityInteractionRange", at = @At("HEAD"), cancellable = true)
     private void getEntityInteractionRange(CallbackInfoReturnable<Double> info) {
-        if (Sydney.MODULE_MANAGER.getModule(ReachModule.class).isToggled()) {
-            info.setReturnValue(Sydney.MODULE_MANAGER.getModule(ReachModule.class).amount.getValue().doubleValue());
+        if (ISU.MODULE_MANAGER.getModule(ReachModule.class).isToggled()) {
+            info.setReturnValue(ISU.MODULE_MANAGER.getModule(ReachModule.class).amount.getValue().doubleValue());
         }
     }
 
     @Inject(method = "clipAtLedge", at = @At("HEAD"), cancellable = true)
     private void clipAtLedge(CallbackInfoReturnable<Boolean> info) {
-        if (Sydney.MODULE_MANAGER.getModule(SafeWalkModule.class).isToggled()) {
+        if (ISU.MODULE_MANAGER.getModule(SafeWalkModule.class).isToggled()) {
             info.setReturnValue(true);
         }
     }
 
     @Inject(method = "getMovementSpeed", at = @At("HEAD"), cancellable = true)
     private void getMovementSpeed(CallbackInfoReturnable<Float> info) {
-        if (Sydney.MODULE_MANAGER.getModule(SpeedModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(SpeedModule.class).mode.getValue().equalsIgnoreCase("Vanilla")) {
-            info.setReturnValue(Sydney.MODULE_MANAGER.getModule(SpeedModule.class).vanillaSpeed.getValue().floatValue());
+        if (ISU.MODULE_MANAGER.getModule(SpeedModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(SpeedModule.class).mode.getValue().equalsIgnoreCase("Vanilla")) {
+            info.setReturnValue(ISU.MODULE_MANAGER.getModule(SpeedModule.class).vanillaSpeed.getValue().floatValue());
         }
     }
 }

@@ -3,7 +3,7 @@ package me.aidan.sydney.settings.impl;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.core.ColorModule;
 import me.aidan.sydney.settings.Setting;
 import me.aidan.sydney.utils.color.ColorUtils;
@@ -42,10 +42,10 @@ public class ColorSetting extends Setting {
             return ColorUtils.getGlobalColor(getAlpha());
         } else {
             if (isRainbow()) {
-                if (this == Sydney.MODULE_MANAGER.getModule(ColorModule.class).color) return ColorUtils.getRainbow(255);
+                if (this == ISU.MODULE_MANAGER.getModule(ColorModule.class).color) return ColorUtils.getRainbow(255);
                 return ColorUtils.getRainbow(getAlpha());
             } else {
-                if (this == Sydney.MODULE_MANAGER.getModule(ColorModule.class).color) return ColorUtils.getColor(value.getColor(), 255);
+                if (this == ISU.MODULE_MANAGER.getModule(ColorModule.class).color) return ColorUtils.getColor(value.getColor(), 255);
                 return value.getColor();
             }
         }

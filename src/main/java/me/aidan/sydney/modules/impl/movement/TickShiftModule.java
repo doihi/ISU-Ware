@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.movement;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.TickEvent;
 import me.aidan.sydney.modules.Module;
@@ -39,7 +39,7 @@ public class TickShiftModule extends Module {
             return;
 
         if ((mc.player.sidewaysSpeed == 0.0f && mc.player.forwardSpeed == 0.0f && mc.player.fallDistance == 0.0f) || EntityUtils.getSpeed(mc.player, EntityUtils.SpeedUnit.KILOMETERS) <= 5) {
-            Sydney.WORLD_MANAGER.setTimerMultiplier(1.0f);
+            ISU.WORLD_MANAGER.setTimerMultiplier(1.0f);
             if(wait >= delay.getValue().intValue()) {
                 if(ticks < maxTicks.getValue().intValue()) {
                     ticks++;
@@ -49,7 +49,7 @@ public class TickShiftModule extends Module {
             wait++;
         } else {
             if(ticks > 0) {
-                if (!Sydney.MODULE_MANAGER.getModule(SpeedModule.class).isToggled() && !mc.options.jumpKey.isPressed()) Sydney.WORLD_MANAGER.setTimerMultiplier(speed.getValue().floatValue());
+                if (!ISU.MODULE_MANAGER.getModule(SpeedModule.class).isToggled() && !mc.options.jumpKey.isPressed()) ISU.WORLD_MANAGER.setTimerMultiplier(speed.getValue().floatValue());
                 ticks--;
             } else {
                 reset();
@@ -58,7 +58,7 @@ public class TickShiftModule extends Module {
     }
 
     public void reset() {
-        Sydney.WORLD_MANAGER.setTimerMultiplier(1.0f);
+        ISU.WORLD_MANAGER.setTimerMultiplier(1.0f);
         ticks = 0;
         wait = 0;
     }

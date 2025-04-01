@@ -19,7 +19,7 @@
 	"accessWidener" : "sydney.accesswidener",
 	"entrypoints": {
 		"main": [
-			"me.aidan.sydney.Sydney"
+			"me.aidan.sydney.ISU"
 		]
 	},
 	"mixins": [

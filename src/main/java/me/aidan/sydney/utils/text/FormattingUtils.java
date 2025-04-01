@@ -1,6 +1,6 @@
 package me.aidan.sydney.utils.text;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.mixins.accessors.StyleAccessor;
 import me.aidan.sydney.mixins.accessors.TextColorAccessor;
 import me.aidan.sydney.utils.color.ColorUtils;
@@ -55,14 +55,14 @@ public class FormattingUtils {
         String current = "";
 
         for(String word : words) {
-            if(Sydney.FONT_MANAGER.getWidth(current) + Sydney.FONT_MANAGER.getWidth(word) <= width) {
+            if(ISU.FONT_MANAGER.getWidth(current) + ISU.FONT_MANAGER.getWidth(word) <= width) {
                 current += word + " ";
             } else {
                 wrappedText.add(current);
                 current = word + " ";
             }
         }
-        if(Sydney.FONT_MANAGER.getWidth(current) > 0) wrappedText.add(current);
+        if(ISU.FONT_MANAGER.getWidth(current) > 0) wrappedText.add(current);
 
         return wrappedText;
     }

@@ -2,7 +2,7 @@ package me.aidan.sydney.gui;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.gui.api.DescriptionFrame;
 import me.aidan.sydney.modules.Module;
 import me.aidan.sydney.modules.impl.core.ClickGuiModule;
@@ -30,7 +30,7 @@ public class ClickGuiScreen extends Screen {
     private Color colorClipboard = null;
 
     public ClickGuiScreen() {
-        super(Text.literal(Sydney.MOD_ID + "-click-gui"));
+        super(Text.literal(ISU.MOD_ID + "-click-gui"));
 
         int x = 6;
         for(Module.Category category : Module.Category.values()) {
@@ -110,14 +110,14 @@ public class ClickGuiScreen extends Screen {
 
     @Override
     public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
-        if(Sydney.MODULE_MANAGER.getModule(ClickGuiModule.class).blur.getValue()) applyBlur();
+        if(ISU.MODULE_MANAGER.getModule(ClickGuiModule.class).blur.getValue()) applyBlur();
         Renderer2D.renderQuad(context.getMatrices(), 0, 0, this.width, this.height, new Color(0, 0, 0, 100));
     }
 
     @Override
     public void close() {
         super.close();
-        Sydney.MODULE_MANAGER.getModule(ClickGuiModule.class).setToggled(false);
+        ISU.MODULE_MANAGER.getModule(ClickGuiModule.class).setToggled(false);
     }
 
     @Override
@@ -126,7 +126,7 @@ public class ClickGuiScreen extends Screen {
     }
 
     public static Color getButtonColor(int index, int alpha) {
-        Color color = Sydney.MODULE_MANAGER.getModule(ClickGuiModule.class).isRainbow() ? ColorUtils.getOffsetRainbow(index*10L) : Sydney.MODULE_MANAGER.getModule(ClickGuiModule.class).color.getColor();
+        Color color = ISU.MODULE_MANAGER.getModule(ClickGuiModule.class).isRainbow() ? ColorUtils.getOffsetRainbow(index*10L) : ISU.MODULE_MANAGER.getModule(ClickGuiModule.class).color.getColor();
         return ColorUtils.getColor(color, alpha);
     }
 }

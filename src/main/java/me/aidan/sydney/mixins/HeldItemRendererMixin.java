@@ -2,7 +2,7 @@ package me.aidan.sydney.mixins;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.impl.RenderHandEvent;
 import me.aidan.sydney.modules.impl.player.SwingModule;
 import me.aidan.sydney.modules.impl.visuals.HandProgressModule;
@@ -60,7 +60,7 @@ public abstract class HeldItemRendererMixin {
 
     @Inject(method = "renderFirstPersonItem", at = @At("HEAD"), cancellable = true)
     private void renderFirstPersonItem$HEAD(AbstractClientPlayerEntity player, float tickDelta, float pitch, Hand hand, float swingProgress, ItemStack item, float equipProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo info) {
-        ViewModelModule module = Sydney.MODULE_MANAGER.getModule(ViewModelModule.class);
+        ViewModelModule module = ISU.MODULE_MANAGER.getModule(ViewModelModule.class);
         if (!module.isToggled()) return;
 
         info.cancel();
@@ -185,9 +185,9 @@ public abstract class HeldItemRendererMixin {
                         v = -0.2F * MathHelper.sin(swingProgress * 3.1415927F);
                         int ad = bl4 ? 1 : -1;
 
-                        float translateX = !Sydney.MODULE_MANAGER.getModule(SwingModule.class).isToggled() || Sydney.MODULE_MANAGER.getModule(SwingModule.class).translateX.getValue() ? ad * aa : 0;
-                        float translateY = !Sydney.MODULE_MANAGER.getModule(SwingModule.class).isToggled() || Sydney.MODULE_MANAGER.getModule(SwingModule.class).translateY.getValue() ? u : 0;
-                        float translateZ = !Sydney.MODULE_MANAGER.getModule(SwingModule.class).isToggled() || Sydney.MODULE_MANAGER.getModule(SwingModule.class).translateZ.getValue() ? v : 0;
+                        float translateX = !ISU.MODULE_MANAGER.getModule(SwingModule.class).isToggled() || ISU.MODULE_MANAGER.getModule(SwingModule.class).translateX.getValue() ? ad * aa : 0;
+                        float translateY = !ISU.MODULE_MANAGER.getModule(SwingModule.class).isToggled() || ISU.MODULE_MANAGER.getModule(SwingModule.class).translateY.getValue() ? u : 0;
+                        float translateZ = !ISU.MODULE_MANAGER.getModule(SwingModule.class).isToggled() || ISU.MODULE_MANAGER.getModule(SwingModule.class).translateZ.getValue() ? v : 0;
 
                         matrices.translate(translateX, translateY, translateZ);
 
@@ -239,8 +239,8 @@ public abstract class HeldItemRendererMixin {
 
     @WrapOperation(method = "renderItem(FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;Lnet/minecraft/client/network/ClientPlayerEntity;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/MathHelper;lerp(FFF)F", ordinal = 2))
     private float renderItem$lerpMainhand(float delta, float start, float end, Operation<Float> original) {
-        if (Sydney.MODULE_MANAGER.getModule(HandProgressModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(HandProgressModule.class).modifyMainhand.getValue()) {
-            float progress = Sydney.MODULE_MANAGER.getModule(HandProgressModule.class).mainhandProgress.getValue().floatValue();
+        if (ISU.MODULE_MANAGER.getModule(HandProgressModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(HandProgressModule.class).modifyMainhand.getValue()) {
+            float progress = ISU.MODULE_MANAGER.getModule(HandProgressModule.class).mainhandProgress.getValue().floatValue();
             return MathHelper.lerp(delta, progress, progress);
         }
 
@@ -249,8 +249,8 @@ public abstract class HeldItemRendererMixin {
 
     @WrapOperation(method = "renderItem(FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;Lnet/minecraft/client/network/ClientPlayerEntity;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/MathHelper;lerp(FFF)F", ordinal = 3))
     private float renderItem$lerpOffhand(float delta, float start, float end, Operation<Float> original) {
-        if (Sydney.MODULE_MANAGER.getModule(HandProgressModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(HandProgressModule.class).modifyOffhand.getValue()) {
-            float progress = Sydney.MODULE_MANAGER.getModule(HandProgressModule.class).offhandProgress.getValue().floatValue();
+        if (ISU.MODULE_MANAGER.getModule(HandProgressModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(HandProgressModule.class).modifyOffhand.getValue()) {
+            float progress = ISU.MODULE_MANAGER.getModule(HandProgressModule.class).offhandProgress.getValue().floatValue();
             return MathHelper.lerp(delta, progress, progress);
         }
 
@@ -260,35 +260,35 @@ public abstract class HeldItemRendererMixin {
     @WrapOperation(method = "renderItem(FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;Lnet/minecraft/client/network/ClientPlayerEntity;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/HeldItemRenderer;renderFirstPersonItem(Lnet/minecraft/client/network/AbstractClientPlayerEntity;FFLnet/minecraft/util/Hand;FLnet/minecraft/item/ItemStack;FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V"))
     private void renderItem$renderFirstPersonItem(HeldItemRenderer instance, AbstractClientPlayerEntity player, float tickDelta, float pitch, Hand hand, float swingProgress, ItemStack item, float equipProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, Operation<Void> original) {
         RenderHandEvent event = new RenderHandEvent(vertexConsumers);
-        Sydney.EVENT_HANDLER.post(event);
+        ISU.EVENT_HANDLER.post(event);
 
         original.call(instance, player, tickDelta, pitch, hand, swingProgress, item, equipProgress, matrices, event.getVertexConsumers(), light);
     }
 
     @Inject(method = "renderItem(FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;Lnet/minecraft/client/network/ClientPlayerEntity;I)V", at = @At("TAIL"))
     private void renderItem$TAIL(float tickDelta, MatrixStack matrices, VertexConsumerProvider.Immediate vertexConsumers, ClientPlayerEntity player, int light, CallbackInfo info) {
-        Sydney.EVENT_HANDLER.post(new RenderHandEvent.Post());
+        ISU.EVENT_HANDLER.post(new RenderHandEvent.Post());
     }
 
     @Inject(method = "applySwingOffset", at = @At("HEAD"), cancellable = true)
     private void applySwingOffset(MatrixStack matrices, Arm arm, float swingProgress, CallbackInfo info) {
-        if (Sydney.MODULE_MANAGER.getModule(SwingModule.class).isToggled()) {
+        if (ISU.MODULE_MANAGER.getModule(SwingModule.class).isToggled()) {
             info.cancel();
 
             int i = arm == Arm.RIGHT ? 1 : -1;
             float f = MathHelper.sin(swingProgress * swingProgress * 3.1415927F);
             float g = MathHelper.sin(MathHelper.sqrt(swingProgress) * 3.1415927F);
 
-            if (Sydney.MODULE_MANAGER.getModule(SwingModule.class).rotationY.getValue()) matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((float) i * (45.0F + f * -20.0F)));
-            if (Sydney.MODULE_MANAGER.getModule(SwingModule.class).rotationZ.getValue()) matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees((float) i * g * -20.0F));
-            if (Sydney.MODULE_MANAGER.getModule(SwingModule.class).rotationX.getValue()) matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(g * -80.0F));
-            if (Sydney.MODULE_MANAGER.getModule(SwingModule.class).rotationY.getValue()) matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((float) i * -45.0F));
+            if (ISU.MODULE_MANAGER.getModule(SwingModule.class).rotationY.getValue()) matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((float) i * (45.0F + f * -20.0F)));
+            if (ISU.MODULE_MANAGER.getModule(SwingModule.class).rotationZ.getValue()) matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees((float) i * g * -20.0F));
+            if (ISU.MODULE_MANAGER.getModule(SwingModule.class).rotationX.getValue()) matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(g * -80.0F));
+            if (ISU.MODULE_MANAGER.getModule(SwingModule.class).rotationY.getValue()) matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((float) i * -45.0F));
         }
     }
 
     @Inject(method = "applyEatOrDrinkTransformation", at = @At("HEAD"), cancellable = true)
     private void applyEatOrDrinkTransformation(MatrixStack matrices, float tickDelta, Arm arm, ItemStack stack, PlayerEntity player, CallbackInfo ci) {
-        if(Sydney.MODULE_MANAGER.getModule(HandProgressModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(HandProgressModule.class).staticEating.getValue()) {
+        if(ISU.MODULE_MANAGER.getModule(HandProgressModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(HandProgressModule.class).staticEating.getValue()) {
             applyEatOrDrinkTransformation(matrices, tickDelta, arm, stack, player);
             ci.cancel();
         }
@@ -296,7 +296,7 @@ public abstract class HeldItemRendererMixin {
 
     @Unique
     private void applyEatOrDrinkTransformation(MatrixStack matrices, float tickDelta, Arm arm, ItemStack stack, PlayerEntity player) {
-        HandProgressModule module = Sydney.MODULE_MANAGER.getModule(HandProgressModule.class);
+        HandProgressModule module = ISU.MODULE_MANAGER.getModule(HandProgressModule.class);
         float f = (float)player.getItemUseTimeLeft() - tickDelta + 1.0F;
         float g = f / (float)stack.getMaxUseTime(player);
         float h;

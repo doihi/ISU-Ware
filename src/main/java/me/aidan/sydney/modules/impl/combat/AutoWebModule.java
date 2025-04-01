@@ -1,7 +1,7 @@
 
 package me.aidan.sydney.modules.impl.combat;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PlayerUpdateEvent;
 import me.aidan.sydney.modules.Module;
@@ -63,7 +63,7 @@ public class AutoWebModule extends Module {
 
             if (autoSwitch.getValue().equalsIgnoreCase("None") && mc.player.getMainHandStack().getItem() != Items.COBWEB) {
                 if (itemDisable.getValue()) {
-                    Sydney.CHAT_MANAGER.tagged("You are currently not holding any cobwebs.", getName());
+                    ISU.CHAT_MANAGER.tagged("You are currently not holding any cobwebs.", getName());
                     setToggled(false);
                 }
 
@@ -76,7 +76,7 @@ public class AutoWebModule extends Module {
 
             if (slot == -1) {
                 if (itemDisable.getValue()) {
-                    Sydney.CHAT_MANAGER.tagged("No cobwebs could be found in your hotbar.", getName());
+                    ISU.CHAT_MANAGER.tagged("No cobwebs could be found in your hotbar.", getName());
                     setToggled(false);
                 }
 
@@ -104,7 +104,7 @@ public class AutoWebModule extends Module {
             Direction direction = WorldUtils.getDirection(position, strictDirection.getValue());
             if (direction == null && !airPlace.getValue()) return;
 
-            if(rotate.getValue() && airPlace.getValue()) Sydney.ROTATION_MANAGER.rotate(RotationUtils.getRotations(position.toCenterPos()), this);
+            if(rotate.getValue() && airPlace.getValue()) ISU.ROTATION_MANAGER.rotate(RotationUtils.getRotations(position.toCenterPos()), this);
 
             InventoryUtils.switchSlot(autoSwitch.getValue(), slot, previousSlot);
             WorldUtils.placeBlock(position, direction, Hand.MAIN_HAND, rotate.getValue(), false, render.getValue());
@@ -134,7 +134,7 @@ public class AutoWebModule extends Module {
             if (player == mc.player) continue;
             if (!player.isAlive() || player.getHealth() <= 0.0f) continue;
             if (mc.player.squaredDistanceTo(player) > MathHelper.square(enemyRange.getValue().doubleValue())) continue;
-            if (Sydney.FRIEND_MANAGER.contains(player.getName().getString())) continue;
+            if (ISU.FRIEND_MANAGER.contains(player.getName().getString())) continue;
             if (holeCheck.getValue() && !HoleUtils.isPlayerInHole(player)) continue;
 
             if (optimalPlayer == null) {

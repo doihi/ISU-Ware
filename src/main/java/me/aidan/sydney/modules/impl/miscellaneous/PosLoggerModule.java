@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.miscellaneous;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.TickEvent;
 import me.aidan.sydney.modules.Module;
@@ -25,7 +25,7 @@ public class PosLoggerModule extends Module {
         PlayerEntity target = getTarget();
 
         if(target != null && timer.hasTimeElapsed(delay.getValue().intValue()*1000)) {
-            Sydney.CHAT_MANAGER.message(target.getName().getString() + ", [" + WorldUtils.getMovementDirection(target.getMovementDirection()) + "], X:" + target.getX() + ", Y:" + target.getY() + ", Z:" + target.getZ() + ", Yaw: " + target.getYaw() + ", Pitch: " + target.getPitch());
+            ISU.CHAT_MANAGER.message(target.getName().getString() + ", [" + WorldUtils.getMovementDirection(target.getMovementDirection()) + "], X:" + target.getX() + ", Y:" + target.getY() + ", Z:" + target.getZ() + ", Yaw: " + target.getYaw() + ", Pitch: " + target.getPitch());
             timer.reset();
         }
 

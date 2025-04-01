@@ -3,7 +3,7 @@ package me.aidan.sydney.modules.impl.visuals;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.*;
 import me.aidan.sydney.managers.WaypointManager;
@@ -66,7 +66,7 @@ public class WaypointsModule extends Module {
 
             if(waypoint != null) {
                 logoutPoints.remove(waypoint);
-                if(notification.getValue()) Sydney.CHAT_MANAGER.message(ChatUtils.getPrimary() + waypoint.name + ChatUtils.getSecondary() + " has logged in at " + ChatUtils.getPrimary() + "[" + (int) waypoint.pos.x + ", " + (int) waypoint.pos.y + ", " + (int) waypoint.pos.z  + "]" + ChatUtils.getSecondary() + ".", "waypoints-" + waypoint.name);
+                if(notification.getValue()) ISU.CHAT_MANAGER.message(ChatUtils.getPrimary() + waypoint.name + ChatUtils.getSecondary() + " has logged in at " + ChatUtils.getPrimary() + "[" + (int) waypoint.pos.x + ", " + (int) waypoint.pos.y + ", " + (int) waypoint.pos.z  + "]" + ChatUtils.getSecondary() + ".", "waypoints-" + waypoint.name);
             }
         }
     }
@@ -80,7 +80,7 @@ public class WaypointsModule extends Module {
             if (player != null) {
                 Waypoint waypoint = new Waypoint(player);
                 logoutPoints.add(waypoint);
-                if(notification.getValue()) Sydney.CHAT_MANAGER.message(ChatUtils.getPrimary() + waypoint.name + ChatUtils.getSecondary() + " has logged out at " + ChatUtils.getPrimary() + "[" + (int) waypoint.pos.x + ", " + (int) waypoint.pos.y + ", " + (int) waypoint.pos.z  + "]" + ChatUtils.getSecondary() + ".", "waypoints-" + waypoint.name);
+                if(notification.getValue()) ISU.CHAT_MANAGER.message(ChatUtils.getPrimary() + waypoint.name + ChatUtils.getSecondary() + " has logged out at " + ChatUtils.getPrimary() + "[" + (int) waypoint.pos.x + ", " + (int) waypoint.pos.y + ", " + (int) waypoint.pos.z  + "]" + ChatUtils.getSecondary() + ".", "waypoints-" + waypoint.name);
             }
         }
     }
@@ -107,13 +107,13 @@ public class WaypointsModule extends Module {
         }
 
         if (rally.getValue() && rallyPoint != null && System.currentTimeMillis() - rallyTime <= 120000) {
-            if(rallyPoint.getDimension().equals(WorldUtils.getDimension()) && rallyPoint.getServer().equals(Sydney.SERVER_MANAGER.getServer())) {
+            if(rallyPoint.getDimension().equals(WorldUtils.getDimension()) && rallyPoint.getServer().equals(ISU.SERVER_MANAGER.getServer())) {
                 Renderer3D.renderScaledText(event.getMatrices(), rallyPoint.getName() + getSuffix(rallyPoint.getPos()), rallyPoint.getPos().x, rallyPoint.getPos().y, rallyPoint.getPos().z, scale.getValue().intValue(), true, textColor.getColor());
             }
         }
 
-        if(!Sydney.WAYPOINT_MANAGER.getWaypoints().isEmpty()) {
-            for(WaypointManager.Waypoint waypoint : Sydney.WAYPOINT_MANAGER.getWaypoints().stream().filter(w -> w.getDimension().equals(WorldUtils.getDimension()) && w.getServer().equals(Sydney.SERVER_MANAGER.getServer())).toList()) {
+        if(!ISU.WAYPOINT_MANAGER.getWaypoints().isEmpty()) {
+            for(WaypointManager.Waypoint waypoint : ISU.WAYPOINT_MANAGER.getWaypoints().stream().filter(w -> w.getDimension().equals(WorldUtils.getDimension()) && w.getServer().equals(ISU.SERVER_MANAGER.getServer())).toList()) {
                 Renderer3D.renderScaledText(event.getMatrices(), waypoint.getName() + getSuffix(waypoint.getPos()), waypoint.getPos().x, waypoint.getPos().y, waypoint.getPos().z, scale.getValue().intValue(), true, textColor.getColor());
             }
         }
@@ -144,7 +144,7 @@ public class WaypointsModule extends Module {
 
     private boolean sameWorld(Waypoint waypoint) {
         if(waypoint == null) return false;
-        return WorldUtils.getDimension().equals(waypoint.dimension) && Sydney.SERVER_MANAGER.getServer().equals(waypoint.server);
+        return WorldUtils.getDimension().equals(waypoint.dimension) && ISU.SERVER_MANAGER.getServer().equals(waypoint.server);
     }
 
     private class Waypoint {
@@ -160,7 +160,7 @@ public class WaypointsModule extends Module {
             this.id = player.getUuid();
             this.pos = player.getPos();
             this.dimension = WorldUtils.getDimension();
-            this.server = Sydney.SERVER_MANAGER.getServer();
+            this.server = ISU.SERVER_MANAGER.getServer();
             this.model = new StaticPlayerEntity(player);
         }
     }

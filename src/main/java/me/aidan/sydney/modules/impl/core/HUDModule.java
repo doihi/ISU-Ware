@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.core;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.RenderOverlayEvent;
 import me.aidan.sydney.events.impl.TickEvent;
@@ -43,7 +43,7 @@ import java.util.List;
 public class HUDModule extends Module {
     public CategorySetting watermarkCategory = new CategorySetting("Watermark", "The settings for the client's watermark.");
     public BooleanSetting watermark = new BooleanSetting("Watermark", "Enabled", "Renders the client's name and version at the top left.", new CategorySetting.Visibility(watermarkCategory), true);
-    public StringSetting watermarkText = new StringSetting("WatermarkText", "Text", "The client name that will be rendered.", new CategorySetting.Visibility(watermarkCategory), Sydney.MOD_NAME);
+    public StringSetting watermarkText = new StringSetting("WatermarkText", "Text", "The client name that will be rendered.", new CategorySetting.Visibility(watermarkCategory), ISU.MOD_NAME);
     public BooleanSetting watermarkVersion = new BooleanSetting("WatermarkVersion", "Version", "Renders the client's version after the name.", new CategorySetting.Visibility(watermarkCategory), true);
     public BooleanSetting watermarkMinecraftVersion = new BooleanSetting("WatermarkMinecraftVersion", "MinecraftVersion", "Renders the client's minecraft version after the version.", new CategorySetting.Visibility(watermarkCategory), false);
     public BooleanSetting watermarkRevision = new BooleanSetting("WatermarkRevision", "Revision", "Renders the client's git revision next to the version.", new BooleanSetting.Visibility(watermarkVersion, true), true);
@@ -127,11 +127,11 @@ public class HUDModule extends Module {
         if (mc.player == null || mc.world == null) return;
 
         if (moduleList.getValue()) {
-            Comparator<Module> widthComparator = Comparator.comparingInt(m -> -Sydney.FONT_MANAGER.getWidth(getModuleText(m)));
+            Comparator<Module> widthComparator = Comparator.comparingInt(m -> -ISU.FONT_MANAGER.getWidth(getModuleText(m)));
             Comparator<Module> alphabeticalComparator = Comparator.comparing(Module::getName);
 
             List<ModuleEntry> entries = new ArrayList<>();
-            List<Module> modules = Sydney.MODULE_MANAGER.getModules().stream()
+            List<Module> modules = ISU.MODULE_MANAGER.getModules().stream()
                     .filter(module -> module.isToggled() || module.getAnimationOffset().get(0) > 0)
                     .filter(module -> module.drawn.getValue())
                     .sorted(moduleListSorting.getValue().equalsIgnoreCase("Width") ? widthComparator : alphabeticalComparator)
@@ -175,7 +175,7 @@ public class HUDModule extends Module {
                 if (playerRadarPing.getValue()) text += Formatting.WHITE + " " + EntityUtils.getLatency(player) + "ms";
                 if (playerRadarHealth.getValue()) text += ColorUtils.getHealthColor(player.getHealth() + player.getAbsorptionAmount()) + " " + new DecimalFormat("0.0").format(player.getHealth() + player.getAbsorptionAmount()) + Formatting.RESET;
 
-                int pops = Sydney.WORLD_MANAGER.getPoppedTotems().getOrDefault(player.getUuid(), 0);
+                int pops = ISU.WORLD_MANAGER.getPoppedTotems().getOrDefault(player.getUuid(), 0);
                 if (playerRadarTotems.getValue() && pops > 0) text += ColorUtils.getTotemColor(pops) + " -" + pops + Formatting.RESET;
 
                 entries.add(new PlayerEntry(player, text, headTexture));
@@ -185,7 +185,7 @@ public class HUDModule extends Module {
         }
 
         if (potions.getValue()) {
-            Comparator<StatusEffectInstance> widthComparator = Comparator.comparingInt(e -> -Sydney.FONT_MANAGER.getWidth(e.getEffectType().value().getName().getString() + " " + (e.getAmplifier() + 1)));
+            Comparator<StatusEffectInstance> widthComparator = Comparator.comparingInt(e -> -ISU.FONT_MANAGER.getWidth(e.getEffectType().value().getName().getString() + " " + (e.getAmplifier() + 1)));
             Comparator<StatusEffectInstance> alphabeticalComparator = Comparator.comparing(e -> e.getEffectType().value().getName().getString());
 
             List<PotionEntry> entries = new ArrayList<>();
@@ -215,18 +215,18 @@ public class HUDModule extends Module {
         Renderer2D.renderQuad(event.getMatrices(), 2, mc.getWindow().getScaledHeight() - chatOffset, mc.getWindow().getScaledWidth() - 2, mc.getWindow().getScaledHeight() + 12 - chatOffset, new Color(0, 0, 0, (int) (mc.options.getTextBackgroundOpacity().getValue() * 255)));
 
         if (watermark.getValue()) {
-            String text = watermarkText.getValue() + (watermarkVersion.getValue() ? (watermarkSync.getValue() ? "" : inversion.getValue() ? Formatting.GRAY : Formatting.WHITE) + " " + Sydney.MOD_VERSION + (watermarkMinecraftVersion.getValue() ? "-mc" + Sydney.MINECRAFT_VERSION : "") + (watermarkRevision.getValue() ? "+" : "19001") : "");
+            String text = watermarkText.getValue() + (watermarkVersion.getValue() ? (watermarkSync.getValue() ? "" : inversion.getValue() ? Formatting.GRAY : Formatting.WHITE) + " " + ISU.MOD_VERSION + (watermarkMinecraftVersion.getValue() ? "-mc" + ISU.MINECRAFT_VERSION : "") + (watermarkRevision.getValue() ? "+" : "19001") : "");
             drawText(event.getContext(), text, 2, 2);
         }
 
         if(uptime.getValue()) {
-            String[] hms = FormattingUtils.formatSeconds((System.currentTimeMillis() - Sydney.UPTIME)/1000);
-            drawText(event.getContext(), "Uptime " + Formatting.WHITE + hms[0] + ":" + hms[1] + ":" + hms[2], 2, 2 + (watermark.getValue() ? Sydney.FONT_MANAGER.getHeight() : 0), informationSync.getValue() ? null : new Color(170, 170, 170));
+            String[] hms = FormattingUtils.formatSeconds((System.currentTimeMillis() - ISU.UPTIME)/1000);
+            drawText(event.getContext(), "Uptime " + Formatting.WHITE + hms[0] + ":" + hms[1] + ":" + hms[2], 2, 2 + (watermark.getValue() ? ISU.FONT_MANAGER.getHeight() : 0), informationSync.getValue() ? null : new Color(170, 170, 170));
         }
 
         if (welcomer.getValue()) {
             String text = welcomerText.getValue().replace("[username]", (welcomerSync.getValue() ? "" : inversion.getValue() ? Formatting.GRAY : Formatting.WHITE) + mc.player.getName().getString() + Formatting.RESET);
-            drawText(event.getContext(), text, mc.getWindow().getScaledWidth() / 2.0f - Sydney.FONT_MANAGER.getWidth(text) / 2.0f, 6);
+            drawText(event.getContext(), text, mc.getWindow().getScaledWidth() / 2.0f - ISU.FONT_MANAGER.getWidth(text) / 2.0f, 6);
         }
     }
 
@@ -239,8 +239,8 @@ public class HUDModule extends Module {
 
         int index = 0;
         for (ModuleEntry entry : moduleEntries) {
-            float x = mc.getWindow().getScaledWidth() - (entry.module().getAnimationOffset().get(entry.module().isToggled() ? Sydney.FONT_MANAGER.getWidth(entry.text()) + 2 : 0));
-            float y = 2 + potionOffset + (index * Sydney.FONT_MANAGER.getHeight());
+            float x = mc.getWindow().getScaledWidth() - (entry.module().getAnimationOffset().get(entry.module().isToggled() ? ISU.FONT_MANAGER.getWidth(entry.text()) + 2 : 0));
+            float y = 2 + potionOffset + (index * ISU.FONT_MANAGER.getHeight());
 
             drawModuleText(entry.module(), event.getContext(), entry.text(), x, y);
             index++;
@@ -253,8 +253,8 @@ public class HUDModule extends Module {
 
         int offset = 0;
         for (PlayerEntry entry : playerEntries) {
-            if (entry.headTexture() != null) PlayerSkinDrawer.draw(event.getContext(), entry.headTexture(), 2, 1 + (Sydney.FONT_MANAGER.getHeight() * 2) + ((Sydney.FONT_MANAGER.getHeight() + 1) * offset), Sydney.FONT_MANAGER.getHeight(), true, false, Color.WHITE.getRGB());
-            drawText(event.getContext(), entry.text(), 2 + (entry.headTexture() != null ? Sydney.FONT_MANAGER.getHeight() + 2 : 0), 2 + (Sydney.FONT_MANAGER.getHeight() * 2) + ((Sydney.FONT_MANAGER.getHeight() + 1) * offset), Sydney.FRIEND_MANAGER.contains(entry.player().getName().getString()) ? Sydney.FRIEND_MANAGER.getDefaultFriendColor() : null);
+            if (entry.headTexture() != null) PlayerSkinDrawer.draw(event.getContext(), entry.headTexture(), 2, 1 + (ISU.FONT_MANAGER.getHeight() * 2) + ((ISU.FONT_MANAGER.getHeight() + 1) * offset), ISU.FONT_MANAGER.getHeight(), true, false, Color.WHITE.getRGB());
+            drawText(event.getContext(), entry.text(), 2 + (entry.headTexture() != null ? ISU.FONT_MANAGER.getHeight() + 2 : 0), 2 + (ISU.FONT_MANAGER.getHeight() * 2) + ((ISU.FONT_MANAGER.getHeight() + 1) * offset), ISU.FRIEND_MANAGER.contains(entry.player().getName().getString()) ? ISU.FRIEND_MANAGER.getDefaultFriendColor() : null);
 
             offset++;
         }
@@ -351,48 +351,48 @@ public class HUDModule extends Module {
 
         if (health.getValue()) {
             String text = ColorUtils.getHealthColor(mc.player.getHealth() + mc.player.getAbsorptionAmount()) + new DecimalFormat("0").format(mc.player.getHealth() + mc.player.getAbsorptionAmount());
-            Sydney.FONT_MANAGER.drawTextWithOutline(event.getContext(), text, mc.getWindow().getScaledWidth() / 2 - Sydney.FONT_MANAGER.getWidth(text) / 2, mc.getWindow().getScaledHeight() / 2 + 16, Color.WHITE, Color.BLACK);
+            ISU.FONT_MANAGER.drawTextWithOutline(event.getContext(), text, mc.getWindow().getScaledWidth() / 2 - ISU.FONT_MANAGER.getWidth(text) / 2, mc.getWindow().getScaledHeight() / 2 + 16, Color.WHITE, Color.BLACK);
         }
 
         if (potions.getValue()) {
             for (PotionEntry entry : potionEntries) {
                 if (entry.sprite() != null) {
                     matrices.push();
-                    matrices.translate(mc.getWindow().getScaledWidth() - 2 - Sydney.FONT_MANAGER.getWidth(entry.text()) - Sydney.FONT_MANAGER.getHeight() - 2, mc.getWindow().getScaledHeight() - chatOffset - 2 - Sydney.FONT_MANAGER.getHeight() - (Sydney.FONT_MANAGER.getHeight() * offset) - 1, 0);
-                    event.getContext().drawSpriteStretched(RenderLayer::getGuiTextured, entry.sprite(), 0, 0, Sydney.FONT_MANAGER.getHeight(), Sydney.FONT_MANAGER.getHeight());
+                    matrices.translate(mc.getWindow().getScaledWidth() - 2 - ISU.FONT_MANAGER.getWidth(entry.text()) - ISU.FONT_MANAGER.getHeight() - 2, mc.getWindow().getScaledHeight() - chatOffset - 2 - ISU.FONT_MANAGER.getHeight() - (ISU.FONT_MANAGER.getHeight() * offset) - 1, 0);
+                    event.getContext().drawSpriteStretched(RenderLayer::getGuiTextured, entry.sprite(), 0, 0, ISU.FONT_MANAGER.getHeight(), ISU.FONT_MANAGER.getHeight());
                     matrices.pop();
                 }
 
-                drawText(event.getContext(), entry.text(), mc.getWindow().getScaledWidth() - 2 - Sydney.FONT_MANAGER.getWidth(entry.text()), mc.getWindow().getScaledHeight() - chatOffset - 2 - Sydney.FONT_MANAGER.getHeight() - (Sydney.FONT_MANAGER.getHeight() * offset), potionColor.getValue().equals("Client") && colorMode.getValue().equals("Rainbow") && rainbowMode.getValue().equals("Horizontal"), entry.color());
+                drawText(event.getContext(), entry.text(), mc.getWindow().getScaledWidth() - 2 - ISU.FONT_MANAGER.getWidth(entry.text()), mc.getWindow().getScaledHeight() - chatOffset - 2 - ISU.FONT_MANAGER.getHeight() - (ISU.FONT_MANAGER.getHeight() * offset), potionColor.getValue().equals("Client") && colorMode.getValue().equals("Rainbow") && rainbowMode.getValue().equals("Horizontal"), entry.color());
                 offset++;
             }
         }
 
         List<String> informationEntries = new ArrayList<>();
 
-        if (ping.getValue()) informationEntries.add(getPrimary() + "Ping " + getSecondary() + Sydney.SERVER_MANAGER.getPing() + "ms");
-        if (fps.getValue()) informationEntries.add(getPrimary() + "FPS " + getSecondary() + Sydney.RENDER_MANAGER.getFps());
+        if (ping.getValue()) informationEntries.add(getPrimary() + "Ping " + getSecondary() + ISU.SERVER_MANAGER.getPing() + "ms");
+        if (fps.getValue()) informationEntries.add(getPrimary() + "FPS " + getSecondary() + ISU.RENDER_MANAGER.getFps());
         if (durability.getValue()) informationEntries.add("Durability " + (mc.player.getMainHandStack().getMaxDamage() - mc.player.getMainHandStack().getDamage()));
         if (!speed.getValue().equalsIgnoreCase("None")) informationEntries.add(getPrimary() + "Speed " + getSecondary() + new DecimalFormat("0.00").format(EntityUtils.getSpeed(mc.player, speed.getValue().equalsIgnoreCase("Meters") ? EntityUtils.SpeedUnit.METERS : EntityUtils.SpeedUnit.KILOMETERS)) + (speed.getValue().equalsIgnoreCase("Meters") ? "m/s" : "km/h"));
-        if (serverBrand.getValue()) informationEntries.add(getPrimary() + "Brand " + getSecondary() + Sydney.SERVER_MANAGER.getServerBrand());
+        if (serverBrand.getValue()) informationEntries.add(getPrimary() + "Brand " + getSecondary() + ISU.SERVER_MANAGER.getServerBrand());
 
-        float tickRate = Sydney.SERVER_MANAGER.getTickRate();
+        float tickRate = ISU.SERVER_MANAGER.getTickRate();
         if (tps.getValue()) informationEntries.add(getPrimary() + "TPS " + getSecondary() + (tickRate > 19.79 ? "20.00" : new DecimalFormat("00.00").format(tickRate)));
 
         if (!informationEntries.isEmpty()) {
-            informationEntries.sort(Comparator.comparingInt(Sydney.FONT_MANAGER::getWidth).reversed());
+            informationEntries.sort(Comparator.comparingInt(ISU.FONT_MANAGER::getWidth).reversed());
             for (String text : informationEntries) {
                 if (text.startsWith("Durability")) {
                     if (mc.player.getMainHandStack().isDamageable()) {
                         int maxDamage = mc.player.getMainHandStack().getMaxDamage(), damage = mc.player.getMainHandStack().getDamage();
                         String s = String.valueOf(maxDamage - damage);
 
-                        drawText(event.getContext(), getPrimary() + "Durability ", mc.getWindow().getScaledWidth() - 2 - Sydney.FONT_MANAGER.getWidth("Durability ") - Sydney.FONT_MANAGER.getWidth(s), mc.getWindow().getScaledHeight() - chatOffset - 2 - Sydney.FONT_MANAGER.getHeight() + (offset * -Sydney.FONT_MANAGER.getHeight()), informationSync.getValue() ? null : new Color(170, 170, 170));
-                        drawText(event.getContext(), s, mc.getWindow().getScaledWidth() - 2 - Sydney.FONT_MANAGER.getWidth(s), mc.getWindow().getScaledHeight() - chatOffset - 2 - Sydney.FONT_MANAGER.getHeight() + (offset * -Sydney.FONT_MANAGER.getHeight()), false, new Color(1.0f - ((maxDamage - damage) / (float) maxDamage), (maxDamage - damage) / (float) maxDamage, 0));
+                        drawText(event.getContext(), getPrimary() + "Durability ", mc.getWindow().getScaledWidth() - 2 - ISU.FONT_MANAGER.getWidth("Durability ") - ISU.FONT_MANAGER.getWidth(s), mc.getWindow().getScaledHeight() - chatOffset - 2 - ISU.FONT_MANAGER.getHeight() + (offset * -ISU.FONT_MANAGER.getHeight()), informationSync.getValue() ? null : new Color(170, 170, 170));
+                        drawText(event.getContext(), s, mc.getWindow().getScaledWidth() - 2 - ISU.FONT_MANAGER.getWidth(s), mc.getWindow().getScaledHeight() - chatOffset - 2 - ISU.FONT_MANAGER.getHeight() + (offset * -ISU.FONT_MANAGER.getHeight()), false, new Color(1.0f - ((maxDamage - damage) / (float) maxDamage), (maxDamage - damage) / (float) maxDamage, 0));
                         offset++;
                     }
                 } else {
-                    drawText(event.getContext(), text, mc.getWindow().getScaledWidth() - 2 - Sydney.FONT_MANAGER.getWidth(text), mc.getWindow().getScaledHeight() - chatOffset - 2 - Sydney.FONT_MANAGER.getHeight() + (offset * -Sydney.FONT_MANAGER.getHeight()), informationSync.getValue() ? null : new Color(170, 170, 170));
+                    drawText(event.getContext(), text, mc.getWindow().getScaledWidth() - 2 - ISU.FONT_MANAGER.getWidth(text), mc.getWindow().getScaledHeight() - chatOffset - 2 - ISU.FONT_MANAGER.getHeight() + (offset * -ISU.FONT_MANAGER.getHeight()), informationSync.getValue() ? null : new Color(170, 170, 170));
                     offset++;
                 }
             }
@@ -409,20 +409,20 @@ public class HUDModule extends Module {
         if (coordinates.getValue())  {
             String text = getSecondary() + String.valueOf(mc.player.getBlockX()) + (netherCoordinates.getValue() ? Formatting.GRAY + " [" + getSecondary() + WorldUtils.getNetherPosition(mc.player.getBlockX()) + Formatting.GRAY + "]" : "") + (inversion.getValue() || positionSync.getValue() ? Formatting.RESET : Formatting.GRAY) + ", " + getSecondary() + mc.player.getBlockY() + (inversion.getValue() || positionSync.getValue() ? Formatting.RESET : Formatting.GRAY) + ", " + getSecondary() + mc.player.getBlockZ() + (netherCoordinates.getValue() ? Formatting.GRAY + " [" + getSecondary() + WorldUtils.getNetherPosition(mc.player.getBlockZ()) + Formatting.GRAY + "]" : "");
 
-            drawText(event.getContext(), text, 2, mc.getWindow().getScaledHeight() - chatOffset - offset - Sydney.FONT_MANAGER.getHeight() - 2);
-            offset += Sydney.FONT_MANAGER.getHeight();
+            drawText(event.getContext(), text, 2, mc.getWindow().getScaledHeight() - chatOffset - offset - ISU.FONT_MANAGER.getHeight() - 2);
+            offset += ISU.FONT_MANAGER.getHeight();
         }
 
         if (direction.getValue()) {
             String text = getPrimary() + StringUtils.capitalize(mc.player.getMovementDirection().getName()) + (inversion.getValue() ? getSecondary() : Formatting.GRAY) + " [" + (inversion.getValue() ? getSecondary() : Formatting.WHITE) + WorldUtils.getMovementDirection(mc.player.getMovementDirection()) + (inversion.getValue() ? getSecondary() : Formatting.GRAY) + "]";
-            drawText(event.getContext(), text, 2, mc.getWindow().getScaledHeight() - chatOffset - offset - Sydney.FONT_MANAGER.getHeight() - 2, positionSync.getValue() ? null : Color.WHITE);
+            drawText(event.getContext(), text, 2, mc.getWindow().getScaledHeight() - chatOffset - offset - ISU.FONT_MANAGER.getHeight() - 2, positionSync.getValue() ? null : Color.WHITE);
         }
     }
 
     private void drawModuleText(Module module, DrawContext context, String text, float x, float y) {
         Color color = getHudColor(y);
         if (moduleColorMode.getValue().equalsIgnoreCase("Rainbow")) {
-            long index = ((long) y / Sydney.FONT_MANAGER.getHeight()) * (rainbowOffset.getValue().longValue() * 10L);
+            long index = ((long) y / ISU.FONT_MANAGER.getHeight()) * (rainbowOffset.getValue().longValue() * 10L);
             color = ColorUtils.getOffsetRainbow(index);
         } else if (moduleColorMode.getValue().equals("Random")) {
             color = ColorUtils.getHashColor(module.getName());
@@ -448,9 +448,9 @@ public class HUDModule extends Module {
         matrices.translate(x, y, 0);
 
         if (rainbow)  {
-            Sydney.FONT_MANAGER.drawRainbowString(context, text, 0, 0, rainbowOffset.getValue().longValue() * 5L);
+            ISU.FONT_MANAGER.drawRainbowString(context, text, 0, 0, rainbowOffset.getValue().longValue() * 5L);
         } else {
-            Sydney.FONT_MANAGER.drawTextWithShadow(context, text, 0, 0, color);
+            ISU.FONT_MANAGER.drawTextWithShadow(context, text, 0, 0, color);
         }
 
         matrices.pop();
@@ -458,10 +458,10 @@ public class HUDModule extends Module {
 
     private Color getHudColor(float offset) {
         if (colorMode.getValue().equalsIgnoreCase("Rainbow")) {
-            long index = ((long) offset / Sydney.FONT_MANAGER.getHeight()) * (rainbowOffset.getValue().longValue() * 10L);
+            long index = ((long) offset / ISU.FONT_MANAGER.getHeight()) * (rainbowOffset.getValue().longValue() * 10L);
             return ColorUtils.getOffsetRainbow(index);
         } else if (colorMode.getValue().equalsIgnoreCase("Wave")) {
-            long index = ((long) offset / Sydney.FONT_MANAGER.getHeight()) * (rainbowOffset.getValue().longValue() * 20L);
+            long index = ((long) offset / ISU.FONT_MANAGER.getHeight()) * (rainbowOffset.getValue().longValue() * 20L);
             return ColorUtils.getOffsetWave(ColorUtils.getGlobalColor(), index);
         } else if (colorMode.getValue().equalsIgnoreCase("Custom")) {
             return ColorUtils.getColor(customColor.getColor(), 255);

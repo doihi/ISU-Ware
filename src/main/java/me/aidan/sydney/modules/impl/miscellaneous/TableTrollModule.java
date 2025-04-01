@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.miscellaneous;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PlayerUpdateEvent;
 import me.aidan.sydney.modules.Module;
@@ -26,9 +26,9 @@ public class TableTrollModule extends Module {
         }
 
         int bps = 0;
-        for (int i = 0; i < Sydney.WORLD_MANAGER.getRadius(5); i++) {
+        for (int i = 0; i < ISU.WORLD_MANAGER.getRadius(5); i++) {
             if (bps > limit.getValue().intValue()) break;
-            BlockPos position = mc.player.getBlockPos().add(Sydney.WORLD_MANAGER.getOffset(i));
+            BlockPos position = mc.player.getBlockPos().add(ISU.WORLD_MANAGER.getOffset(i));
 
             if (!WorldUtils.isPlaceable(position)) continue;
             if (mc.world.getBlockState(position.down()).isReplaceable() || mc.world.getBlockState(position.down()).getBlock() == Blocks.ENDER_CHEST) continue;

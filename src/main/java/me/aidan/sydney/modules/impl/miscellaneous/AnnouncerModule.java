@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.miscellaneous;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.*;
 import me.aidan.sydney.modules.Module;
@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 @RegisterModule(name = "Announcer", description = "Announces your actions in chat.", category = Module.Category.MISCELLANEOUS)
 public class AnnouncerModule extends Module {
-    public StringSetting watermark = new StringSetting("Watermark", "The client name that will be used in the announcer.", Sydney.MOD_NAME);
+    public StringSetting watermark = new StringSetting("Watermark", "The client name that will be used in the announcer.", ISU.MOD_NAME);
     public ModeSetting language = new ModeSetting("Language", "The language that will be used for the announcer.", "English", new String[]{"English", "German", "French", "Japanese", "Finnish", "Russian", "Spanish", "Swedish", "Turkish", "Dutch", "Greek", "Chinese", "Italian", "Norwegian", "Romanian", "Czech", "Portuguese", "Slovenian", "Polish", "Korean", "Lithuanian", "Indonesian", "Hungarian", "Random"});
     public NumberSetting delay = new NumberSetting("Delay", "The delay for the announcer.", 5, 0, 30);
     public BooleanSetting clientside = new BooleanSetting("Clientside", "Sends the messages only on your side.", false);
@@ -60,7 +60,7 @@ public class AnnouncerModule extends Module {
         if (messageTimer.hasTimeElapsed(delay.getValue().intValue() * 1000) && !queue.isEmpty()) {
             String message = queue.poll();
 
-            if (clientside.getValue()) Sydney.CHAT_MANAGER.message(message);
+            if (clientside.getValue()) ISU.CHAT_MANAGER.message(message);
             else mc.player.networkHandler.sendChatMessage((greenText.getValue() ? "> " : "") + message);
 
             messageTimer.reset();

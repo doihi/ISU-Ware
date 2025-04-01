@@ -1,6 +1,6 @@
 package me.aidan.sydney.utils.minecraft;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.miscellaneous.FakePlayerModule;
 import me.aidan.sydney.utils.IMinecraft;
 import net.minecraft.block.Blocks;
@@ -55,7 +55,7 @@ public class EntityUtils implements IMinecraft {
     }
 
     public static boolean isBot(PlayerEntity player) {
-        if (Sydney.MODULE_MANAGER.getModule(FakePlayerModule.class).isToggled() && player == Sydney.MODULE_MANAGER.getModule(FakePlayerModule.class).getPlayer()) {
+        if (ISU.MODULE_MANAGER.getModule(FakePlayerModule.class).isToggled() && player == ISU.MODULE_MANAGER.getModule(FakePlayerModule.class).getPlayer()) {
             return false;
         }
 
@@ -85,8 +85,8 @@ public class EntityUtils implements IMinecraft {
     public static double getSpeed(Entity entity, SpeedUnit unit) {
         double speed = Math.sqrt(MathHelper.square(Math.abs(entity.getX() - entity.lastRenderX)) + MathHelper.square(Math.abs(entity.getZ() - entity.lastRenderZ)));
 
-        if (unit == SpeedUnit.KILOMETERS) return (speed * 3.6 * Sydney.WORLD_MANAGER.getTimerMultiplier()) * 20;
-        else return speed / 0.05 * Sydney.WORLD_MANAGER.getTimerMultiplier();
+        if (unit == SpeedUnit.KILOMETERS) return (speed * 3.6 * ISU.WORLD_MANAGER.getTimerMultiplier()) * 20;
+        else return speed / 0.05 * ISU.WORLD_MANAGER.getTimerMultiplier();
     }
 
     public static boolean hasNegativeEffects(PlayerEntity player) {

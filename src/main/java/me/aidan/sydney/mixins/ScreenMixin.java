@@ -1,6 +1,6 @@
 package me.aidan.sydney.mixins;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.core.MenuModule;
 import me.aidan.sydney.utils.IMinecraft;
 import me.aidan.sydney.utils.color.ColorUtils;
@@ -22,7 +22,7 @@ public class ScreenMixin implements IMinecraft {
 
     @Inject(method = "renderBackground", at = @At("HEAD"), cancellable = true)
     private void renderBackground(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if(Sydney.MODULE_MANAGER.getModule(MenuModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(MenuModule.class).mainMenu.getValue() && mc.world == null) {
+        if(ISU.MODULE_MANAGER.getModule(MenuModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(MenuModule.class).mainMenu.getValue() && mc.world == null) {
             Renderer2D.renderQuad(context.getMatrices(), 0, 0, width, height, new Color(25, 25, 25,255));
 
             for(int i = 0; i < width; i++) {

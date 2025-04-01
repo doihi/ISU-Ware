@@ -1,6 +1,6 @@
 package me.aidan.sydney.mixins;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.visuals.NoRenderModule;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameOverlayRenderer;
@@ -16,21 +16,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class InGameOverlayRendererMixin {
     @Inject(method = "renderFireOverlay", at = @At("HEAD"), cancellable = true)
     private static void renderFireOverlay(CallbackInfo info) {
-        if (Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).fireOverlay.getValue()) {
+        if (ISU.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(NoRenderModule.class).fireOverlay.getValue()) {
             info.cancel();
         }
     }
 
     @Inject(method = "renderInWallOverlay", at = @At("HEAD"), cancellable = true)
     private static void renderInWallOverlay(Sprite sprite, MatrixStack matrices, VertexConsumerProvider vertexConsumers, CallbackInfo info) {
-        if (Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).blockOverlay.getValue()) {
+        if (ISU.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(NoRenderModule.class).blockOverlay.getValue()) {
             info.cancel();
         }
     }
 
     @Inject(method = "renderUnderwaterOverlay", at = @At("HEAD"), cancellable = true)
     private static void renderUnderwaterOverlay(MinecraftClient client, MatrixStack matrices, VertexConsumerProvider vertexConsumers, CallbackInfo info) {
-        if (Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).liquidOverlay.getValue()) {
+        if (ISU.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(NoRenderModule.class).liquidOverlay.getValue()) {
             info.cancel();
         }
     }

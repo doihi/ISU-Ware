@@ -1,7 +1,7 @@
 package me.aidan.sydney.managers;
 
 import lombok.Getter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.*;
 import me.aidan.sydney.mixins.accessors.EntityAccessor;
@@ -41,7 +41,7 @@ public class RotationManager implements IMinecraft {
     }
 
     public RotationManager() {
-        Sydney.EVENT_HANDLER.subscribe(this);
+        ISU.EVENT_HANDLER.subscribe(this);
     }
 
     @SubscribeEvent(priority = Integer.MIN_VALUE)
@@ -75,7 +75,7 @@ public class RotationManager implements IMinecraft {
     @SubscribeEvent
     public void onUpdateVelocity(UpdateVelocityEvent event) {
         if (mc.player == null) return;
-        if (!Sydney.MODULE_MANAGER.getModule(RotationsModule.class).movementFix.getValue()) return;
+        if (!ISU.MODULE_MANAGER.getModule(RotationsModule.class).movementFix.getValue()) return;
         if (rotation == null) return;
 
         event.setVelocity(EntityAccessor.invokeMovementInputToVelocity(event.getMovementInput(), event.getSpeed(), rotation.getYaw()));
@@ -85,7 +85,7 @@ public class RotationManager implements IMinecraft {
     @SubscribeEvent
     public void onKeyboardTick(KeyboardTickEvent event) {
         if (mc.player == null || mc.world == null || mc.player.isRiding()) return;
-        if (!Sydney.MODULE_MANAGER.getModule(RotationsModule.class).movementFix.getValue()) return;
+        if (!ISU.MODULE_MANAGER.getModule(RotationsModule.class).movementFix.getValue()) return;
         if (rotation == null) return;
 
         float movementForward = event.getMovementForward();
@@ -104,7 +104,7 @@ public class RotationManager implements IMinecraft {
     @SubscribeEvent
     public void onPlayerJump(PlayerJumpEvent event) {
         if (mc.player == null || mc.world == null || mc.player.isRiding()) return;
-        if (!Sydney.MODULE_MANAGER.getModule(RotationsModule.class).movementFix.getValue()) return;
+        if (!ISU.MODULE_MANAGER.getModule(RotationsModule.class).movementFix.getValue()) return;
         if (rotation == null) return;
 
         prevFixYaw = mc.player.getYaw();
@@ -114,7 +114,7 @@ public class RotationManager implements IMinecraft {
     @SubscribeEvent
     public void onPlayerJump$POST(PlayerJumpEvent.Post event) {
         if (mc.player == null || mc.world == null || mc.player.isRiding()) return;
-        if (!Sydney.MODULE_MANAGER.getModule(RotationsModule.class).movementFix.getValue()) return;
+        if (!ISU.MODULE_MANAGER.getModule(RotationsModule.class).movementFix.getValue()) return;
         if (rotation == null) return;
 
         mc.player.setYaw(prevFixYaw);
@@ -165,7 +165,7 @@ public class RotationManager implements IMinecraft {
 
     public void packetRotate(float yaw, float pitch) {
         if (serverYaw == yaw && serverPitch == pitch) return;
-        mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(Sydney.POSITION_MANAGER.getServerX(), Sydney.POSITION_MANAGER.getServerY(), Sydney.POSITION_MANAGER.getServerZ(), yaw, pitch, Sydney.POSITION_MANAGER.isServerOnGround(), mc.player.horizontalCollision));
+        mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(ISU.POSITION_MANAGER.getServerX(), ISU.POSITION_MANAGER.getServerY(), ISU.POSITION_MANAGER.getServerZ(), yaw, pitch, ISU.POSITION_MANAGER.isServerOnGround(), mc.player.horizontalCollision));
     }
 
     public boolean inRenderTime() {

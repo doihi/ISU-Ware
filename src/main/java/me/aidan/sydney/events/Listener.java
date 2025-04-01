@@ -8,7 +8,7 @@
 package me.aidan.sydney.events;
 
 import lombok.Getter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 
 import java.lang.invoke.LambdaMetafactory;
 import java.lang.invoke.MethodHandle;
@@ -37,7 +37,7 @@ public class Listener {
 
             consumer = (Consumer<Object>) LambdaMetafactory.metafactory(MethodHandles.lookup(), "accept", invokedType, MethodType.methodType(void.class, Object.class), handle, type).getTarget().invoke(object);
         } catch (Throwable throwable) {
-            Sydney.LOGGER.error("The Event System threw an exception!", throwable);
+            ISU.LOGGER.error("The Event System threw an exception!", throwable);
         }
     }
 

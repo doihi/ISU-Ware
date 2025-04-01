@@ -1,7 +1,7 @@
 package me.aidan.sydney.modules;
 
 import lombok.Getter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.impl.ToggleModuleEvent;
 import me.aidan.sydney.settings.Setting;
 import me.aidan.sydney.settings.impl.*;
@@ -47,7 +47,7 @@ public abstract class Module implements IMinecraft {
 
         if (persistent) toggled = true;
         if (toggled) {
-            Sydney.EVENT_HANDLER.subscribe(this);
+            ISU.EVENT_HANDLER.subscribe(this);
         }
     }
 
@@ -71,25 +71,25 @@ public abstract class Module implements IMinecraft {
         if (toggled == this.toggled) return;
 
         this.toggled = toggled;
-        Sydney.EVENT_HANDLER.post(new ToggleModuleEvent(this, this.toggled));
+        ISU.EVENT_HANDLER.post(new ToggleModuleEvent(this, this.toggled));
 
         if (this.toggled) {
             animationOffset.setEasing(Easing.Method.EASE_OUT_CUBIC);
 
             if (notify && chatNotify.getValue()) {
-                Sydney.CHAT_MANAGER.message(ChatUtils.getPrimary() + name + ChatUtils.getSecondary() + ".toggled = " + Formatting.GREEN + "true" + ChatUtils.getSecondary() + ";", "toggle-" + getName().toLowerCase());
+                ISU.CHAT_MANAGER.message(ChatUtils.getPrimary() + name + ChatUtils.getSecondary() + ".toggled = " + Formatting.GREEN + "true" + ChatUtils.getSecondary() + ";", "toggle-" + getName().toLowerCase());
             }
 
             onEnable();
-            if (this.toggled) Sydney.EVENT_HANDLER.subscribe(this);
+            if (this.toggled) ISU.EVENT_HANDLER.subscribe(this);
         } else {
             animationOffset.setEasing(Easing.Method.EASE_IN_CUBIC);
 
-            Sydney.EVENT_HANDLER.unsubscribe(this);
+            ISU.EVENT_HANDLER.unsubscribe(this);
             onDisable();
 
             if (notify && chatNotify.getValue()) {
-                Sydney.CHAT_MANAGER.message(ChatUtils.getPrimary() + name + ChatUtils.getSecondary() + ".toggled = " + Formatting.RED + "false" + ChatUtils.getSecondary() + ";", "toggle-" + getName().toLowerCase());
+                ISU.CHAT_MANAGER.message(ChatUtils.getPrimary() + name + ChatUtils.getSecondary() + ".toggled = " + Formatting.RED + "false" + ChatUtils.getSecondary() + ";", "toggle-" + getName().toLowerCase());
             }
         }
     }

@@ -1,6 +1,6 @@
 package me.aidan.sydney.commands.impl;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.commands.Command;
 import me.aidan.sydney.commands.RegisterCommand;
 import me.aidan.sydney.modules.Module;
@@ -14,10 +14,10 @@ public class ModulesCommand extends Command {
     @Override
     public void execute(String[] args) {
         if (args.length == 0) {
-            List<Module> modules = Sydney.MODULE_MANAGER.getModules();
+            List<Module> modules = ISU.MODULE_MANAGER.getModules();
 
             if (modules.isEmpty()) {
-                Sydney.CHAT_MANAGER.tagged("There are currently no registered modules.", getTag(), getName());
+                ISU.CHAT_MANAGER.tagged("There are currently no registered modules.", getTag(), getName());
             } else {
                 StringBuilder builder = new StringBuilder();
                 int index = 0;
@@ -31,7 +31,7 @@ public class ModulesCommand extends Command {
                             .append(index == modules.size() ? "" : ", ");
                 }
 
-                Sydney.CHAT_MANAGER.message("Modules " + ChatUtils.getPrimary() + "[" + ChatUtils.getSecondary() + modules.size() + ChatUtils.getPrimary() + "]: " + ChatUtils.getSecondary() + builder, getName());
+                ISU.CHAT_MANAGER.message("Modules " + ChatUtils.getPrimary() + "[" + ChatUtils.getSecondary() + modules.size() + ChatUtils.getPrimary() + "]: " + ChatUtils.getSecondary() + builder, getName());
             }
         } else {
             messageSyntax();

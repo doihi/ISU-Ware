@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMaps;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.RenderWorldEvent;
 import me.aidan.sydney.mixins.accessors.ItemRenderStateAccessor;
@@ -98,15 +98,15 @@ public class NameTagsModule extends Module {
             if (entityId.getValue()) text += " " + player.getId();
             if (health.getValue()) text += " " + ColorUtils.getHealthColor(player.getHealth() + player.getAbsorptionAmount()) + new DecimalFormat("0.0").format(player.getHealth() + player.getAbsorptionAmount()) + Formatting.RESET;
 
-            int pops = Sydney.WORLD_MANAGER.getPoppedTotems().getOrDefault(player.getUuid(), 0);
+            int pops = ISU.WORLD_MANAGER.getPoppedTotems().getOrDefault(player.getUuid(), 0);
             if (totemPops.getValue() && pops > 0) text += " " + ColorUtils.getTotemColor(pops) + "-" + pops;
 
-            int width = Sydney.FONT_MANAGER.getWidth(text);
+            int width = ISU.FONT_MANAGER.getWidth(text);
 
-            if (border.getValue().equalsIgnoreCase("Fill") || border.getValue().equalsIgnoreCase("Both")) Renderer2D.renderQuad(matrices, -width / 2.0f - 1, -Sydney.FONT_MANAGER.getHeight() - 1, width / 2.0f + 2, 0, fillColor.getColor());
-            if (border.getValue().equalsIgnoreCase("Outline") || border.getValue().equalsIgnoreCase("Both")) Renderer2D.renderOutline(matrices, -width / 2.0f - 1, -Sydney.FONT_MANAGER.getHeight() - 1, width / 2.0f + 2, 0, outlineColor.getColor());
+            if (border.getValue().equalsIgnoreCase("Fill") || border.getValue().equalsIgnoreCase("Both")) Renderer2D.renderQuad(matrices, -width / 2.0f - 1, -ISU.FONT_MANAGER.getHeight() - 1, width / 2.0f + 2, 0, fillColor.getColor());
+            if (border.getValue().equalsIgnoreCase("Outline") || border.getValue().equalsIgnoreCase("Both")) Renderer2D.renderOutline(matrices, -width / 2.0f - 1, -ISU.FONT_MANAGER.getHeight() - 1, width / 2.0f + 2, 0, outlineColor.getColor());
 
-            Sydney.FONT_MANAGER.drawTextWithShadow(matrices, text, -width / 2, -Sydney.FONT_MANAGER.getHeight(), vertexConsumers, Sydney.MODULE_MANAGER.getModule(FakePlayerModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(FakePlayerModule.class).getPlayer() == player ? new Color(225, 0, 70) : player.isSneaking() ? new Color(255, 170, 0) : Sydney.FRIEND_MANAGER.contains(player.getName().getString()) ? Sydney.FRIEND_MANAGER.getDefaultFriendColor() : Color.WHITE);
+            ISU.FONT_MANAGER.drawTextWithShadow(matrices, text, -width / 2, -ISU.FONT_MANAGER.getHeight(), vertexConsumers, ISU.MODULE_MANAGER.getModule(FakePlayerModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(FakePlayerModule.class).getPlayer() == player ? new Color(225, 0, 70) : player.isSneaking() ? new Color(255, 170, 0) : ISU.FRIEND_MANAGER.contains(player.getName().getString()) ? ISU.FRIEND_MANAGER.getDefaultFriendColor() : Color.WHITE);
 
             boolean renderedDurability = false;
             boolean renderedItems = false;
@@ -118,7 +118,7 @@ public class NameTagsModule extends Module {
                     ItemEnchantmentsComponent component = EnchantmentHelper.getEnchantments(stack);
 
                     if (!component.getEnchantments().isEmpty()) {
-                        int height = (component.getEnchantments().size() * Sydney.FONT_MANAGER.getHeight() / 2) - 18;
+                        int height = (component.getEnchantments().size() * ISU.FONT_MANAGER.getHeight() / 2) - 18;
                         if (height > 0 && (height + 1) > maxEnchants) maxEnchants = height + 1;
                     }
                 }
@@ -131,7 +131,7 @@ public class NameTagsModule extends Module {
                 renderedItems = true;
 
                 int stackX = -(108 / 2) + (i * 18) + 1;
-                int stackY = -Sydney.FONT_MANAGER.getHeight() - 1 - (items.getValue() ? 18 + maxEnchants : 1);
+                int stackY = -ISU.FONT_MANAGER.getHeight() - 1 - (items.getValue() ? 18 + maxEnchants : 1);
 
                 if (items.getValue()) {
                     ((ItemRendererAccessor) mc.getItemRenderer()).getItemModelManager().update(itemRenderState, stack, ModelTransformationMode.GUI, false, mc.world, mc.player, 0);
@@ -183,15 +183,15 @@ public class NameTagsModule extends Module {
                         matrices.push();
                         matrices.translate(stackX, stackY, 0);
                         matrices.scale(0.5f, 0.5f, 1);
-                        Sydney.FONT_MANAGER.drawTextWithShadow(matrices, "God", 0, 0, vertexConsumers, new Color(255, 125, 255));
+                        ISU.FONT_MANAGER.drawTextWithShadow(matrices, "God", 0, 0, vertexConsumers, new Color(255, 125, 255));
                         matrices.pop();
                     }
 
                     if (stack.getCount() != 1) {
                         String count = stack.getCount() + "";
                         matrices.push();
-                        matrices.translate(stackX + 17 - Sydney.FONT_MANAGER.getWidth(count), stackY + 9, 0);
-                        Sydney.FONT_MANAGER.drawTextWithShadow(matrices, count, 0, 0, vertexConsumers, Color.WHITE);
+                        matrices.translate(stackX + 17 - ISU.FONT_MANAGER.getWidth(count), stackY + 9, 0);
+                        ISU.FONT_MANAGER.drawTextWithShadow(matrices, count, 0, 0, vertexConsumers, Color.WHITE);
                         matrices.pop();
                     }
                 }
@@ -201,9 +201,9 @@ public class NameTagsModule extends Module {
                     float red = 1.0f - green;
 
                     matrices.push();
-                    matrices.translate(stackX, stackY - Sydney.FONT_MANAGER.getHeight() / 2f - 1, 0);
+                    matrices.translate(stackX, stackY - ISU.FONT_MANAGER.getHeight() / 2f - 1, 0);
                     matrices.scale(0.5f, 0.5f, 1);
-                    Sydney.FONT_MANAGER.drawTextWithShadow(matrices, Math.round(((stack.getMaxDamage() - stack.getDamage()) * 100.0f) / stack.getMaxDamage()) + "%", 0, 0, vertexConsumers, new Color(red, green, 0));
+                    ISU.FONT_MANAGER.drawTextWithShadow(matrices, Math.round(((stack.getMaxDamage() - stack.getDamage()) * 100.0f) / stack.getMaxDamage()) + "%", 0, 0, vertexConsumers, new Color(red, green, 0));
                     matrices.pop();
 
                     renderedDurability = true;
@@ -223,10 +223,10 @@ public class NameTagsModule extends Module {
                         matrices.push();
                         matrices.translate(stackX, stackY + height, 0);
                         matrices.scale(0.5f, 0.5f, 1);
-                        Sydney.FONT_MANAGER.drawTextWithShadow(matrices, str, 0, 0, vertexConsumers, Color.WHITE);
+                        ISU.FONT_MANAGER.drawTextWithShadow(matrices, str, 0, 0, vertexConsumers, Color.WHITE);
                         matrices.pop();
 
-                        height += Sydney.FONT_MANAGER.getHeight() / 2;
+                        height += ISU.FONT_MANAGER.getHeight() / 2;
                     }
                 }
             }
@@ -235,9 +235,9 @@ public class NameTagsModule extends Module {
                 String itemText = player.getMainHandStack().getName().getString();
 
                 matrices.push();
-                matrices.translate(-Sydney.FONT_MANAGER.getWidth(itemText) / 2f / 2f, -Sydney.FONT_MANAGER.getHeight() - 1 - Sydney.FONT_MANAGER.getHeight() / 2f - 1 - (renderedItems ? (items.getValue() ? 18 + maxEnchants : 1) + (durability.getValue() && renderedDurability ? Sydney.FONT_MANAGER.getHeight() / 2.0f + 1 : 0) : 0), 0);
+                matrices.translate(-ISU.FONT_MANAGER.getWidth(itemText) / 2f / 2f, -ISU.FONT_MANAGER.getHeight() - 1 - ISU.FONT_MANAGER.getHeight() / 2f - 1 - (renderedItems ? (items.getValue() ? 18 + maxEnchants : 1) + (durability.getValue() && renderedDurability ? ISU.FONT_MANAGER.getHeight() / 2.0f + 1 : 0) : 0), 0);
                 matrices.scale(0.5f, 0.5f, 1);
-                Sydney.FONT_MANAGER.drawTextWithShadow(matrices, itemText, 0, 0, vertexConsumers, Color.WHITE);
+                ISU.FONT_MANAGER.drawTextWithShadow(matrices, itemText, 0, 0, vertexConsumers, Color.WHITE);
                 matrices.pop();
             }
 

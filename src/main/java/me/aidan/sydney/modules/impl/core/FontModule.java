@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.core;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.SettingChangeEvent;
 import me.aidan.sydney.modules.Module;
@@ -42,6 +42,6 @@ public class FontModule extends Module {
     }
 
     private void updateFontRenderer() {
-        Sydney.FONT_MANAGER.setFontRenderer(new FontRenderer(new Font[]{new Font(name.getValue(), style.getValue().equalsIgnoreCase("BoldItalic") ? Font.BOLD | Font.ITALIC : style.getValue().equalsIgnoreCase("Bold") ? Font.BOLD : style.getValue().equalsIgnoreCase("Italic") ? Font.ITALIC : Font.PLAIN, size.getValue().intValue())}, size.getValue().floatValue() / 2.0f));
+        ISU.FONT_MANAGER.setFontRenderer(new FontRenderer(new Font[]{new Font(name.getValue(), style.getValue().equalsIgnoreCase("BoldItalic") ? Font.BOLD | Font.ITALIC : style.getValue().equalsIgnoreCase("Bold") ? Font.BOLD : style.getValue().equalsIgnoreCase("Italic") ? Font.ITALIC : Font.PLAIN, size.getValue().intValue())}, size.getValue().floatValue() / 2.0f));
     }
 }

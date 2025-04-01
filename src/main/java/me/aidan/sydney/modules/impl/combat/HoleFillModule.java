@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.combat;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PlayerUpdateEvent;
 import me.aidan.sydney.modules.Module;
@@ -70,7 +70,7 @@ public class HoleFillModule extends Module {
             boolean flag = webs.getValue() ? !mc.player.getMainHandStack().getItem().equals(Items.COBWEB) : !(mc.player.getMainHandStack().getItem() instanceof BlockItem);
             if (autoSwitch.getValue().equalsIgnoreCase("None") && flag) {
                 if (itemDisable.getValue()) {
-                    Sydney.CHAT_MANAGER.tagged("You are currently not holding any " + (webs.getValue() ? "cobwebs." : "blocks."), getName());
+                    ISU.CHAT_MANAGER.tagged("You are currently not holding any " + (webs.getValue() ? "cobwebs." : "blocks."), getName());
                     setToggled(false);
                 }
 
@@ -87,7 +87,7 @@ public class HoleFillModule extends Module {
 
             if (slot == -1) {
                 if (itemDisable.getValue()) {
-                    Sydney.CHAT_MANAGER.tagged("No " + (webs.getValue() ? "cobwebs" : "blocks") + " could be found in your hotbar.", getName());
+                    ISU.CHAT_MANAGER.tagged("No " + (webs.getValue() ? "cobwebs" : "blocks") + " could be found in your hotbar.", getName());
                     setToggled(false);
                 }
 
@@ -146,7 +146,7 @@ public class HoleFillModule extends Module {
             if (player == mc.player) continue;
             if (!player.isAlive() || player.getHealth() <= 0.0f) continue;
             if (mc.player.squaredDistanceTo(player) > MathHelper.square(enemyRange.getValue().doubleValue())) continue;
-            if (Sydney.FRIEND_MANAGER.contains(player.getName().getString())) continue;
+            if (ISU.FRIEND_MANAGER.contains(player.getName().getString())) continue;
             if (holeCheck.getValue() && HoleUtils.isPlayerInHole(player)) continue;
 
             List<BlockPos> positions = getPositions(player);
@@ -167,8 +167,8 @@ public class HoleFillModule extends Module {
 
     private List<BlockPos> getPositions(PlayerEntity player) {
         List<BlockPos> positions = new ArrayList<>();
-        for (int i = 0; i < Sydney.WORLD_MANAGER.getRadius(range.getValue().doubleValue()); i++) {
-            BlockPos position = mc.player.getBlockPos().add(Sydney.WORLD_MANAGER.getOffset(i));
+        for (int i = 0; i < ISU.WORLD_MANAGER.getRadius(range.getValue().doubleValue()); i++) {
+            BlockPos position = mc.player.getBlockPos().add(ISU.WORLD_MANAGER.getOffset(i));
             Vec3d vec3d = Vec3d.ofCenter(position);
 
             if (!mc.world.getBlockState(position).isReplaceable()) continue;

@@ -2,7 +2,7 @@ package me.aidan.sydney.commands;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.utils.IMinecraft;
 
 import java.util.Arrays;
@@ -27,6 +27,6 @@ public abstract class Command implements IMinecraft {
     public abstract void execute(String[] args);
 
     public void messageSyntax() {
-        Sydney.CHAT_MANAGER.info(name + " " + syntax);
+        ISU.CHAT_MANAGER.info(name + " " + syntax);
     }
 }

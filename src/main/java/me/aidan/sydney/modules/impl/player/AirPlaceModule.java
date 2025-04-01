@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.player;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.RenderWorldEvent;
 import me.aidan.sydney.events.impl.TickEvent;
@@ -38,7 +38,7 @@ public class AirPlaceModule extends Module {
     public void onRenderWorld(RenderWorldEvent event) {
         if(getNull()) return;
 
-        BlockHighlightModule blockHighlightModule = Sydney.MODULE_MANAGER.getModule(BlockHighlightModule.class);
+        BlockHighlightModule blockHighlightModule = ISU.MODULE_MANAGER.getModule(BlockHighlightModule.class);
 
         if(!blockHighlightModule.isToggled() || !(hitResult instanceof BlockHitResult blockHitResult) || !(mc.player.getMainHandStack().getItem() instanceof BlockItem)) return;
 

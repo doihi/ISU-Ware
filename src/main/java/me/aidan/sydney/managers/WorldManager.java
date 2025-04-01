@@ -2,7 +2,7 @@ package me.aidan.sydney.managers;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.*;
 import me.aidan.sydney.utils.IMinecraft;
@@ -29,7 +29,7 @@ public class WorldManager implements IMinecraft {
     @Getter private final Timer placeTimer = new Timer();
 
     public WorldManager() {
-        Sydney.EVENT_HANDLER.subscribe(this);
+        ISU.EVENT_HANDLER.subscribe(this);
 
         BlockPos origin = BlockPos.ORIGIN;
         Set<BlockPos> positions = new TreeSet<>((o, p) -> {
@@ -77,7 +77,7 @@ public class WorldManager implements IMinecraft {
 
             if (deadPlayers.contains(player.getUuid())) continue;
 
-            Sydney.EVENT_HANDLER.post(new PlayerDeathEvent(player));
+            ISU.EVENT_HANDLER.post(new PlayerDeathEvent(player));
             deadPlayers.add(player.getUuid());
 
             poppedTotems.remove(player.getUuid());
@@ -94,7 +94,7 @@ public class WorldManager implements IMinecraft {
             int pops = poppedTotems.getOrDefault(player.getUuid(), 0);
             poppedTotems.put(player.getUuid(), ++pops);
 
-            Sydney.EVENT_HANDLER.post(new PlayerPopEvent(player, pops));
+            ISU.EVENT_HANDLER.post(new PlayerPopEvent(player, pops));
         }
     }
 

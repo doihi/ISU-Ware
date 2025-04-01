@@ -1,6 +1,6 @@
 package me.aidan.sydney.mixins;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.core.FontModule;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -17,14 +17,14 @@ public abstract class DrawContextMixin {
 
     @Inject(method = "drawText(Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;IIIZ)I", at = @At("HEAD"))
     private void drawText(TextRenderer textRenderer, String text, int x, int y, int color, boolean shadow, CallbackInfoReturnable<Integer> info) {
-        if (Sydney.MODULE_MANAGER.getModule(FontModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(FontModule.class).customFont.getValue() && Sydney.MODULE_MANAGER.getModule(FontModule.class).global.getValue()) {
+        if (ISU.MODULE_MANAGER.getModule(FontModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(FontModule.class).customFont.getValue() && ISU.MODULE_MANAGER.getModule(FontModule.class).global.getValue()) {
             draw();
         }
     }
 
     @Inject(method = "drawText(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/OrderedText;IIIZ)I", at = @At("HEAD"))
     private void drawText(TextRenderer textRenderer, OrderedText text, int x, int y, int color, boolean shadow, CallbackInfoReturnable<Integer> info) {
-        if (Sydney.MODULE_MANAGER.getModule(FontModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(FontModule.class).customFont.getValue() && Sydney.MODULE_MANAGER.getModule(FontModule.class).global.getValue()) {
+        if (ISU.MODULE_MANAGER.getModule(FontModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(FontModule.class).customFont.getValue() && ISU.MODULE_MANAGER.getModule(FontModule.class).global.getValue()) {
             draw();
         }
     }

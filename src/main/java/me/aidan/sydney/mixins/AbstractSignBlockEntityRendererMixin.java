@@ -1,6 +1,6 @@
 package me.aidan.sydney.mixins;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.visuals.NoRenderModule;
 import net.minecraft.block.entity.SignText;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class AbstractSignBlockEntityRendererMixin {
     @Inject(method = "renderText", at = @At("HEAD"), cancellable = true)
     private void renderText(BlockPos pos, SignText signText, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int lineHeight, int lineWidth, boolean front, CallbackInfo info) {
-        if (Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).signText.getValue()) {
+        if (ISU.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(NoRenderModule.class).signText.getValue()) {
             info.cancel();
         }
     }

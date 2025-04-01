@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.movement;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PlayerMoveEvent;
 import me.aidan.sydney.mixins.accessors.Vec3dAccessor;
@@ -44,8 +44,8 @@ public class HoleSnapModule extends Module {
         hole = holes.get(0).box();
 
         if(mc.player.getX() == hole.getCenter().x && mc.player.getY() == hole.minY && mc.player.getZ() == hole.getCenter().z) {
-            if(Sydney.MODULE_MANAGER.getModule(StepModule.class).isToggled()) Sydney.MODULE_MANAGER.getModule(StepModule.class).setToggled(false);
-            if(Sydney.MODULE_MANAGER.getModule(SpeedModule.class).isToggled()) Sydney.MODULE_MANAGER.getModule(SpeedModule.class).setToggled(false);
+            if(ISU.MODULE_MANAGER.getModule(StepModule.class).isToggled()) ISU.MODULE_MANAGER.getModule(StepModule.class).setToggled(false);
+            if(ISU.MODULE_MANAGER.getModule(SpeedModule.class).isToggled()) ISU.MODULE_MANAGER.getModule(SpeedModule.class).setToggled(false);
             setToggled(false);
             return;
         }
@@ -56,8 +56,8 @@ public class HoleSnapModule extends Module {
     private List<HoleUtils.Hole> getHoles() {
         List<HoleUtils.Hole> holes = new ArrayList<>();
 
-        for (int i = 0; i < Sydney.WORLD_MANAGER.getRadius(range.getValue().doubleValue()); i++) {
-            BlockPos position = mc.player.getBlockPos().add(Sydney.WORLD_MANAGER.getOffset(i));
+        for (int i = 0; i < ISU.WORLD_MANAGER.getRadius(range.getValue().doubleValue()); i++) {
+            BlockPos position = mc.player.getBlockPos().add(ISU.WORLD_MANAGER.getOffset(i));
 
             if(position.getY() > mc.player.getY()) continue;
 

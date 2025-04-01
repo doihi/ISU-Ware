@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.movement;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PlayerUpdateEvent;
 import me.aidan.sydney.events.impl.UpdateMovementEvent;
@@ -21,13 +21,13 @@ public class StepModule extends Module {
 
     @Override
     public void onDisable() {
-        Sydney.WORLD_MANAGER.setTimerMultiplier(1.0f);
+        ISU.WORLD_MANAGER.setTimerMultiplier(1.0f);
     }
 
     @SubscribeEvent
     public void onPlayerUpdate(PlayerUpdateEvent event) {
         if (resetTimer) {
-            Sydney.WORLD_MANAGER.setTimerMultiplier(1.0f);
+            ISU.WORLD_MANAGER.setTimerMultiplier(1.0f);
             resetTimer = false;
         }
     }
@@ -44,7 +44,7 @@ public class StepModule extends Module {
         double[] offsets = getOffset(stepHeight);
         if (offsets != null && offsets.length > 1) {
             if (useTimer.getValue()) {
-                Sydney.WORLD_MANAGER.setTimerMultiplier(1.0f / offsets.length);
+                ISU.WORLD_MANAGER.setTimerMultiplier(1.0f / offsets.length);
                 resetTimer = true;
             }
 

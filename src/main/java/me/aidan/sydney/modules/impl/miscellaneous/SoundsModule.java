@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.miscellaneous;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.AttackEntityEvent;
 import me.aidan.sydney.events.impl.TargetDeathEvent;
@@ -30,14 +30,14 @@ public class SoundsModule extends Module {
     public void onTargetDeath(TargetDeathEvent event) {
         if(getNull()) return;
 
-        if(killSound.getValue()) FileUtils.playSound(new File(Sydney.MOD_NAME + "/Client/" + killName.getValue()), killVolume.getValue().floatValue());
+        if(killSound.getValue()) FileUtils.playSound(new File(ISU.MOD_NAME + "/Client/" + killName.getValue()), killVolume.getValue().floatValue());
     }
 
     @SubscribeEvent
     public void onAttackEntity(AttackEntityEvent event) {
         if(event.getPlayer() != mc.player) return;
 
-        if(hitSound.getValue()) FileUtils.playSound(new File(Sydney.MOD_NAME + "/Client/" + hitName.getValue()), hitVolume.getValue().floatValue());
+        if(hitSound.getValue()) FileUtils.playSound(new File(ISU.MOD_NAME + "/Client/" + hitName.getValue()), hitVolume.getValue().floatValue());
 
     }
 }

@@ -2,7 +2,7 @@ package me.aidan.sydney.gui.api;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.gui.ClickGuiScreen;
 import me.aidan.sydney.gui.impl.WhitelistButton;
 import me.aidan.sydney.modules.Module;
@@ -29,7 +29,7 @@ public class Frame {
         this.width = width;
         this.height = height;
 
-        for(Module module : Sydney.MODULE_MANAGER.getModules(category)) buttons.add(new ModuleButton(module, this, height));
+        for(Module module : ISU.MODULE_MANAGER.getModules(category)) buttons.add(new ModuleButton(module, this, height));
     }
 
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
@@ -62,11 +62,11 @@ public class Frame {
         }
 
         Renderer2D.renderQuad(context.getMatrices(), x, y, x + width, y + height, ClickGuiScreen.getButtonColor(y, 100));
-        Sydney.FONT_MANAGER.drawTextWithShadow(context, category.getName(), x + textPadding, y + 2, Color.WHITE);
+        ISU.FONT_MANAGER.drawTextWithShadow(context, category.getName(), x + textPadding, y + 2, Color.WHITE);
 
         if(open) {
-            Color color = Sydney.MODULE_MANAGER.getModule(ClickGuiModule.class).color.getColor();
-            Renderer2D.renderQuad(context.getMatrices(), x, y + height, x + width, y + totalHeight + 1, Sydney.MODULE_MANAGER.getModule(ClickGuiModule.class).isRainbow() ? new Color(0, 0, 0, 100) : new Color((int) (color.getRed()*0.3), (int) (color.getGreen()*0.3), (int) (color.getBlue()*0.3), 100));
+            Color color = ISU.MODULE_MANAGER.getModule(ClickGuiModule.class).color.getColor();
+            Renderer2D.renderQuad(context.getMatrices(), x, y + height, x + width, y + totalHeight + 1, ISU.MODULE_MANAGER.getModule(ClickGuiModule.class).isRainbow() ? new Color(0, 0, 0, 100) : new Color((int) (color.getRed()*0.3), (int) (color.getGreen()*0.3), (int) (color.getBlue()*0.3), 100));
             for(Button button : buttons) {
                 button.render(context, mouseX, mouseY, delta);
             }
@@ -116,9 +116,9 @@ public class Frame {
             }
             if (!whitelistHandling) {
                 if (verticalAmount < 0) {
-                    setY(getY() - Sydney.MODULE_MANAGER.getModule(ClickGuiModule.class).scrollSpeed.getValue().intValue());
+                    setY(getY() - ISU.MODULE_MANAGER.getModule(ClickGuiModule.class).scrollSpeed.getValue().intValue());
                 } else if (verticalAmount > 0) {
-                    setY(getY() + Sydney.MODULE_MANAGER.getModule(ClickGuiModule.class).scrollSpeed.getValue().intValue());
+                    setY(getY() + ISU.MODULE_MANAGER.getModule(ClickGuiModule.class).scrollSpeed.getValue().intValue());
                 }
             }
         }

@@ -1,6 +1,6 @@
 package me.aidan.sydney.mixins;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.core.CommandsModule;
 import me.aidan.sydney.modules.impl.core.HUDModule;
 import me.aidan.sydney.modules.impl.miscellaneous.BetterChatModule;
@@ -73,7 +73,7 @@ public abstract class ChatHudMixin<E> implements IMinecraft {
      */
     @Overwrite
     public void render(DrawContext context, int currentTick, int mouseX, int mouseY, boolean focused) {
-        BetterChatModule module = Sydney.MODULE_MANAGER.getModule(BetterChatModule.class);
+        BetterChatModule module = ISU.MODULE_MANAGER.getModule(BetterChatModule.class);
 
         if (!this.isChatHidden()) {
             int i = this.getVisibleLineCount();
@@ -191,7 +191,7 @@ public abstract class ChatHudMixin<E> implements IMinecraft {
                 }
 
                 if (style.getColor().toString().toLowerCase().equals(CustomFormatting.RAINBOW.getName())) {
-                    long index1 = (long) i[0] * (Sydney.MODULE_MANAGER.getModule(HUDModule.class).rainbowOffset.getValue().longValue() * 5L);
+                    long index1 = (long) i[0] * (ISU.MODULE_MANAGER.getModule(HUDModule.class).rainbowOffset.getValue().longValue() * 5L);
                     Color color = ColorUtils.getOffsetRainbow(index1);
                     text.append(Text.literal(String.valueOf(Character.toChars(codePoint))).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(color.getRGB()))));
                 }
@@ -211,15 +211,15 @@ public abstract class ChatHudMixin<E> implements IMinecraft {
     @Redirect(method = "addVisibleMessage", at = @At(value = "INVOKE", target = "Ljava/util/List;add(ILjava/lang/Object;)V"))
     private void addVisibleMessage(List<E> instance, int i, E e) {
         ChatHudLine.Visible visible = (ChatHudLine.Visible) e;
-        if (Sydney.MODULE_MANAGER.getModule(BetterChatModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(BetterChatModule.class).animation.getValue()) Sydney.MODULE_MANAGER.getModule(BetterChatModule.class).getAnimationMap().put(visible, System.currentTimeMillis());
+        if (ISU.MODULE_MANAGER.getModule(BetterChatModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(BetterChatModule.class).animation.getValue()) ISU.MODULE_MANAGER.getModule(BetterChatModule.class).getAnimationMap().put(visible, System.currentTimeMillis());
         instance.add(i, e);
     }
 
     @ModifyArgs(method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;Lnet/minecraft/client/gui/hud/MessageIndicator;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHudLine;<init>(ILnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;Lnet/minecraft/client/gui/hud/MessageIndicator;)V"))
     private void addMessage(Args args, Text message, MessageSignatureData signature, MessageIndicator indicator) {
-        BetterChatModule module = Sydney.MODULE_MANAGER.getModule(BetterChatModule.class);
+        BetterChatModule module = ISU.MODULE_MANAGER.getModule(BetterChatModule.class);
         if (module.isToggled() && module.timestamps.getValue()) {
-            args.set(1, Text.literal("").append(Text.literal(FormattingUtils.getFormatting(Sydney.MODULE_MANAGER.getModule(CommandsModule.class).secondaryWatermarkColor.getValue()) + module.opening.getValue() + FormattingUtils.getFormatting(Sydney.MODULE_MANAGER.getModule(CommandsModule.class).primaryWatermarkColor.getValue()) + new SimpleDateFormat("HH:mm").format(new Date()) + FormattingUtils.getFormatting(Sydney.MODULE_MANAGER.getModule(CommandsModule.class).secondaryWatermarkColor.getValue()) + module.closing.getValue() + Formatting.RESET + " ")).append(message));
+            args.set(1, Text.literal("").append(Text.literal(FormattingUtils.getFormatting(ISU.MODULE_MANAGER.getModule(CommandsModule.class).secondaryWatermarkColor.getValue()) + module.opening.getValue() + FormattingUtils.getFormatting(ISU.MODULE_MANAGER.getModule(CommandsModule.class).primaryWatermarkColor.getValue()) + new SimpleDateFormat("HH:mm").format(new Date()) + FormattingUtils.getFormatting(ISU.MODULE_MANAGER.getModule(CommandsModule.class).secondaryWatermarkColor.getValue()) + module.closing.getValue() + Formatting.RESET + " ")).append(message));
         }
     }
 }

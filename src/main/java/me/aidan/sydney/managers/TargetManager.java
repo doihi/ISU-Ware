@@ -1,6 +1,6 @@
 package me.aidan.sydney.managers;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.ClientConnectEvent;
 import me.aidan.sydney.events.impl.PlayerDeathEvent;
@@ -18,7 +18,7 @@ public class TargetManager implements IMinecraft {
     private final ArrayList<Target> targets = new ArrayList<>();
 
     public TargetManager() {
-        Sydney.EVENT_HANDLER.subscribe(this);
+        ISU.EVENT_HANDLER.subscribe(this);
     }
 
     @SubscribeEvent
@@ -30,8 +30,8 @@ public class TargetManager implements IMinecraft {
     public void onTick(TickEvent event) {
         if(mc.player == null || mc.world == null) return;
 
-        PlayerEntity caTarget = Sydney.MODULE_MANAGER.getModule(AutoCrystalModule.class).getTarget();
-        Entity kaTarget = Sydney.MODULE_MANAGER.getModule(KillAuraModule.class).target;
+        PlayerEntity caTarget = ISU.MODULE_MANAGER.getModule(AutoCrystalModule.class).getTarget();
+        Entity kaTarget = ISU.MODULE_MANAGER.getModule(KillAuraModule.class).target;
 
         synchronized (targets) {
             targets.removeIf(t -> System.currentTimeMillis() - t.time > 15000); // Remove targets if 15 seconds since last time they were targeted has passed
@@ -47,7 +47,7 @@ public class TargetManager implements IMinecraft {
         if(mc.player == null || mc.world == null || !isTarget(event.getPlayer())) return;
 
         synchronized (targets) {
-            Sydney.EVENT_HANDLER.post(new TargetDeathEvent(event.getPlayer()));
+            ISU.EVENT_HANDLER.post(new TargetDeathEvent(event.getPlayer()));
             targets.remove(getTarget(event.getPlayer()));
         }
     }

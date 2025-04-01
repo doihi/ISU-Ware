@@ -2,7 +2,8 @@ package me.aidan.sydney.utils.graphics;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import me.aidan.sydney.Sydney;
+
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.mixins.accessors.WorldRendererAccessor;
 import me.aidan.sydney.utils.IMinecraft;
 import net.minecraft.client.gl.ShaderProgramKeys;
@@ -137,8 +138,8 @@ public class Renderer3D implements IMinecraft {
         matrices.multiply(mc.getEntityRenderDispatcher().getRotation());
         matrices.scale(scaling, -scaling, scaling);
 
-        if (background) Renderer2D.renderQuad(matrices, -Sydney.FONT_MANAGER.getWidth(text) / 2.0f - 2, -Sydney.FONT_MANAGER.getHeight() - 2, Sydney.FONT_MANAGER.getWidth(text) / 2.0f + 2, 1, new Color(0, 0, 0, 100));
-        Sydney.FONT_MANAGER.drawTextWithShadow(matrices, text, -Sydney.FONT_MANAGER.getWidth(text) / 2, -Sydney.FONT_MANAGER.getHeight(), vertexConsumers, color);
+        if (background) Renderer2D.renderQuad(matrices, -ISU.FONT_MANAGER.getWidth(text) / 2.0f - 2, -ISU.FONT_MANAGER.getHeight() - 2, ISU.FONT_MANAGER.getWidth(text) / 2.0f + 2, 1, new Color(0, 0, 0, 100));
+        ISU.FONT_MANAGER.drawTextWithShadow(matrices, text, -ISU.FONT_MANAGER.getWidth(text) / 2, -ISU.FONT_MANAGER.getHeight(), vertexConsumers, color);
 
         matrices.pop();
     }

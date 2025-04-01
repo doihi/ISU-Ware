@@ -1,7 +1,7 @@
 package me.aidan.sydney.utils.minecraft;
 
 import com.google.common.collect.Sets;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.core.RotationsModule;
 import me.aidan.sydney.modules.impl.movement.HitboxDesyncModule;
 import me.aidan.sydney.utils.IMinecraft;
@@ -67,10 +67,10 @@ public class WorldUtils implements IMinecraft {
             vec3d = vec3d.add(direction.getOffsetX() / 2.0, direction.getOffsetY() / 2.0, direction.getOffsetZ() / 2.0);
         }
 
-        float prevYaw = Sydney.ROTATION_MANAGER.getServerYaw();
-        float prevPitch = Sydney.ROTATION_MANAGER.getServerPitch();
+        float prevYaw = ISU.ROTATION_MANAGER.getServerYaw();
+        float prevPitch = ISU.ROTATION_MANAGER.getServerPitch();
 
-        if (rotate) Sydney.ROTATION_MANAGER.packetRotate(RotationUtils.getRotations(vec3d.getX(), vec3d.getY(), vec3d.getZ()));
+        if (rotate) ISU.ROTATION_MANAGER.packetRotate(RotationUtils.getRotations(vec3d.getX(), vec3d.getY(), vec3d.getZ()));
         if (crystalDestruction) destroyCrystals(position);
         if (runnable != null) runnable.run();
 
@@ -84,16 +84,16 @@ public class WorldUtils implements IMinecraft {
         NetworkUtils.sendSequencedPacket(sequence -> new PlayerInteractBlockC2SPacket(hand, blockHitResult, sequence));
         mc.getNetworkHandler().sendPacket(new HandSwingC2SPacket(hand));
 
-        if (rotate && Sydney.MODULE_MANAGER.getModule(RotationsModule.class).snapBack.getValue()) Sydney.ROTATION_MANAGER.packetRotate(prevYaw, prevPitch);
+        if (rotate && ISU.MODULE_MANAGER.getModule(RotationsModule.class).snapBack.getValue()) ISU.ROTATION_MANAGER.packetRotate(prevYaw, prevPitch);
 
-        Sydney.WORLD_MANAGER.getPlaceTimer().reset();
+        ISU.WORLD_MANAGER.getPlaceTimer().reset();
 
         if (sneak) mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY));
         if (sprint) mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_SPRINTING));
 
         if (render) {
             RenderPosition renderPosition = new RenderPosition(position);
-            if(!Sydney.RENDER_MANAGER.renderPositions.contains(renderPosition)) Sydney.RENDER_MANAGER.renderPositions.add(renderPosition);
+            if(!ISU.RENDER_MANAGER.renderPositions.contains(renderPosition)) ISU.RENDER_MANAGER.renderPositions.add(renderPosition);
         }
     }
 

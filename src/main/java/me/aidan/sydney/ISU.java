@@ -9,7 +9,7 @@ import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Sydney implements ModInitializer {
+public class ISU implements ModInitializer {
 	public static final String MOD_NAME;
 	public static final String MOD_ID;
 	public static final String MOD_VERSION;

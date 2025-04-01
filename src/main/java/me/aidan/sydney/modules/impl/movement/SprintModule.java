@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.movement;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PlayerUpdateEvent;
 import me.aidan.sydney.mixins.accessors.ClientPlayerEntityAccessor;
@@ -48,7 +48,7 @@ public class SprintModule extends Module {
             return mc.player.isSubmergedInWater() ? (mc.player.input.playerInput.forward() || mc.player.input.playerInput.backward() || mc.player.input.playerInput.left() || mc.player.input.playerInput.right()) : (mc.player.input.movementForward >= 0.8 || mc.player.input.movementForward <= -0.8 || mc.player.input.movementSideways >= 0.8 || mc.player.input.movementSideways <= -0.8);
         } else {
             if (!((ClientPlayerEntityAccessor) mc.player).invokeIsWalking()) return false;
-            if (mc.player.isUsingItem() && (!Sydney.MODULE_MANAGER.getModule(NoSlowModule.class).isToggled() || !Sydney.MODULE_MANAGER.getModule(NoSlowModule.class).items.getValue())) return false;
+            if (mc.player.isUsingItem() && (!ISU.MODULE_MANAGER.getModule(NoSlowModule.class).isToggled() || !ISU.MODULE_MANAGER.getModule(NoSlowModule.class).items.getValue())) return false;
             if (mc.player.hasStatusEffect(StatusEffects.BLINDNESS)) return false;
             if (mc.player.isGliding()) return false;
             if (mc.player.horizontalCollision && !mc.player.collidedSoftly) return false;

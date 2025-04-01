@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.movement;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PacketReceiveEvent;
 import me.aidan.sydney.events.impl.TickEvent;
@@ -41,8 +41,8 @@ public class VelocityModule extends Module {
         if (mc.player == null) return;
         if (!cancel) return;
 
-        if (mode.getValue().equalsIgnoreCase("Grim") && (!pause.getValue() || Sydney.SERVER_MANAGER.getSetbackTimer().hasTimeElapsed(100L))) {
-            mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY(), mc.player.getZ(), Sydney.ROTATION_MANAGER.getServerYaw(), Sydney.ROTATION_MANAGER.getServerPitch(), mc.player.isOnGround(), mc.player.horizontalCollision));
+        if (mode.getValue().equalsIgnoreCase("Grim") && (!pause.getValue() || ISU.SERVER_MANAGER.getSetbackTimer().hasTimeElapsed(100L))) {
+            mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY(), mc.player.getZ(), ISU.ROTATION_MANAGER.getServerYaw(), ISU.ROTATION_MANAGER.getServerPitch(), mc.player.isOnGround(), mc.player.horizontalCollision));
             mc.getNetworkHandler().sendPacket(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK, mc.player.isCrawling() ? mc.player.getBlockPos() : mc.player.getBlockPos().up(), Direction.DOWN));
         }
 
@@ -63,12 +63,12 @@ public class VelocityModule extends Module {
                     ((EntityVelocityUpdateS2CPacketAccessor) packet).setVelocityZ((int) (((packet.getVelocityZ() / 8000.0 - mc.player.getVelocity().z) * (horizontal.getValue().doubleValue() / 100.0)) * 8000 + mc.player.getVelocity().z * 8000));
                 }
                 case "Cancel" -> {
-                    if (pause.getValue() && !Sydney.SERVER_MANAGER.getSetbackTimer().hasTimeElapsed(100L)) return;
+                    if (pause.getValue() && !ISU.SERVER_MANAGER.getSetbackTimer().hasTimeElapsed(100L)) return;
 
                     event.setCancelled(true);
                 }
                 case "Grim" -> {
-                    if (pause.getValue() && !Sydney.SERVER_MANAGER.getSetbackTimer().hasTimeElapsed(100L)) return;
+                    if (pause.getValue() && !ISU.SERVER_MANAGER.getSetbackTimer().hasTimeElapsed(100L)) return;
 
                     event.setCancelled(true);
                     cancel = true;
@@ -84,12 +84,12 @@ public class VelocityModule extends Module {
                     if (packet.playerKnockback().isPresent()) ((Vec3dAccessor) packet.playerKnockback().get()).setZ((float) (packet.playerKnockback().get().getZ() * (horizontal.getValue().doubleValue() / 100.0)));
                 }
                 case "Cancel" -> {
-                    if (pause.getValue() && !Sydney.SERVER_MANAGER.getSetbackTimer().hasTimeElapsed(100L)) return;
+                    if (pause.getValue() && !ISU.SERVER_MANAGER.getSetbackTimer().hasTimeElapsed(100L)) return;
 
                     event.setCancelled(true);
                 }
                 case "Grim" -> {
-                    if (pause.getValue() && !Sydney.SERVER_MANAGER.getSetbackTimer().hasTimeElapsed(100L)) return;
+                    if (pause.getValue() && !ISU.SERVER_MANAGER.getSetbackTimer().hasTimeElapsed(100L)) return;
 
                     event.setCancelled(true);
                     cancel = true;

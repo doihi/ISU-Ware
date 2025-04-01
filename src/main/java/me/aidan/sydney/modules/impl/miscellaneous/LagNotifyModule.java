@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.miscellaneous;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PacketReceiveEvent;
 import me.aidan.sydney.events.impl.RenderOverlayEvent;
@@ -41,15 +41,15 @@ public class LagNotifyModule extends Module {
         int width = mc.getWindow().getScaledWidth() / 2, height = mc.getWindow().getScaledHeight() / 4;
         boolean flag = false;
 
-        if(server.getValue() && Sydney.SERVER_MANAGER.getResponseTimer().hasTimeElapsed(1000)) {
-            String text = "Detected server not responding for " + MathUtils.round(Sydney.SERVER_MANAGER.getResponseTimer().timeElapsed()/1000f, 1) + "s.";
-            Sydney.FONT_MANAGER.drawTextWithShadow(event.getContext(),text, width - Sydney.FONT_MANAGER.getWidth(text) / 2, height - Sydney.FONT_MANAGER.getHeight(), color.getColor());
+        if(server.getValue() && ISU.SERVER_MANAGER.getResponseTimer().hasTimeElapsed(1000)) {
+            String text = "Detected server not responding for " + MathUtils.round(ISU.SERVER_MANAGER.getResponseTimer().timeElapsed()/1000f, 1) + "s.";
+            ISU.FONT_MANAGER.drawTextWithShadow(event.getContext(),text, width - ISU.FONT_MANAGER.getWidth(text) / 2, height - ISU.FONT_MANAGER.getHeight(), color.getColor());
             flag = true;
         }
 
         if(lagback.getValue() && System.currentTimeMillis() - lagTime < 3000) {
             String text = "Detected lagback of " + MathUtils.round(lagDistance, 1) + " blocks " + MathUtils.round((System.currentTimeMillis() - lagTime) / 1000f, 1) + "s.";
-            Sydney.FONT_MANAGER.drawTextWithShadow(event.getContext(),text, width - Sydney.FONT_MANAGER.getWidth(text) / 2, height - Sydney.FONT_MANAGER.getHeight() + (flag ? Sydney.FONT_MANAGER.getHeight() : 0), color.getColor());
+            ISU.FONT_MANAGER.drawTextWithShadow(event.getContext(),text, width - ISU.FONT_MANAGER.getWidth(text) / 2, height - ISU.FONT_MANAGER.getHeight() + (flag ? ISU.FONT_MANAGER.getHeight() : 0), color.getColor());
         }
     }
 }

@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.visuals;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.RenderWorldEvent;
 import me.aidan.sydney.modules.Module;
@@ -50,7 +50,7 @@ public class TracersModule extends Module {
     }
 
     private Color getColor(PlayerEntity player) {
-        if(Sydney.FRIEND_MANAGER.contains(player.getName().getString())) return Sydney.FRIEND_MANAGER.getDefaultFriendColor(color.getColor().getAlpha());
+        if(ISU.FRIEND_MANAGER.contains(player.getName().getString())) return ISU.FRIEND_MANAGER.getDefaultFriendColor(color.getColor().getAlpha());
 
         if(mode.getValue().equals("Custom")) return color.getColor();
 

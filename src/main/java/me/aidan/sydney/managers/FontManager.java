@@ -3,7 +3,7 @@ package me.aidan.sydney.managers;
 import com.mojang.blaze3d.systems.RenderSystem;
 import lombok.Getter;
 import lombok.Setter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.mixins.accessors.DrawContextAccessor;
 import me.aidan.sydney.mixins.accessors.TextRendererAccessor;
 import me.aidan.sydney.modules.impl.core.FontModule;
@@ -23,7 +23,7 @@ public class FontManager implements IMinecraft {
     private FontRenderer fontRenderer;
 
     public void drawText(DrawContext context, String text, int x, int y, Color color) {
-        if (Sydney.MODULE_MANAGER.getModule(FontModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(FontModule.class).customFont.getValue() && fontRenderer != null) {
+        if (ISU.MODULE_MANAGER.getModule(FontModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(FontModule.class).customFont.getValue() && fontRenderer != null) {
             fontRenderer.drawString(context.getMatrices(), text, x, y, color.getRGB(), false);
         } else {
             context.drawText(mc.textRenderer, text, x, y, color.getRGB(), false);
@@ -31,8 +31,8 @@ public class FontManager implements IMinecraft {
     }
 
     public void drawTextWithShadow(DrawContext context, String text, int x, int y, Color color) {
-        if (Sydney.MODULE_MANAGER.getModule(FontModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(FontModule.class).customFont.getValue() && fontRenderer != null) {
-            if (!Sydney.MODULE_MANAGER.getModule(FontModule.class).shadowMode.getValue().equalsIgnoreCase("None")) fontRenderer.drawString(context.getMatrices(), text, x + getShadowOffset(), y + getShadowOffset(), color.getRGB(), true);
+        if (ISU.MODULE_MANAGER.getModule(FontModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(FontModule.class).customFont.getValue() && fontRenderer != null) {
+            if (!ISU.MODULE_MANAGER.getModule(FontModule.class).shadowMode.getValue().equalsIgnoreCase("None")) fontRenderer.drawString(context.getMatrices(), text, x + getShadowOffset(), y + getShadowOffset(), color.getRGB(), true);
             fontRenderer.drawString(context.getMatrices(), text, x, y, color.getRGB(), false);
         } else {
             context.drawText(mc.textRenderer, text, x, y, color.getRGB(), true);
@@ -40,7 +40,7 @@ public class FontManager implements IMinecraft {
     }
 
     public void drawText(DrawContext context, OrderedText text, int x, int y, Color color) {
-        if (Sydney.MODULE_MANAGER.getModule(FontModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(FontModule.class).customFont.getValue() && fontRenderer != null) {
+        if (ISU.MODULE_MANAGER.getModule(FontModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(FontModule.class).customFont.getValue() && fontRenderer != null) {
             fontRenderer.drawText(context.getMatrices(), text, x, y, color.getRGB(), false);
         } else {
             context.drawText(mc.textRenderer, text, x, y, color.getRGB(), false);
@@ -48,8 +48,8 @@ public class FontManager implements IMinecraft {
     }
 
     public void drawTextWithShadow(DrawContext context, OrderedText text, int x, int y, Color color) {
-        if (Sydney.MODULE_MANAGER.getModule(FontModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(FontModule.class).customFont.getValue() && fontRenderer != null) {
-            if (!Sydney.MODULE_MANAGER.getModule(FontModule.class).shadowMode.getValue().equalsIgnoreCase("None")) fontRenderer.drawText(context.getMatrices(), text, x + getShadowOffset(), y + getShadowOffset(), color.getRGB(), true);
+        if (ISU.MODULE_MANAGER.getModule(FontModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(FontModule.class).customFont.getValue() && fontRenderer != null) {
+            if (!ISU.MODULE_MANAGER.getModule(FontModule.class).shadowMode.getValue().equalsIgnoreCase("None")) fontRenderer.drawText(context.getMatrices(), text, x + getShadowOffset(), y + getShadowOffset(), color.getRGB(), true);
             fontRenderer.drawText(context.getMatrices(), text, x, y, color.getRGB(), false);
         } else {
             context.drawText(mc.textRenderer, text, x, y, color.getRGB(), true);
@@ -59,8 +59,8 @@ public class FontManager implements IMinecraft {
     public void drawTextWithShadow(MatrixStack matrices, String text, int x, int y, VertexConsumerProvider vertexConsumers, Color color) {
         RenderSystem.disableDepthTest();
 
-        if (Sydney.MODULE_MANAGER.getModule(FontModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(FontModule.class).customFont.getValue() && fontRenderer != null) {
-            if (!Sydney.MODULE_MANAGER.getModule(FontModule.class).shadowMode.getValue().equalsIgnoreCase("None")) fontRenderer.drawString(matrices, text, x + getShadowOffset(), y + getShadowOffset(), color.getRGB(), true);
+        if (ISU.MODULE_MANAGER.getModule(FontModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(FontModule.class).customFont.getValue() && fontRenderer != null) {
+            if (!ISU.MODULE_MANAGER.getModule(FontModule.class).shadowMode.getValue().equalsIgnoreCase("None")) fontRenderer.drawString(matrices, text, x + getShadowOffset(), y + getShadowOffset(), color.getRGB(), true);
             fontRenderer.drawString(matrices, text, x, y, color.getRGB(), false);
         } else {
             ((TextRendererAccessor) mc.textRenderer).invokeDrawLayer(text, x, y, TextRendererAccessor.invokeTweakTransparency(color.getRGB()), true, matrices.peek().getPositionMatrix(), vertexConsumers, TextRenderer.TextLayerType.SEE_THROUGH, 0, 0, false);
@@ -74,7 +74,7 @@ public class FontManager implements IMinecraft {
     }
 
     public void drawTextWithOutline(DrawContext context, String text, int x, int y, Color color, Color outlineColor) {
-        if (Sydney.MODULE_MANAGER.getModule(FontModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(FontModule.class).customFont.getValue() && fontRenderer != null) {
+        if (ISU.MODULE_MANAGER.getModule(FontModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(FontModule.class).customFont.getValue() && fontRenderer != null) {
             fontRenderer.drawString(context.getMatrices(), FontRenderer.stripControlCodes(text), x + 0.5f, y - 0.5f, outlineColor.getRGB(), false);
             fontRenderer.drawString(context.getMatrices(), FontRenderer.stripControlCodes(text), x - 0.5f, y + 0.5f, outlineColor.getRGB(), false);
             fontRenderer.drawString(context.getMatrices(), FontRenderer.stripControlCodes(text), x + 0.5f, y + 0.5f, outlineColor.getRGB(), false);
@@ -82,7 +82,7 @@ public class FontManager implements IMinecraft {
 
             fontRenderer.drawString(context.getMatrices(), text, x, y, color.getRGB(), false);
         } else {
-            mc.textRenderer.drawWithOutline(Text.literal(text).asOrderedText(), mc.getWindow().getScaledWidth() / 2.0f - Sydney.FONT_MANAGER.getWidth(text) / 2.0f, mc.getWindow().getScaledHeight() / 2.0f + 16, color.getRGB(), outlineColor.getRGB(), context.getMatrices().peek().getPositionMatrix(), ((DrawContextAccessor) context).getVertexConsumers(), 0);
+            mc.textRenderer.drawWithOutline(Text.literal(text).asOrderedText(), mc.getWindow().getScaledWidth() / 2.0f - ISU.FONT_MANAGER.getWidth(text) / 2.0f, mc.getWindow().getScaledHeight() / 2.0f + 16, color.getRGB(), outlineColor.getRGB(), context.getMatrices().peek().getPositionMatrix(), ((DrawContextAccessor) context).getVertexConsumers(), 0);
         }
     }
 
@@ -107,30 +107,30 @@ public class FontManager implements IMinecraft {
             return true;
         });
 
-        Sydney.FONT_MANAGER.drawTextWithShadow(context, builder.asOrderedText(), x, y, Color.WHITE);
+        ISU.FONT_MANAGER.drawTextWithShadow(context, builder.asOrderedText(), x, y, Color.WHITE);
     }
 
     public int getWidth(String text) {
-        if (Sydney.MODULE_MANAGER.getModule(FontModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(FontModule.class).customFont.getValue() && fontRenderer != null) {
-            return (int) fontRenderer.getTextWidth(text) + Sydney.MODULE_MANAGER.getModule(FontModule.class).widthOffset.getValue().intValue();
+        if (ISU.MODULE_MANAGER.getModule(FontModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(FontModule.class).customFont.getValue() && fontRenderer != null) {
+            return (int) fontRenderer.getTextWidth(text) + ISU.MODULE_MANAGER.getModule(FontModule.class).widthOffset.getValue().intValue();
         } else {
             return mc.textRenderer.getWidth(text);
         }
     }
 
     public int getHeight() {
-        if (Sydney.MODULE_MANAGER.getModule(FontModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(FontModule.class).customFont.getValue() && fontRenderer != null) {
-            return (int) fontRenderer.getHeight() + Sydney.MODULE_MANAGER.getModule(FontModule.class).heightOffset.getValue().intValue();
+        if (ISU.MODULE_MANAGER.getModule(FontModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(FontModule.class).customFont.getValue() && fontRenderer != null) {
+            return (int) fontRenderer.getHeight() + ISU.MODULE_MANAGER.getModule(FontModule.class).heightOffset.getValue().intValue();
         } else {
             return mc.textRenderer.fontHeight;
         }
     }
 
     public float getShadowOffset() {
-        if (Sydney.MODULE_MANAGER.getModule(FontModule.class).shadowMode.getValue().equalsIgnoreCase("None")) {
+        if (ISU.MODULE_MANAGER.getModule(FontModule.class).shadowMode.getValue().equalsIgnoreCase("None")) {
             return 0.0f;
-        } else if (Sydney.MODULE_MANAGER.getModule(FontModule.class).shadowMode.getValue().equalsIgnoreCase("Custom")) {
-            return Sydney.MODULE_MANAGER.getModule(FontModule.class).shadowOffset.getValue().floatValue();
+        } else if (ISU.MODULE_MANAGER.getModule(FontModule.class).shadowMode.getValue().equalsIgnoreCase("Custom")) {
+            return ISU.MODULE_MANAGER.getModule(FontModule.class).shadowOffset.getValue().floatValue();
         } else {
             return 1.0f;
         }

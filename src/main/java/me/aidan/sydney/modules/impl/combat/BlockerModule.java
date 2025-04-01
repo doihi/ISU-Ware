@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.combat;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PlayerMineEvent;
 import me.aidan.sydney.events.impl.PlayerUpdateEvent;
@@ -54,7 +54,7 @@ public class BlockerModule extends Module {
         Runnable runnable = () -> {
             if (mc.player == null || mc.world == null) return;
 
-            SpeedMineModule module = Sydney.MODULE_MANAGER.getModule(SpeedMineModule.class);
+            SpeedMineModule module = ISU.MODULE_MANAGER.getModule(SpeedMineModule.class);
             if (mine != null && (module.getPrimary() != null && mine.position().equals(module.getPrimary().getPosition())) || (module.getSecondary() != null && mine.position().equals(module.getSecondary().getPosition()))) {
                 mine = null;
                 return;
@@ -133,7 +133,7 @@ public class BlockerModule extends Module {
         if (mc.player == null || mc.world == null) return;
         if (mine != null && mine.position().equals(event.getPosition())) return;
 
-        SpeedMineModule module = Sydney.MODULE_MANAGER.getModule(SpeedMineModule.class);
+        SpeedMineModule module = ISU.MODULE_MANAGER.getModule(SpeedMineModule.class);
         if ((module.getPrimary() != null && event.getPosition().equals(module.getPrimary().getPosition())) || (module.getSecondary() != null && event.getPosition().equals(module.getSecondary().getPosition())))
             return;
 
@@ -141,7 +141,7 @@ public class BlockerModule extends Module {
 
         if (entity == mc.player) return;
         if (!(entity instanceof PlayerEntity player)) return;
-        if (Sydney.FRIEND_MANAGER.contains(player.getName().getString())) return;
+        if (ISU.FRIEND_MANAGER.contains(player.getName().getString())) return;
 
         HashSet<BlockPos> feetPositions = HoleUtils.getFeetPositions(mc.player, true, false, false);
         List<BlockPos> insidePositions = HoleUtils.getInsidePositions(mc.player);

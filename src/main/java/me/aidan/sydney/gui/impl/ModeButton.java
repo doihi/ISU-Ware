@@ -1,6 +1,6 @@
 package me.aidan.sydney.gui.impl;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.gui.ClickGuiScreen;
 import me.aidan.sydney.gui.api.Button;
 import me.aidan.sydney.gui.api.Frame;
@@ -27,13 +27,13 @@ public class ModeButton extends Button {
         Renderer2D.renderQuad(context.getMatrices(), getX() + getPadding() + 1, getY(), getX() + getWidth() - getPadding() - 1, getY() + getParent().getHeight() - 1, ClickGuiScreen.getButtonColor(getY(), 100));
         Renderer2D.renderQuad(context.getMatrices(), getX() + getPadding() + 1, getY(), getX() + getPadding() + 2, getY() + getHeight() - 1, ClickGuiScreen.getButtonColor(getY(), 255));
 
-        Sydney.FONT_MANAGER.drawTextWithShadow(context, setting.getTag(), getX() + getTextPadding() + 1, getY() + 2, Color.WHITE);
-        Sydney.FONT_MANAGER.drawTextWithShadow(context, Formatting.GRAY + setting.getValue(), getX() + getWidth() - getTextPadding() - 1 - Sydney.FONT_MANAGER.getWidth(setting.getValue()), getY() + 2, Color.WHITE);
+        ISU.FONT_MANAGER.drawTextWithShadow(context, setting.getTag(), getX() + getTextPadding() + 1, getY() + 2, Color.WHITE);
+        ISU.FONT_MANAGER.drawTextWithShadow(context, Formatting.GRAY + setting.getValue(), getX() + getWidth() - getTextPadding() - 1 - ISU.FONT_MANAGER.getWidth(setting.getValue()), getY() + 2, Color.WHITE);
 
         if(open) {
             int i = 0;
             for(String s : setting.getModes()) {
-                Sydney.FONT_MANAGER.drawTextWithShadow(context, (setting.getValue().equals(s) ? "" : Formatting.GRAY) + s, getX() + getTextPadding() + 2, getY() + getParent().getHeight() + i + 2, Color.WHITE);
+                ISU.FONT_MANAGER.drawTextWithShadow(context, (setting.getValue().equals(s) ? "" : Formatting.GRAY) + s, getX() + getTextPadding() + 2, getY() + getParent().getHeight() + i + 2, Color.WHITE);
                 i += getParent().getHeight();
             }
         }

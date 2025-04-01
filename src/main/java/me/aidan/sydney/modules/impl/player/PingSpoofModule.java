@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.player;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PacketReceiveEvent;
 import me.aidan.sydney.events.impl.TickEvent;
@@ -21,12 +21,12 @@ public class PingSpoofModule extends Module {
 
     @Override
     public void onEnable() {
-        if (Sydney.MODULE_MANAGER.getModule(FastLatencyModule.class).isToggled()) setToggled(false);
+        if (ISU.MODULE_MANAGER.getModule(FastLatencyModule.class).isToggled()) setToggled(false);
     }
 
     @SubscribeEvent
     public void onPacketReceive(PacketReceiveEvent event) {
-        if (getNull() || Sydney.MODULE_MANAGER.getModule(FastLatencyModule.class).isToggled()) return;
+        if (getNull() || ISU.MODULE_MANAGER.getModule(FastLatencyModule.class).isToggled()) return;
 
         if (event.getPacket() instanceof KeepAliveS2CPacket packet) {
             event.setCancelled(true);

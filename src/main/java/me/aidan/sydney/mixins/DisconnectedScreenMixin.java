@@ -1,6 +1,6 @@
 package me.aidan.sydney.mixins;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.miscellaneous.AutoReconnectModule;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.DisconnectedScreen;
@@ -33,15 +33,15 @@ public class DisconnectedScreenMixin extends Screen {
 
     @Inject(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/DirectionalLayoutWidget;refreshPositions()V", shift = At.Shift.BEFORE))
     private void init(CallbackInfo info) {
-        if (Sydney.SERVER_MANAGER.getLastConnection() != null) {
+        if (ISU.SERVER_MANAGER.getLastConnection() != null) {
             button = new ButtonWidget.Builder(Text.literal(getText()), button -> tryConnecting()).width(200).build();
-            toggleButton = new ButtonWidget.Builder(Text.literal("Toggle " + (Sydney.MODULE_MANAGER.getModule(AutoReconnectModule.class).isToggled() ? Formatting.GREEN : Formatting.RED) + "AutoReconnect"), button -> {
-                Sydney.MODULE_MANAGER.getModule(AutoReconnectModule.class).setToggled(!Sydney.MODULE_MANAGER.getModule(AutoReconnectModule.class).isToggled(), false);
+            toggleButton = new ButtonWidget.Builder(Text.literal("Toggle " + (ISU.MODULE_MANAGER.getModule(AutoReconnectModule.class).isToggled() ? Formatting.GREEN : Formatting.RED) + "AutoReconnect"), button -> {
+                ISU.MODULE_MANAGER.getModule(AutoReconnectModule.class).setToggled(!ISU.MODULE_MANAGER.getModule(AutoReconnectModule.class).isToggled(), false);
 
-                this.toggleButton.setMessage(Text.literal("Toggle " + (Sydney.MODULE_MANAGER.getModule(AutoReconnectModule.class).isToggled() ? Formatting.GREEN : Formatting.RED) + "AutoReconnect"));
+                this.toggleButton.setMessage(Text.literal("Toggle " + (ISU.MODULE_MANAGER.getModule(AutoReconnectModule.class).isToggled() ? Formatting.GREEN : Formatting.RED) + "AutoReconnect"));
                 this.button.setMessage(Text.literal(getText()));
 
-                time = Sydney.MODULE_MANAGER.getModule(AutoReconnectModule.class).delay.getValue().intValue() * 20;
+                time = ISU.MODULE_MANAGER.getModule(AutoReconnectModule.class).delay.getValue().intValue() * 20;
             }).width(200).build();
 
             grid.add(button);
@@ -51,7 +51,7 @@ public class DisconnectedScreenMixin extends Screen {
 
     @Override
     public void tick() {
-        if (!Sydney.MODULE_MANAGER.getModule(AutoReconnectModule.class).isToggled() || Sydney.SERVER_MANAGER.getLastConnection() == null) return;
+        if (!ISU.MODULE_MANAGER.getModule(AutoReconnectModule.class).isToggled() || ISU.SERVER_MANAGER.getLastConnection() == null) return;
 
         if (time <= 0) {
             tryConnecting();
@@ -64,13 +64,13 @@ public class DisconnectedScreenMixin extends Screen {
     @Unique
     private String getText() {
         String reconnectText = "Reconnect";
-        if (Sydney.MODULE_MANAGER.getModule(AutoReconnectModule.class).isToggled()) reconnectText += " " + String.format("(" + Formatting.GREEN + "%.1fs" + Formatting.RESET + ")", time / 20);
+        if (ISU.MODULE_MANAGER.getModule(AutoReconnectModule.class).isToggled()) reconnectText += " " + String.format("(" + Formatting.GREEN + "%.1fs" + Formatting.RESET + ")", time / 20);
 
         return reconnectText;
     }
 
     @Unique
     private void tryConnecting() {
-        ConnectScreen.connect(new TitleScreen(), MinecraftClient.getInstance(), Sydney.SERVER_MANAGER.getLastConnection().left(), Sydney.SERVER_MANAGER.getLastConnection().right(), false, null);
+        ConnectScreen.connect(new TitleScreen(), MinecraftClient.getInstance(), ISU.SERVER_MANAGER.getLastConnection().left(), ISU.SERVER_MANAGER.getLastConnection().right(), false, null);
     }
 }

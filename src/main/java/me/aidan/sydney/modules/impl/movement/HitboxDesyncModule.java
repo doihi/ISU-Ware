@@ -1,7 +1,7 @@
 package me.aidan.sydney.modules.impl.movement;
 
 import lombok.Getter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.KeyInputEvent;
 import me.aidan.sydney.events.impl.TickEvent;

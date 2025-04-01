@@ -1,6 +1,6 @@
 package me.aidan.sydney.gui.impl;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.gui.ClickGuiScreen;
 import me.aidan.sydney.gui.api.Button;
 import me.aidan.sydney.gui.api.Frame;
@@ -23,7 +23,7 @@ public class BooleanButton extends Button {
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         if(setting.getValue())Renderer2D.renderQuad(context.getMatrices(), getX() + getPadding() + 1, getY(), getX() + getWidth() - getPadding() - 1, getY() + getHeight() - 1, ClickGuiScreen.getButtonColor(getY(), 100));
-        Sydney.FONT_MANAGER.drawTextWithShadow(context, (setting.getValue() ? "" : Formatting.GRAY) + setting.getTag(), getX() + getTextPadding() + 1, getY() + 2, Color.WHITE);
+        ISU.FONT_MANAGER.drawTextWithShadow(context, (setting.getValue() ? "" : Formatting.GRAY) + setting.getTag(), getX() + getTextPadding() + 1, getY() + 2, Color.WHITE);
     }
 
     @Override

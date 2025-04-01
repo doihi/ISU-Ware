@@ -3,7 +3,7 @@ package me.aidan.sydney.managers;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import lombok.Getter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.mixins.accessors.*;
 import me.aidan.sydney.utils.IMinecraft;
 import net.minecraft.client.gl.*;
@@ -41,7 +41,7 @@ public class ShaderManager implements IMinecraft {
     }
 
     public void render(int renderMode, float opacity) {
-        PostEffectProcessor shader = mc.getShaderLoader().loadPostEffect(Identifier.of(Sydney.MOD_ID, "outline"), DefaultFramebufferSet.MAIN_ONLY);
+        PostEffectProcessor shader = mc.getShaderLoader().loadPostEffect(Identifier.of(ISU.MOD_ID, "outline"), DefaultFramebufferSet.MAIN_ONLY);
         ShaderProgram program = ((PostEffectProcessorAccessor) shader).getPasses().getFirst().getProgram();
 
         program.addSamplerTexture("DiffuseSampler", framebuffer.getColorAttachment());

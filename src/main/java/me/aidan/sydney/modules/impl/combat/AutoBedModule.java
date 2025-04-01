@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.combat;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PlayerUpdateEvent;
 import me.aidan.sydney.events.impl.TickEvent;
@@ -82,9 +82,9 @@ public class AutoBedModule extends Module {
     }
 
     private void placeBed(BlockPos pos, Direction direction, Direction rotation) {
-        if(rotate.getValue()) Sydney.ROTATION_MANAGER.rotate(RotationUtils.getRotations(pos.toCenterPos()), this);
+        if(rotate.getValue()) ISU.ROTATION_MANAGER.rotate(RotationUtils.getRotations(pos.toCenterPos()), this);
 
-        Sydney.ROTATION_MANAGER.packetRotate(RotationUtils.getRotations(rotation));
+        ISU.ROTATION_MANAGER.packetRotate(RotationUtils.getRotations(rotation));
         WorldUtils.placeBlock(pos, direction, Hand.MAIN_HAND, false, false, render.getValue());
 
         NetworkUtils.sendSequencedPacket(sequence -> new PlayerInteractBlockC2SPacket(Hand.MAIN_HAND, new BlockHitResult(Vec3d.ofCenter(pos, 1), Direction.DOWN, pos, false), sequence));
@@ -122,7 +122,7 @@ public class AutoBedModule extends Module {
             if(player == mc.player) continue;
             if (!player.isAlive() || player.getHealth() <= 0.0f) continue;
             if (mc.player.squaredDistanceTo(player) > MathHelper.square(enemyRange.getValue().doubleValue())) continue;
-            if (Sydney.FRIEND_MANAGER.contains(player.getName().getString())) continue;
+            if (ISU.FRIEND_MANAGER.contains(player.getName().getString())) continue;
             if (holeCheck.getValue() && !HoleUtils.isPlayerInHole(player)) continue;
             if(mc.world.getBlockState(PositionUtils.getFlooredPosition(player).up().up()).getBlock() != Blocks.AIR) continue;
 

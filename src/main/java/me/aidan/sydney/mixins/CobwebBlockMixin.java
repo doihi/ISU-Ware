@@ -1,6 +1,6 @@
 package me.aidan.sydney.mixins;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.movement.FastWebModule;
 import me.aidan.sydney.utils.IMinecraft;
 import net.minecraft.block.BlockState;
@@ -18,16 +18,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class CobwebBlockMixin implements IMinecraft {
     @Inject(method = "onEntityCollision", at = @At("HEAD"), cancellable = true)
     private void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, CallbackInfo info) {
-        if (Sydney.MODULE_MANAGER.getModule(FastWebModule.class).isToggled()) {
-            if (Sydney.MODULE_MANAGER.getModule(FastWebModule.class).sneak.getValue() && !mc.player.isSneaking()) return;
+        if (ISU.MODULE_MANAGER.getModule(FastWebModule.class).isToggled()) {
+            if (ISU.MODULE_MANAGER.getModule(FastWebModule.class).sneak.getValue() && !mc.player.isSneaking()) return;
 
-            if (Sydney.MODULE_MANAGER.getModule(FastWebModule.class).mode.getValue().equalsIgnoreCase("Ignore")) {
+            if (ISU.MODULE_MANAGER.getModule(FastWebModule.class).mode.getValue().equalsIgnoreCase("Ignore")) {
                 entity.onLanding();
                 info.cancel();
             }
 
-            if (Sydney.MODULE_MANAGER.getModule(FastWebModule.class).mode.getValue().equalsIgnoreCase("Strong")) {
-                entity.slowMovement(state, new Vec3d(Sydney.MODULE_MANAGER.getModule(FastWebModule.class).horizontal.getValue().doubleValue(), Sydney.MODULE_MANAGER.getModule(FastWebModule.class).vertical.getValue().doubleValue(), Sydney.MODULE_MANAGER.getModule(FastWebModule.class).horizontal.getValue().doubleValue()));
+            if (ISU.MODULE_MANAGER.getModule(FastWebModule.class).mode.getValue().equalsIgnoreCase("Strong")) {
+                entity.slowMovement(state, new Vec3d(ISU.MODULE_MANAGER.getModule(FastWebModule.class).horizontal.getValue().doubleValue(), ISU.MODULE_MANAGER.getModule(FastWebModule.class).vertical.getValue().doubleValue(), ISU.MODULE_MANAGER.getModule(FastWebModule.class).horizontal.getValue().doubleValue()));
                 info.cancel();
             }
         }

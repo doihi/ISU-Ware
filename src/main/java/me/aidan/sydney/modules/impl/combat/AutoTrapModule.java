@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.combat;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PlayerUpdateEvent;
 import me.aidan.sydney.modules.Module;
@@ -65,7 +65,7 @@ public class AutoTrapModule extends Module {
 
             if (autoSwitch.getValue().equalsIgnoreCase("None") && !(mc.player.getMainHandStack().getItem() instanceof BlockItem)) {
                 if (itemDisable.getValue()) {
-                    Sydney.CHAT_MANAGER.tagged("You are currently not holding any blocks.", getName());
+                    ISU.CHAT_MANAGER.tagged("You are currently not holding any blocks.", getName());
                     setToggled(false);
                 }
 
@@ -78,7 +78,7 @@ public class AutoTrapModule extends Module {
 
             if (slot == -1) {
                 if (itemDisable.getValue()) {
-                    Sydney.CHAT_MANAGER.tagged("No blocks could be found in your hotbar.", getName());
+                    ISU.CHAT_MANAGER.tagged("No blocks could be found in your hotbar.", getName());
                     setToggled(false);
                 }
 
@@ -156,7 +156,7 @@ public class AutoTrapModule extends Module {
             if (player == mc.player) continue;
             if (!player.isAlive() || player.getHealth() <= 0.0f) continue;
             if (mc.player.squaredDistanceTo(player) > MathHelper.square(enemyRange.getValue().doubleValue())) continue;
-            if (Sydney.FRIEND_MANAGER.contains(player.getName().getString())) continue;
+            if (ISU.FRIEND_MANAGER.contains(player.getName().getString())) continue;
             if (holeCheck.getValue() && !HoleUtils.isPlayerInHole(player)) continue;
 
             List<BlockPos> positions = HoleUtils.getTrapPositions(player, mode.getValue().equalsIgnoreCase("Partial"), head.getValue(), antiStep.getValue(), false, strictDirection.getValue()).stream()

@@ -3,7 +3,7 @@ package me.aidan.sydney.mixins;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.visuals.EntityModifierModule;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.item.ItemRenderer;
@@ -31,7 +31,7 @@ public abstract class ItemRendererMixin {
 
     @WrapOperation(method = "renderItem(Lnet/minecraft/item/ModelTransformationMode;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;II[ILnet/minecraft/client/render/model/BakedModel;Lnet/minecraft/client/render/RenderLayer;Lnet/minecraft/client/render/item/ItemRenderState$Glint;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemRenderer;renderBakedItemModel(Lnet/minecraft/client/render/model/BakedModel;[IIILnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;)V"))
     private static void renderItem$renderBakedItemModel(BakedModel model, int[] tints, int light, int overlay, MatrixStack matrices, VertexConsumer vertexConsumer, Operation<Void> original, @Local(argsOnly = true) ModelTransformationMode renderMode) {
-        EntityModifierModule module = Sydney.MODULE_MANAGER.getModule(EntityModifierModule.class);
+        EntityModifierModule module = ISU.MODULE_MANAGER.getModule(EntityModifierModule.class);
         Color color = module.isToggled() && module.items.getValue() && (renderMode != ModelTransformationMode.GUI || module.itemGlobal.getValue()) ? module.itemColor.getColor() : null;
 
         Random random = Random.create();

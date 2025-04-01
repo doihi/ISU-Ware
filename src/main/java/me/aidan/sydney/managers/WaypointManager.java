@@ -1,7 +1,7 @@
 package me.aidan.sydney.managers;
 
 import lombok.Getter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.utils.IMinecraft;
 import me.aidan.sydney.utils.minecraft.WorldUtils;
 import net.minecraft.util.math.Vec3d;
@@ -17,7 +17,7 @@ public class WaypointManager implements IMinecraft {
     }
 
     public void add(String name, Vec3d pos) {
-        add(name, pos, WorldUtils.getDimension(), Sydney.SERVER_MANAGER.getServer());
+        add(name, pos, WorldUtils.getDimension(), ISU.SERVER_MANAGER.getServer());
     }
 
     public void add(String name, Vec3d pos, String dimension, String server) {

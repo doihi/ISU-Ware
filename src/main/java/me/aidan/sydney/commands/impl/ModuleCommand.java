@@ -1,6 +1,6 @@
 package me.aidan.sydney.commands.impl;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.commands.Command;
 import me.aidan.sydney.commands.RegisterCommand;
 import me.aidan.sydney.modules.Module;
@@ -33,7 +33,7 @@ public class ModuleCommand extends Command {
         if (args.length >= 1) {
             if (args[0].equalsIgnoreCase("list")) {
                 if (module.getSettings().isEmpty()) {
-                    Sydney.CHAT_MANAGER.tagged("This module currently has no registered settings.", module.getName(), "module-cmd-" + getName() + "-list");
+                    ISU.CHAT_MANAGER.tagged("This module currently has no registered settings.", module.getName(), "module-cmd-" + getName() + "-list");
                 } else {
                     StringBuilder builder = new StringBuilder();
                     int index = 0;
@@ -54,15 +54,15 @@ public class ModuleCommand extends Command {
                         index++;
                     }
 
-                    Sydney.CHAT_MANAGER.message(ChatUtils.getSecondary() + module.getName() + " " + ChatUtils.getPrimary() + "[" + ChatUtils.getSecondary() + module.getSettings().size() + ChatUtils.getPrimary() + "]: " + ChatUtils.getSecondary() + builder, "module-cmd-" + getName() + "-list");
+                    ISU.CHAT_MANAGER.message(ChatUtils.getSecondary() + module.getName() + " " + ChatUtils.getPrimary() + "[" + ChatUtils.getSecondary() + module.getSettings().size() + ChatUtils.getPrimary() + "]: " + ChatUtils.getSecondary() + builder, "module-cmd-" + getName() + "-list");
                 }
             } else if (args[0].equalsIgnoreCase("reset")) {
                 module.resetValues();
-                Sydney.CHAT_MANAGER.tagged("Successfully reset all of the module's settings.", module.getName(), "module-cmd-" + getName());
+                ISU.CHAT_MANAGER.tagged("Successfully reset all of the module's settings.", module.getName(), "module-cmd-" + getName());
             } else {
                 Setting uncastedSetting = module.getSetting(args[0]);
                 if (uncastedSetting == null) {
-                    Sydney.CHAT_MANAGER.tagged("Could not find the setting specified.", module.getName(), "module-cmd-" + getName());
+                    ISU.CHAT_MANAGER.tagged("Could not find the setting specified.", module.getName(), "module-cmd-" + getName());
                     return;
                 }
 
@@ -71,25 +71,25 @@ public class ModuleCommand extends Command {
                 switch (uncastedSetting) {
                     case BooleanSetting setting -> {
                         if (setting == module.chatNotify) {
-                            Sydney.CHAT_MANAGER.tagged("This setting is the module's main ChatNotify setting. Please use the " + ChatUtils.getPrimary() + "chatnotify" + ChatUtils.getSecondary() + " command instead.", module.getName(), getName());
+                            ISU.CHAT_MANAGER.tagged("This setting is the module's main ChatNotify setting. Please use the " + ChatUtils.getPrimary() + "chatnotify" + ChatUtils.getSecondary() + " command instead.", module.getName(), getName());
                             return;
                         }
 
                         if (setting == module.drawn) {
-                            Sydney.CHAT_MANAGER.tagged("This setting is the module's main Drawn setting. Please use the " + ChatUtils.getPrimary() + "drawn" + ChatUtils.getSecondary() + " command instead.", module.getName(), getName());
+                            ISU.CHAT_MANAGER.tagged("This setting is the module's main Drawn setting. Please use the " + ChatUtils.getPrimary() + "drawn" + ChatUtils.getSecondary() + " command instead.", module.getName(), getName());
                             return;
                         }
 
                         if (args.length == 1) {
                             if (args[0].equalsIgnoreCase("reset")) {
                                 setting.resetValue();
-                                Sydney.CHAT_MANAGER.tagged("Successfully reset the " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " setting.", module.getName(), "module-cmd-" + getName());
+                                ISU.CHAT_MANAGER.tagged("Successfully reset the " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " setting.", module.getName(), "module-cmd-" + getName());
                             } else {
                                 setting.setValue(Boolean.parseBoolean(args[0]));
-                                Sydney.CHAT_MANAGER.tagged("Successfully set " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " to " + ChatUtils.getPrimary() + setting.getValue() + ChatUtils.getSecondary() + ".", module.getName(), "module-cmd-" + getName());
+                                ISU.CHAT_MANAGER.tagged("Successfully set " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " to " + ChatUtils.getPrimary() + setting.getValue() + ChatUtils.getSecondary() + ".", module.getName(), "module-cmd-" + getName());
                             }
                         } else {
-                            Sydney.CHAT_MANAGER.info(module.getName().toLowerCase() + " " + setting.getName().toLowerCase() + " <[value]|reset>");
+                            ISU.CHAT_MANAGER.info(module.getName().toLowerCase() + " " + setting.getName().toLowerCase() + " <[value]|reset>");
                         }
                     }
 
@@ -97,7 +97,7 @@ public class ModuleCommand extends Command {
                         if (args.length == 1) {
                             if (args[0].equalsIgnoreCase("reset")) {
                                 setting.resetValue();
-                                Sydney.CHAT_MANAGER.tagged("Successfully reset the " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " setting.", module.getName(), "module-cmd-" + getName());
+                                ISU.CHAT_MANAGER.tagged("Successfully reset the " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " setting.", module.getName(), "module-cmd-" + getName());
                             } else {
                                 try {
                                     switch (setting.getType()) {
@@ -107,13 +107,13 @@ public class ModuleCommand extends Command {
                                         default -> setting.setValue(Integer.parseInt(args[0]));
                                     }
 
-                                    Sydney.CHAT_MANAGER.tagged("Successfully set " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " to " + ChatUtils.getPrimary() + setting.getValue() + ChatUtils.getSecondary() + ".", module.getName(), "module-cmd-" + getName());
+                                    ISU.CHAT_MANAGER.tagged("Successfully set " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " to " + ChatUtils.getPrimary() + setting.getValue() + ChatUtils.getSecondary() + ".", module.getName(), "module-cmd-" + getName());
                                 } catch (NumberFormatException exception) {
-                                    Sydney.CHAT_MANAGER.tagged("Please input a valid " + ChatUtils.getPrimary() + setting.getType().name().toLowerCase() + ChatUtils.getSecondary() + " number.", module.getName(), "module-cmd-" + getName());
+                                    ISU.CHAT_MANAGER.tagged("Please input a valid " + ChatUtils.getPrimary() + setting.getType().name().toLowerCase() + ChatUtils.getSecondary() + " number.", module.getName(), "module-cmd-" + getName());
                                 }
                             }
                         } else {
-                            Sydney.CHAT_MANAGER.info(module.getName().toLowerCase() + " " + setting.getName().toLowerCase() + " <[value]|reset>");
+                            ISU.CHAT_MANAGER.info(module.getName().toLowerCase() + " " + setting.getName().toLowerCase() + " <[value]|reset>");
                         }
                     }
 
@@ -121,10 +121,10 @@ public class ModuleCommand extends Command {
                         if (args.length >= 1) {
                             if ((args[0].equalsIgnoreCase("reset") && setting.getModes().stream().noneMatch("reset"::equalsIgnoreCase)) || args[0].equalsIgnoreCase("force-reset")) {
                                 setting.resetValue();
-                                Sydney.CHAT_MANAGER.tagged("Successfully reset the " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " setting.", module.getName(), "module-cmd-" + getName());
+                                ISU.CHAT_MANAGER.tagged("Successfully reset the " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " setting.", module.getName(), "module-cmd-" + getName());
                             } else if ((args[0].equalsIgnoreCase("list") && setting.getModes().stream().noneMatch("list"::equalsIgnoreCase)) || args[0].equalsIgnoreCase("force-list")) {
                                 if (setting.getModes().isEmpty()) {
-                                    Sydney.CHAT_MANAGER.tagged(ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " currently has no values registered.", module.getName(), "module-cmd-" + getName());
+                                    ISU.CHAT_MANAGER.tagged(ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " currently has no values registered.", module.getName(), "module-cmd-" + getName());
                                 } else {
                                     StringBuilder modesString = new StringBuilder();
                                     int index = 0;
@@ -134,11 +134,11 @@ public class ModuleCommand extends Command {
                                         index++;
                                     }
 
-                                    Sydney.CHAT_MANAGER.tagged(ChatUtils.getSecondary() + setting.getName() + " " + ChatUtils.getPrimary() + "[" + ChatUtils.getSecondary() + setting.getModes().size() + ChatUtils.getPrimary() + "]: " + ChatUtils.getSecondary() + modesString, module.getName(), "module-cmd-" + getName());
+                                    ISU.CHAT_MANAGER.tagged(ChatUtils.getSecondary() + setting.getName() + " " + ChatUtils.getPrimary() + "[" + ChatUtils.getSecondary() + setting.getModes().size() + ChatUtils.getPrimary() + "]: " + ChatUtils.getSecondary() + modesString, module.getName(), "module-cmd-" + getName());
                                 }
                             } else {
-                                if (args[0].equalsIgnoreCase("reset") && setting.getModes().stream().anyMatch("reset"::equalsIgnoreCase)) Sydney.CHAT_MANAGER.info("If you would like to reset this setting's value, write \"" + ChatUtils.getPrimary() + "force-reset" + ChatUtils.getSecondary() + "\" instead.");
-                                if (args[0].equalsIgnoreCase("list") && setting.getModes().stream().anyMatch("list"::equalsIgnoreCase)) Sydney.CHAT_MANAGER.info("If you would like to view a list of valid values for this setting, write \"" + ChatUtils.getPrimary() + "force-list" + ChatUtils.getSecondary() + "\" instead.");
+                                if (args[0].equalsIgnoreCase("reset") && setting.getModes().stream().anyMatch("reset"::equalsIgnoreCase)) ISU.CHAT_MANAGER.info("If you would like to reset this setting's value, write \"" + ChatUtils.getPrimary() + "force-reset" + ChatUtils.getSecondary() + "\" instead.");
+                                if (args[0].equalsIgnoreCase("list") && setting.getModes().stream().anyMatch("list"::equalsIgnoreCase)) ISU.CHAT_MANAGER.info("If you would like to view a list of valid values for this setting, write \"" + ChatUtils.getPrimary() + "force-list" + ChatUtils.getSecondary() + "\" instead.");
 
                                 StringBuilder builder = new StringBuilder();
                                 int index = 0;
@@ -150,13 +150,13 @@ public class ModuleCommand extends Command {
 
                                 if (setting.getModes().stream().anyMatch(builder.toString()::equalsIgnoreCase)) {
                                     setting.setValue(setting.getModes().get(ListUtils.getIndex(setting.getModes(), builder.toString())));
-                                    Sydney.CHAT_MANAGER.tagged("Successfully set " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " to " + ChatUtils.getPrimary() + setting.getValue() + ChatUtils.getSecondary() + ".", module.getName(), "module-cmd-" + getName());
+                                    ISU.CHAT_MANAGER.tagged("Successfully set " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " to " + ChatUtils.getPrimary() + setting.getValue() + ChatUtils.getSecondary() + ".", module.getName(), "module-cmd-" + getName());
                                 } else {
-                                    Sydney.CHAT_MANAGER.tagged("Please input a valid value for this setting.", module.getName(), "module-cmd-" + getName());
+                                    ISU.CHAT_MANAGER.tagged("Please input a valid value for this setting.", module.getName(), "module-cmd-" + getName());
                                 }
                             }
                         } else {
-                            Sydney.CHAT_MANAGER.info(module.getName().toLowerCase() + " " + setting.getName().toLowerCase() + " <[value]|reset|list>");
+                            ISU.CHAT_MANAGER.info(module.getName().toLowerCase() + " " + setting.getName().toLowerCase() + " <[value]|reset|list>");
                         }
                     }
 
@@ -164,9 +164,9 @@ public class ModuleCommand extends Command {
                         if (args.length >= 1) {
                             if (args[0].equalsIgnoreCase("force-reset")) {
                                 setting.setValue(setting.getDefaultValue());
-                                Sydney.CHAT_MANAGER.tagged("Successfully reset the " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " setting.", module.getName(), "module-cmd-" + getName());
+                                ISU.CHAT_MANAGER.tagged("Successfully reset the " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " setting.", module.getName(), "module-cmd-" + getName());
                             } else {
-                                if (args[0].equalsIgnoreCase("reset")) Sydney.CHAT_MANAGER.info("If you would like to reset this setting's value, write \"" + ChatUtils.getPrimary() + "force-reset" + ChatUtils.getSecondary() + "\" instead.");
+                                if (args[0].equalsIgnoreCase("reset")) ISU.CHAT_MANAGER.info("If you would like to reset this setting's value, write \"" + ChatUtils.getPrimary() + "force-reset" + ChatUtils.getSecondary() + "\" instead.");
 
                                 StringBuilder builder = new StringBuilder();
                                 int index = 0;
@@ -177,23 +177,23 @@ public class ModuleCommand extends Command {
                                 }
 
                                 setting.setValue(builder.toString());
-                                Sydney.CHAT_MANAGER.tagged("Successfully set " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " to " + ChatUtils.getPrimary() + setting.getValue() + ChatUtils.getSecondary() + ".", module.getName(), "module-cmd-" + getName());
+                                ISU.CHAT_MANAGER.tagged("Successfully set " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " to " + ChatUtils.getPrimary() + setting.getValue() + ChatUtils.getSecondary() + ".", module.getName(), "module-cmd-" + getName());
                             }
                         } else {
-                            Sydney.CHAT_MANAGER.info(module.getName().toLowerCase() + " " + setting.getName().toLowerCase() + " <[value]|reset>");
+                            ISU.CHAT_MANAGER.info(module.getName().toLowerCase() + " " + setting.getName().toLowerCase() + " <[value]|reset>");
                         }
                     }
 
                     case BindSetting setting -> {
                         if (uncastedSetting == module.bind) {
-                            Sydney.CHAT_MANAGER.tagged("This setting is the module's main toggle keybind. Please use the " + ChatUtils.getPrimary() + "bind" + ChatUtils.getSecondary() + " command instead.", module.getName(), "module-cmd-" + getName());
+                            ISU.CHAT_MANAGER.tagged("This setting is the module's main toggle keybind. Please use the " + ChatUtils.getPrimary() + "bind" + ChatUtils.getSecondary() + " command instead.", module.getName(), "module-cmd-" + getName());
                             return;
                         }
 
                         if (args.length == 1) {
                             if (args[0].equalsIgnoreCase("reset")) {
                                 setting.resetValue();
-                                Sydney.CHAT_MANAGER.tagged("Successfully reset the " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " setting.", module.getName(), "module-cmd-" + getName());
+                                ISU.CHAT_MANAGER.tagged("Successfully reset the " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " setting.", module.getName(), "module-cmd-" + getName());
                             } else {
                                 int key = 0;
                                 try {
@@ -202,10 +202,10 @@ public class ModuleCommand extends Command {
                                 }
 
                                 setting.setValue(key);
-                                Sydney.CHAT_MANAGER.tagged("Successfully set " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " to " + ChatUtils.getPrimary() + KeyboardUtils.getKeyName(setting.getValue()).toUpperCase() + ChatUtils.getSecondary() + ".", module.getName(), "module-cmd-" + getName());
+                                ISU.CHAT_MANAGER.tagged("Successfully set " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " to " + ChatUtils.getPrimary() + KeyboardUtils.getKeyName(setting.getValue()).toUpperCase() + ChatUtils.getSecondary() + ".", module.getName(), "module-cmd-" + getName());
                             }
                         } else {
-                            Sydney.CHAT_MANAGER.info(module.getName().toLowerCase() + " " + setting.getName().toLowerCase() + " <[value]|reset>");
+                            ISU.CHAT_MANAGER.info(module.getName().toLowerCase() + " " + setting.getName().toLowerCase() + " <[value]|reset>");
                         }
                     }
 
@@ -216,7 +216,7 @@ public class ModuleCommand extends Command {
                                 try {
                                     parsedValue = Math.clamp(Integer.parseInt(args[1]), 0, 255);
                                 } catch (NumberFormatException ignored) {
-                                    Sydney.CHAT_MANAGER.tagged("Please input a valid number for the " + ChatUtils.getPrimary() + args[0].toLowerCase() + ChatUtils.getSecondary() + " value.", module.getName());
+                                    ISU.CHAT_MANAGER.tagged("Please input a valid number for the " + ChatUtils.getPrimary() + args[0].toLowerCase() + ChatUtils.getSecondary() + " value.", module.getName());
                                     return;
                                 }
                             }
@@ -250,7 +250,7 @@ public class ModuleCommand extends Command {
                                 newValue = String.valueOf(setting.isRainbow());
                             } else if (args[0].equalsIgnoreCase("code")) {
                                 if (!ColorUtils.isValidColorCode(args[1])) {
-                                    Sydney.CHAT_MANAGER.tagged("Please input a valid color code.", module.getName(), "module-cmd-" + getName());
+                                    ISU.CHAT_MANAGER.tagged("Please input a valid color code.", module.getName(), "module-cmd-" + getName());
                                     return;
                                 }
 
@@ -258,26 +258,26 @@ public class ModuleCommand extends Command {
                                     Color decoded = Color.decode((args[1].startsWith("#") ? "" : "#") + args[1]);
                                     setting.setColor(new Color(decoded.getRed(), decoded.getGreen(), decoded.getBlue()));
                                 } catch (NumberFormatException exception) {
-                                    Sydney.CHAT_MANAGER.tagged("Please input a valid color code.", module.getName(), "module-cmd-" + getName());
+                                    ISU.CHAT_MANAGER.tagged("Please input a valid color code.", module.getName(), "module-cmd-" + getName());
                                     return;
                                 }
 
                                 valueName = "color";
                                 newValue = "rgba(" + setting.getValue().getColor().getRed() + ", " + setting.getValue().getColor().getGreen() + ", " + setting.getValue().getColor().getBlue() + ", " + setting.getValue().getColor().getAlpha() + ")";
                             } else {
-                                Sydney.CHAT_MANAGER.info(module.getName().toLowerCase() + " " + setting.getName().toLowerCase() + " <red|green|blue|alpha|sync|rainbow|code> <[input]> | <reset>");
+                                ISU.CHAT_MANAGER.info(module.getName().toLowerCase() + " " + setting.getName().toLowerCase() + " <red|green|blue|alpha|sync|rainbow|code> <[input]> | <reset>");
                             }
 
-                            Sydney.CHAT_MANAGER.tagged("Successfully set the " + ChatUtils.getPrimary() + valueName + ChatUtils.getSecondary() + " value to " + ChatUtils.getPrimary() + newValue + ChatUtils.getSecondary() + ".", module.getName(), "module-cmd-" + getName());
+                            ISU.CHAT_MANAGER.tagged("Successfully set the " + ChatUtils.getPrimary() + valueName + ChatUtils.getSecondary() + " value to " + ChatUtils.getPrimary() + newValue + ChatUtils.getSecondary() + ".", module.getName(), "module-cmd-" + getName());
                         } else if (args.length == 1) {
                             if (args[0].equalsIgnoreCase("reset")) {
                                 setting.resetValue();
-                                Sydney.CHAT_MANAGER.tagged("Successfully reset the " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " setting.", module.getName(), "module-cmd-" + getName());
+                                ISU.CHAT_MANAGER.tagged("Successfully reset the " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " setting.", module.getName(), "module-cmd-" + getName());
                             } else {
-                                Sydney.CHAT_MANAGER.info(module.getName().toLowerCase() + " " + setting.getName().toLowerCase() + " <red|green|blue|alpha|sync|rainbow|code> <[input]> | <reset>");
+                                ISU.CHAT_MANAGER.info(module.getName().toLowerCase() + " " + setting.getName().toLowerCase() + " <red|green|blue|alpha|sync|rainbow|code> <[input]> | <reset>");
                             }
                         } else {
-                            Sydney.CHAT_MANAGER.info(module.getName().toLowerCase() + " " + setting.getName().toLowerCase() + " <red|green|blue|alpha|sync|rainbow|code> <[input]> | <reset>");
+                            ISU.CHAT_MANAGER.info(module.getName().toLowerCase() + " " + setting.getName().toLowerCase() + " <red|green|blue|alpha|sync|rainbow|code> <[input]> | <reset>");
                         }
                     }
 
@@ -287,53 +287,53 @@ public class ModuleCommand extends Command {
                                 if (setting.getType() == WhitelistSetting.Type.ITEMS) {
                                     Item item = IdentifierUtils.getItem(args[1]);
                                     if (item == null) {
-                                        Sydney.CHAT_MANAGER.tagged("Please input a valid item ID.", module.getName(), "module-cmd-" + getName());
+                                        ISU.CHAT_MANAGER.tagged("Please input a valid item ID.", module.getName(), "module-cmd-" + getName());
                                         return;
                                     }
 
                                     if (setting.isWhitelistContains(item)) {
-                                        Sydney.CHAT_MANAGER.tagged(ChatUtils.getPrimary() + item.getName().getString() + ChatUtils.getSecondary() + " is already on the whitelist.", module.getName(), "module-cmd-" + getName());
+                                        ISU.CHAT_MANAGER.tagged(ChatUtils.getPrimary() + item.getName().getString() + ChatUtils.getSecondary() + " is already on the whitelist.", module.getName(), "module-cmd-" + getName());
                                     } else {
                                         setting.add(item);
-                                        Sydney.CHAT_MANAGER.tagged("Successfully added " + ChatUtils.getPrimary() + item.getName().getString() + ChatUtils.getSecondary() + " to the whitelist.", module.getName(), "module-cmd-" + getName());
+                                        ISU.CHAT_MANAGER.tagged("Successfully added " + ChatUtils.getPrimary() + item.getName().getString() + ChatUtils.getSecondary() + " to the whitelist.", module.getName(), "module-cmd-" + getName());
                                     }
                                 } else if (setting.getType() == WhitelistSetting.Type.BLOCKS) {
                                     Block block = IdentifierUtils.getBlock(args[1]);
                                     if (block == null) {
-                                        Sydney.CHAT_MANAGER.tagged("Please input a valid block ID.", module.getName(), "module-cmd-" + getName());
+                                        ISU.CHAT_MANAGER.tagged("Please input a valid block ID.", module.getName(), "module-cmd-" + getName());
                                         return;
                                     }
 
                                     if (setting.isWhitelistContains(block)) {
-                                        Sydney.CHAT_MANAGER.tagged(ChatUtils.getPrimary() + block.getName().getString() + ChatUtils.getSecondary() + " is already on the whitelist.", module.getName(), "module-cmd-" + getName());
+                                        ISU.CHAT_MANAGER.tagged(ChatUtils.getPrimary() + block.getName().getString() + ChatUtils.getSecondary() + " is already on the whitelist.", module.getName(), "module-cmd-" + getName());
                                     } else {
                                         setting.add(block);
-                                        Sydney.CHAT_MANAGER.tagged("Successfully added " + ChatUtils.getPrimary() + block.getName().getString() + ChatUtils.getSecondary() + " to the whitelist.", module.getName(), "module-cmd-" + getName());
+                                        ISU.CHAT_MANAGER.tagged("Successfully added " + ChatUtils.getPrimary() + block.getName().getString() + ChatUtils.getSecondary() + " to the whitelist.", module.getName(), "module-cmd-" + getName());
                                     }
                                 } else {
-                                    Sydney.CHAT_MANAGER.error("Something went wrong while detecting the setting's type.");
+                                    ISU.CHAT_MANAGER.error("Something went wrong while detecting the setting's type.");
                                 }
                             } else if (args[0].equalsIgnoreCase("del")) {
                                 Item item; Block block;
                                 if (setting.getType() == WhitelistSetting.Type.ITEMS && (item = IdentifierUtils.getItem(args[1])) != null && setting.isWhitelistContains(item)) {
                                     setting.remove(item);
-                                    Sydney.CHAT_MANAGER.tagged("Successfully removed " + ChatUtils.getPrimary() + item.getName().getString() + ChatUtils.getSecondary() + " from the whitelist.", module.getName(), "module-cmd-" + getName());
+                                    ISU.CHAT_MANAGER.tagged("Successfully removed " + ChatUtils.getPrimary() + item.getName().getString() + ChatUtils.getSecondary() + " from the whitelist.", module.getName(), "module-cmd-" + getName());
                                 } else if (setting.getType() == WhitelistSetting.Type.BLOCKS && (block = IdentifierUtils.getBlock(args[1])) != null && setting.isWhitelistContains(block)) {
                                     setting.remove(block);
-                                    Sydney.CHAT_MANAGER.tagged("Successfully removed " + ChatUtils.getPrimary() + block.getName().getString() + ChatUtils.getSecondary() + " from the whitelist.", module.getName(), "module-cmd-" + getName());
+                                    ISU.CHAT_MANAGER.tagged("Successfully removed " + ChatUtils.getPrimary() + block.getName().getString() + ChatUtils.getSecondary() + " from the whitelist.", module.getName(), "module-cmd-" + getName());
                                 } else {
-                                    Sydney.CHAT_MANAGER.tagged(ChatUtils.getPrimary() + args[1] + ChatUtils.getSecondary() + " is not on the whitelist.", module.getName(), "module-cmd-" + getName());
+                                    ISU.CHAT_MANAGER.tagged(ChatUtils.getPrimary() + args[1] + ChatUtils.getSecondary() + " is not on the whitelist.", module.getName(), "module-cmd-" + getName());
                                 }
                             } else {
-                                Sydney.CHAT_MANAGER.info(module.getName().toLowerCase() + " " + setting.getName().toLowerCase() + " <add|del> <[id]> | <list|clear>");
+                                ISU.CHAT_MANAGER.info(module.getName().toLowerCase() + " " + setting.getName().toLowerCase() + " <add|del> <[id]> | <list|clear>");
                             }
                         } else if (args.length == 1) {
                             if (args[0].equalsIgnoreCase("clear")) {
                                 setting.getWhitelist().clear();
-                                Sydney.CHAT_MANAGER.tagged("Successfully cleared the " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " whitelist.", module.getName(), "module-cmd-" + getName());
+                                ISU.CHAT_MANAGER.tagged("Successfully cleared the " + ChatUtils.getPrimary() + setting.getName() + ChatUtils.getSecondary() + " whitelist.", module.getName(), "module-cmd-" + getName());
                             } else if (args[0].equalsIgnoreCase("list")) {
                                 if (setting.getWhitelist().isEmpty()) {
-                                    Sydney.CHAT_MANAGER.tagged("There are currently no " + (setting.getType() == WhitelistSetting.Type.ITEMS ? "items" : "blocks") + " on the whitelist.", module.getName(), "module-cmd-" + getName());
+                                    ISU.CHAT_MANAGER.tagged("There are currently no " + (setting.getType() == WhitelistSetting.Type.ITEMS ? "items" : "blocks") + " on the whitelist.", module.getName(), "module-cmd-" + getName());
                                 } else {
                                     StringBuilder whitelist = new StringBuilder();
                                     int index = 0;
@@ -351,13 +351,13 @@ public class ModuleCommand extends Command {
                                         index++;
                                     }
 
-                                    Sydney.CHAT_MANAGER.message(ChatUtils.getSecondary() + setting.getName() + " " + ChatUtils.getPrimary() + "[" + ChatUtils.getSecondary() + setting.getWhitelist().size() + ChatUtils.getPrimary() + "]: " + ChatUtils.getSecondary() + whitelist, "module-cmd-" + getName());
+                                    ISU.CHAT_MANAGER.message(ChatUtils.getSecondary() + setting.getName() + " " + ChatUtils.getPrimary() + "[" + ChatUtils.getSecondary() + setting.getWhitelist().size() + ChatUtils.getPrimary() + "]: " + ChatUtils.getSecondary() + whitelist, "module-cmd-" + getName());
                                 }
                             } else {
-                                Sydney.CHAT_MANAGER.info(module.getName().toLowerCase() + " " + setting.getName().toLowerCase() + " <add|del> <[id]> | <clear|list>");
+                                ISU.CHAT_MANAGER.info(module.getName().toLowerCase() + " " + setting.getName().toLowerCase() + " <add|del> <[id]> | <clear|list>");
                             }
                         } else {
-                            Sydney.CHAT_MANAGER.info(module.getName().toLowerCase() + " " + setting.getName().toLowerCase() + " <add|del> <[id]> | <clear|list>");
+                            ISU.CHAT_MANAGER.info(module.getName().toLowerCase() + " " + setting.getName().toLowerCase() + " <add|del> <[id]> | <clear|list>");
                         }
                     }
 

@@ -2,7 +2,7 @@ package me.aidan.sydney.utils.miscellaneous;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.core.RendersModule;
 import me.aidan.sydney.utils.animations.Easing;
 import net.minecraft.util.math.BlockPos;
@@ -25,6 +25,6 @@ public class RenderPosition {
     }
 
     public float get() {
-        return Easing.ease(1.0f - Easing.toDelta(startTime, Sydney.MODULE_MANAGER.getModule(RendersModule.class).duration.getValue().intValue()), Easing.Method.EASE_IN_CUBIC);
+        return Easing.ease(1.0f - Easing.toDelta(startTime, ISU.MODULE_MANAGER.getModule(RendersModule.class).duration.getValue().intValue()), Easing.Method.EASE_IN_CUBIC);
     }
 }

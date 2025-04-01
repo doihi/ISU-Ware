@@ -1,7 +1,7 @@
 package me.aidan.sydney.settings.impl;
 
 import lombok.Getter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.impl.SettingChangeEvent;
 import me.aidan.sydney.settings.Setting;
 
@@ -51,7 +51,7 @@ public class NumberSetting extends Setting {
             case FLOAT -> this.value = Math.clamp(value.floatValue(), minimum.floatValue(), maximum.floatValue());
             default -> this.value = Math.clamp(value.intValue(), minimum.intValue(), maximum.intValue());
         }
-        Sydney.EVENT_HANDLER.post(new SettingChangeEvent(this));
+        ISU.EVENT_HANDLER.post(new SettingChangeEvent(this));
     }
 
     public void resetValue() {

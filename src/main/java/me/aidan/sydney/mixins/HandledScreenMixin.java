@@ -1,6 +1,6 @@
 package me.aidan.sydney.mixins;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.miscellaneous.ShulkerInfoModule;
 import me.aidan.sydney.utils.IMinecraft;
 import net.minecraft.client.gui.DrawContext;
@@ -19,7 +19,7 @@ public abstract class HandledScreenMixin implements IMinecraft {
 
     @Inject(method = "render", at = @At("TAIL"))
     private void render(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        ShulkerInfoModule shulkerInfoModule = Sydney.MODULE_MANAGER.getModule(ShulkerInfoModule.class);
+        ShulkerInfoModule shulkerInfoModule = ISU.MODULE_MANAGER.getModule(ShulkerInfoModule.class);
 
         if(!shulkerInfoModule.isToggled()) return;
 
@@ -30,7 +30,7 @@ public abstract class HandledScreenMixin implements IMinecraft {
 
     @Inject(method = "drawMouseoverTooltip", at = @At("HEAD"), cancellable = true)
     private void drawMouseoverTooltip(DrawContext drawContext, int x, int y, CallbackInfo ci) {
-        ShulkerInfoModule shulkerInfoModule = Sydney.MODULE_MANAGER.getModule(ShulkerInfoModule.class);
+        ShulkerInfoModule shulkerInfoModule = ISU.MODULE_MANAGER.getModule(ShulkerInfoModule.class);
 
         if(!shulkerInfoModule.isToggled()) return;
 

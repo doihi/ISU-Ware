@@ -1,7 +1,7 @@
 package me.aidan.sydney.managers;
 
 import lombok.Getter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PacketSendEvent;
 import me.aidan.sydney.utils.IMinecraft;
@@ -12,7 +12,7 @@ import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket;
 @Getter
 public class PositionManager implements IMinecraft {
     public PositionManager() {
-        Sydney.EVENT_HANDLER.subscribe(this);
+        ISU.EVENT_HANDLER.subscribe(this);
     }
 
     private double serverX;

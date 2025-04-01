@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.player;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.Module;
 import me.aidan.sydney.modules.RegisterModule;
 import me.aidan.sydney.settings.impl.BooleanSetting;
@@ -26,7 +26,7 @@ public class ThrowPearlModule extends Module {
         }
 
         if (autoSwitch.getValue().equalsIgnoreCase("None") && mc.player.getMainHandStack().getItem() != Items.ENDER_PEARL) {
-            Sydney.CHAT_MANAGER.tagged("You are currently not holding any pearls.", getName());
+            ISU.CHAT_MANAGER.tagged("You are currently not holding any pearls.", getName());
             setToggled(false);
             return;
         }
@@ -40,14 +40,14 @@ public class ThrowPearlModule extends Module {
         int previousSlot = mc.player.getInventory().selectedSlot;
 
         if (slot == -1) {
-            Sydney.CHAT_MANAGER.tagged("No pearls could be found in your hotbar.", getName());
+            ISU.CHAT_MANAGER.tagged("No pearls could be found in your hotbar.", getName());
             setToggled(false);
             return;
         }
 
         InventoryUtils.switchSlot(autoSwitch.getValue(), slot, previousSlot);
 
-        Sydney.ROTATION_MANAGER.packetRotate(mc.player.getYaw(), mc.player.getPitch());
+        ISU.ROTATION_MANAGER.packetRotate(mc.player.getYaw(), mc.player.getPitch());
         NetworkUtils.sendSequencedPacket(sequence -> new PlayerInteractItemC2SPacket(Hand.MAIN_HAND, sequence, mc.player.getYaw(), mc.player.getPitch()));
         mc.getNetworkHandler().sendPacket(new HandSwingC2SPacket(Hand.MAIN_HAND));
 

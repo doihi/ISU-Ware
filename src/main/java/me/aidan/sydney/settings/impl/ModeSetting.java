@@ -2,7 +2,7 @@ package me.aidan.sydney.settings.impl;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.impl.SettingChangeEvent;
 import me.aidan.sydney.settings.Setting;
 
@@ -46,7 +46,7 @@ public class ModeSetting extends Setting {
     public void setValue(String value) {
         if (!modes.contains(value)) return;
         this.value = value;
-        Sydney.EVENT_HANDLER.post(new SettingChangeEvent(this));
+        ISU.EVENT_HANDLER.post(new SettingChangeEvent(this));
     }
 
 

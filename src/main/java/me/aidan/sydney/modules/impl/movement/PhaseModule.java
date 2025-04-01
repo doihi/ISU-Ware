@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.movement;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.Module;
 import me.aidan.sydney.modules.RegisterModule;
 import me.aidan.sydney.settings.impl.BooleanSetting;
@@ -47,7 +47,7 @@ public class PhaseModule extends Module {
             }
 
             if (autoSwitch.getValue().equalsIgnoreCase("None") && mc.player.getMainHandStack().getItem() != Items.ENDER_PEARL) {
-                Sydney.CHAT_MANAGER.tagged("You are currently not holding any pearls.", getName());
+                ISU.CHAT_MANAGER.tagged("You are currently not holding any pearls.", getName());
                 setToggled(false);
                 return;
             }
@@ -62,7 +62,7 @@ public class PhaseModule extends Module {
             boolean didFireCharge = false;
 
             if (slot == -1) {
-                Sydney.CHAT_MANAGER.tagged("No pearls could be found in your hotbar.", getName());
+                ISU.CHAT_MANAGER.tagged("No pearls could be found in your hotbar.", getName());
                 setToggled(false);
                 return;
             }
@@ -77,7 +77,7 @@ public class PhaseModule extends Module {
                 int chargeSlot = InventoryUtils.find(alternative.getValue() ? Items.FLINT_AND_STEEL : Items.FIRE_CHARGE, InventoryUtils.HOTBAR_START, fireSwitch.getValue().equalsIgnoreCase("AltSwap") || fireSwitch.getValue().equalsIgnoreCase("AltPickup") ? 35 : 8);
 
                 if (chargeSlot != -1) {
-                    Sydney.ROTATION_MANAGER.packetRotate(yaw, 90);
+                    ISU.ROTATION_MANAGER.packetRotate(yaw, 90);
 
                     InventoryUtils.switchSlot(fireSwitch.getValue(), chargeSlot, previousSlot);
                     NetworkUtils.sendSequencedPacket(sequence -> new PlayerInteractBlockC2SPacket(Hand.MAIN_HAND, new BlockHitResult(Vec3d.ofCenter(downPosition, 1), Direction.UP, downPosition, false), sequence));
@@ -88,7 +88,7 @@ public class PhaseModule extends Module {
                 }
             }
 
-            Sydney.ROTATION_MANAGER.packetRotate(yaw, pitch.getValue().intValue());
+            ISU.ROTATION_MANAGER.packetRotate(yaw, pitch.getValue().intValue());
 
             InventoryUtils.switchSlot(autoSwitch.getValue(), slot, previousSlot);
 

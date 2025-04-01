@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.miscellaneous;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.SettingChangeEvent;
 import me.aidan.sydney.events.impl.TickEvent;
@@ -37,7 +37,7 @@ public class SpammerModule extends Module {
     public void onTick(TickEvent event) {
         if(getNull()) return;
 
-        File file = new File(Sydney.MOD_NAME + "/Client/" + fileName.getValue());
+        File file = new File(ISU.MOD_NAME + "/Client/" + fileName.getValue());
         messages = FileUtils.readLines(file);
 
         if(!messages.isEmpty() && timer.hasTimeElapsed(delay.getValue().intValue() * 1000)) {

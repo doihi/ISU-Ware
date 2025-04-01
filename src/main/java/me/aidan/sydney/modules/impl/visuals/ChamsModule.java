@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.visuals;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.RenderWorldEvent;
 import me.aidan.sydney.modules.Module;
@@ -58,10 +58,10 @@ public class ChamsModule extends Module {
                 if (!isValidEntity(livingEntity)) continue;
 
                 boolean flag = damageModify.getValue() && livingEntity.hurtTime > 0;
-                Color friendFill = flag ? ColorUtils.getColor(damageColor.getColor(), friendFillColor.getColor().getAlpha()) : (friendMode.getValue().equals("Default") ? Sydney.FRIEND_MANAGER.getDefaultFriendColor(friendFillColor.getColor().getAlpha()) : friendFillColor.getColor());
-                Color friendOutline = flag ? ColorUtils.getColor(damageColor.getColor(), friendOutlineColor.getColor().getAlpha()) : (friendMode.getValue().equals("Default") ? Sydney.FRIEND_MANAGER.getDefaultFriendColor(friendOutlineColor.getColor().getAlpha()) : friendOutlineColor.getColor());
-                Color fillColor = (livingEntity instanceof PlayerEntity player && Sydney.FRIEND_MANAGER.contains(player.getName().getString()) && !friendMode.getValue().equals("Sync")) ? friendFill : flag ? ColorUtils.getColor(damageColor.getColor(), entityFillColor.getColor().getAlpha()) : entityFillColor.getColor();
-                Color outlineColor = (livingEntity instanceof PlayerEntity player && Sydney.FRIEND_MANAGER.contains(player.getName().getString()) && !friendMode.getValue().equals("Sync")) ? friendOutline : flag ? ColorUtils.getColor(damageColor.getColor(), entityOutlineColor.getColor().getAlpha()) : entityOutlineColor.getColor();
+                Color friendFill = flag ? ColorUtils.getColor(damageColor.getColor(), friendFillColor.getColor().getAlpha()) : (friendMode.getValue().equals("Default") ? ISU.FRIEND_MANAGER.getDefaultFriendColor(friendFillColor.getColor().getAlpha()) : friendFillColor.getColor());
+                Color friendOutline = flag ? ColorUtils.getColor(damageColor.getColor(), friendOutlineColor.getColor().getAlpha()) : (friendMode.getValue().equals("Default") ? ISU.FRIEND_MANAGER.getDefaultFriendColor(friendOutlineColor.getColor().getAlpha()) : friendOutlineColor.getColor());
+                Color fillColor = (livingEntity instanceof PlayerEntity player && ISU.FRIEND_MANAGER.contains(player.getName().getString()) && !friendMode.getValue().equals("Sync")) ? friendFill : flag ? ColorUtils.getColor(damageColor.getColor(), entityFillColor.getColor().getAlpha()) : entityFillColor.getColor();
+                Color outlineColor = (livingEntity instanceof PlayerEntity player && ISU.FRIEND_MANAGER.contains(player.getName().getString()) && !friendMode.getValue().equals("Sync")) ? friendOutline : flag ? ColorUtils.getColor(damageColor.getColor(), entityOutlineColor.getColor().getAlpha()) : entityOutlineColor.getColor();
 
                 ModelRenderer.renderModel(livingEntity, 1.0f, event.getTickDelta(), new ModelRenderer.Render(entityMode.getValue().equals("Fill") || entityMode.getValue().equals("Both"), entityPulse.getValue() ? ColorUtils.getPulse(fillColor) : fillColor, entityMode.getValue().equals("Outline") || entityMode.getValue().equals("Both"), entityPulse.getValue() ? ColorUtils.getPulse(outlineColor) : outlineColor, entityShine.getValue()));
             }

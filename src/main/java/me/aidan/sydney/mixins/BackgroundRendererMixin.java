@@ -1,6 +1,6 @@
 package me.aidan.sydney.mixins;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.visuals.AtmosphereModule;
 import me.aidan.sydney.modules.impl.visuals.NoRenderModule;
 import net.minecraft.client.render.BackgroundRenderer;
@@ -21,15 +21,15 @@ import java.awt.*;
 public class BackgroundRendererMixin {
     @ModifyArgs(method = "applyFog", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Fog;<init>(FFLnet/minecraft/client/render/FogShape;FFFF)V"))
     private static void applyFog(Args args, Camera camera, BackgroundRenderer.FogType fogType, Vector4f originalColor, float viewDistance, boolean thickenFog, float tickDelta) {
-        if (fogType == BackgroundRenderer.FogType.FOG_TERRAIN && Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).fog.getValue()) {
+        if (fogType == BackgroundRenderer.FogType.FOG_TERRAIN && ISU.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(NoRenderModule.class).fog.getValue()) {
             args.set(0, viewDistance * 4);
             args.set(1, viewDistance * 4.25f);
         } else {
-            if (Sydney.MODULE_MANAGER.getModule(AtmosphereModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(AtmosphereModule.class).modifyFog.getValue()) {
-                Color color = Sydney.MODULE_MANAGER.getModule(AtmosphereModule.class).fogColor.getColor();
+            if (ISU.MODULE_MANAGER.getModule(AtmosphereModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(AtmosphereModule.class).modifyFog.getValue()) {
+                Color color = ISU.MODULE_MANAGER.getModule(AtmosphereModule.class).fogColor.getColor();
 
-                args.set(0, Sydney.MODULE_MANAGER.getModule(AtmosphereModule.class).fogStart.getValue().floatValue());
-                args.set(1, Sydney.MODULE_MANAGER.getModule(AtmosphereModule.class).fogEnd.getValue().floatValue());
+                args.set(0, ISU.MODULE_MANAGER.getModule(AtmosphereModule.class).fogStart.getValue().floatValue());
+                args.set(1, ISU.MODULE_MANAGER.getModule(AtmosphereModule.class).fogEnd.getValue().floatValue());
                 args.set(3, color.getRed() / 255.0f);
                 args.set(4, color.getGreen() / 255.0f);
                 args.set(5, color.getBlue() / 255.0f);
@@ -40,7 +40,7 @@ public class BackgroundRendererMixin {
 
     @Inject(method = "getFogModifier(Lnet/minecraft/entity/Entity;F)Lnet/minecraft/client/render/BackgroundRenderer$StatusEffectFogModifier;", at = @At("HEAD"), cancellable = true)
     private static void getFogModifier(Entity entity, float tickDelta, CallbackInfoReturnable<BackgroundRenderer.StatusEffectFogModifier> info) {
-        if (Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).blindness.getValue()) {
+        if (ISU.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(NoRenderModule.class).blindness.getValue()) {
             info.setReturnValue(null);
         }
     }

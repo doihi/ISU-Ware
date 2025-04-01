@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.combat;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.*;
 import me.aidan.sydney.modules.Module;
@@ -52,14 +52,14 @@ public class KillSayModule extends Module {
     public void onTick(TickEvent event) {
         if(getNull() || queue.isEmpty()) return;
 
-        killMessages = FileUtils.readLines(new File(Sydney.MOD_NAME + "/Client/" + killFile.getValue()));
-        popMessages = FileUtils.readLines(new File(Sydney.MOD_NAME + "/Client/" + popFile.getValue()));
+        killMessages = FileUtils.readLines(new File(ISU.MOD_NAME + "/Client/" + killFile.getValue()));
+        popMessages = FileUtils.readLines(new File(ISU.MOD_NAME + "/Client/" + popFile.getValue()));
 
         synchronized (queue) {
             if (timer.hasTimeElapsed(delay.getValue().intValue() * 1000)) {
                 String message = queue.poll();
                 if(!message.isEmpty()) {
-                    if (clientside.getValue()) Sydney.CHAT_MANAGER.message(message);
+                    if (clientside.getValue()) ISU.CHAT_MANAGER.message(message);
                     else mc.player.networkHandler.sendChatMessage((greenText.getValue() ? "> " : "") + message);
 
                     lastMessage = message;
@@ -83,13 +83,13 @@ public class KillSayModule extends Module {
         }
 
         if(killStreak.getValue() && streak > 1) {
-            Sydney.CHAT_MANAGER.message("You are on a " + streak + " kill streak.");
+            ISU.CHAT_MANAGER.message("You are on a " + streak + " kill streak.");
         }
     }
 
     @SubscribeEvent
     public void onPlayerPop(PlayerPopEvent event) {
-        if(getNull() || event.getPlayer() == mc.player || !Sydney.TARGET_MANAGER.isTarget(event.getPlayer()) || !pops.getValue()) return;
+        if(getNull() || event.getPlayer() == mc.player || !ISU.TARGET_MANAGER.isTarget(event.getPlayer()) || !pops.getValue()) return;
 
         synchronized (queue) {
             String message = getPopMessage(event.getPlayer().getName().getString(), event.getPops());
@@ -112,7 +112,7 @@ public class KillSayModule extends Module {
 
     @SubscribeEvent
     public void onPlayerDeath(PlayerDeathEvent event) {
-        if(event.getPlayer() == mc.player && (!suicideIgnore.getValue() || !suicide && !Sydney.MODULE_MANAGER.getModule(SuicideModule.class).isToggled())) {
+        if(event.getPlayer() == mc.player && (!suicideIgnore.getValue() || !suicide && !ISU.MODULE_MANAGER.getModule(SuicideModule.class).isToggled())) {
             streak = 0;
         }
 

@@ -1,6 +1,6 @@
 package me.aidan.sydney.mixins;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.impl.EntitySpawnEvent;
 import me.aidan.sydney.modules.impl.visuals.AtmosphereModule;
 import net.minecraft.client.world.ClientWorld;
@@ -18,13 +18,13 @@ import java.awt.*;
 public class ClientWorldMixin {
     @Inject(method = "getSkyColor", at = @At("HEAD"), cancellable = true)
     private void getSkyColor(Vec3d cameraPos, float tickDelta, CallbackInfoReturnable<Integer> info) {
-        if (Sydney.MODULE_MANAGER.getModule(AtmosphereModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(AtmosphereModule.class).modifyFog.getValue()) {
-            info.setReturnValue(Sydney.MODULE_MANAGER.getModule(AtmosphereModule.class).fogColor.getColor().getRGB());
+        if (ISU.MODULE_MANAGER.getModule(AtmosphereModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(AtmosphereModule.class).modifyFog.getValue()) {
+            info.setReturnValue(ISU.MODULE_MANAGER.getModule(AtmosphereModule.class).fogColor.getColor().getRGB());
         }
     }
 
     @Inject(method = "addEntity", at = @At(value = "HEAD"))
     private void addEntity(Entity entity, CallbackInfo info) {
-        Sydney.EVENT_HANDLER.post(new EntitySpawnEvent(entity));
+        ISU.EVENT_HANDLER.post(new EntitySpawnEvent(entity));
     }
 }

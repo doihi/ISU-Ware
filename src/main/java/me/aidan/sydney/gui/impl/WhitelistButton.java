@@ -1,7 +1,7 @@
 package me.aidan.sydney.gui.impl;
 
 import lombok.AllArgsConstructor;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.gui.ClickGuiScreen;
 import me.aidan.sydney.gui.api.Button;
 import me.aidan.sydney.gui.api.Frame;
@@ -78,8 +78,8 @@ public class WhitelistButton extends Button {
         Renderer2D.renderQuad(context.getMatrices(), getX() + getPadding() + 1, getY(), getX() + getWidth() - getPadding() - 1, getY() + 13 - 1, ClickGuiScreen.getButtonColor(getY(), 100));
         Renderer2D.renderQuad(context.getMatrices(), getX() + getPadding() + 1, getY(), getX() + getPadding() + 2, getY() + getHeight() - 1, ClickGuiScreen.getButtonColor(getY(), 30));
 
-        Sydney.FONT_MANAGER.drawTextWithShadow(context, setting.getTag(), getX() + getTextPadding() + 1, getY() + 2, Color.WHITE);
-        Sydney.FONT_MANAGER.drawTextWithShadow(context, Formatting.GRAY + "" + setting.getWhitelist().size(), getX() + getWidth() - getTextPadding() - 1 - Sydney.FONT_MANAGER.getWidth(setting.getWhitelist().size() + ""), getY() + 2, Color.WHITE);
+        ISU.FONT_MANAGER.drawTextWithShadow(context, setting.getTag(), getX() + getTextPadding() + 1, getY() + 2, Color.WHITE);
+        ISU.FONT_MANAGER.drawTextWithShadow(context, Formatting.GRAY + "" + setting.getWhitelist().size(), getX() + getWidth() - getTextPadding() - 1 - ISU.FONT_MANAGER.getWidth(setting.getWhitelist().size() + ""), getY() + 2, Color.WHITE);
 
         if (open) {
             int contentY = getY() + getParent().getHeight();
@@ -88,7 +88,7 @@ public class WhitelistButton extends Button {
 
             String displayedSearch = searchQuery;
             if (searching) {
-                String cursorChar = Sydney.CLICK_GUI.isShowLine() ? "|" : " ";
+                String cursorChar = ISU.CLICK_GUI.isShowLine() ? "|" : " ";
                 if (cursorPos <= displayedSearch.length()) {
                     displayedSearch = displayedSearch.substring(0, cursorPos) + cursorChar + displayedSearch.substring(cursorPos);
                 }
@@ -96,7 +96,7 @@ public class WhitelistButton extends Button {
                 displayedSearch = "Search...";
             }
 
-            Sydney.FONT_MANAGER.drawTextWithShadow(context, displayedSearch, getX() + getTextPadding() + 2 + offsetX, contentY + (searchBarHeight / 2) - (Sydney.FONT_MANAGER.getHeight() / 2), searching ? (selecting ? ClickGuiScreen.getButtonColor(getY(), 255) : Color.WHITE) : Color.GRAY);
+            ISU.FONT_MANAGER.drawTextWithShadow(context, displayedSearch, getX() + getTextPadding() + 2 + offsetX, contentY + (searchBarHeight / 2) - (ISU.FONT_MANAGER.getHeight() / 2), searching ? (selecting ? ClickGuiScreen.getButtonColor(getY(), 255) : Color.WHITE) : Color.GRAY);
 
             int listStartY = contentY + searchBarHeight;
             int renderCount = Math.min(visibleElements.size(), maxDisplayed);
@@ -130,7 +130,7 @@ public class WhitelistButton extends Button {
 
                 int textWidth = 0;
                 for (ColoredSegment seg : segments) {
-                    textWidth += Sydney.FONT_MANAGER.getWidth(seg.text);
+                    textWidth += ISU.FONT_MANAGER.getWidth(seg.text);
                 }
 
                 int availableSpace = symbolX - textX;
@@ -144,8 +144,8 @@ public class WhitelistButton extends Button {
 
                 int drawX = textX;
                 for (ColoredSegment seg : drawSegments) {
-                    Sydney.FONT_MANAGER.drawTextWithShadow(context, seg.text, drawX, itemY + 2, seg.color);
-                    drawX += Sydney.FONT_MANAGER.getWidth(seg.text);
+                    ISU.FONT_MANAGER.drawTextWithShadow(context, seg.text, drawX, itemY + 2, seg.color);
+                    drawX += ISU.FONT_MANAGER.getWidth(seg.text);
                 }
 
                 String symbol = (!searching || inWhitelist) ? "-" : "+";
@@ -160,7 +160,7 @@ public class WhitelistButton extends Button {
                     symbolColor = symbolHovered ? new Color(255, 0, 0) : Color.WHITE;
                 }
 
-                Sydney.FONT_MANAGER.drawTextWithShadow(context, symbol, symbolRenderX, itemY + 2, symbolColor);
+                ISU.FONT_MANAGER.drawTextWithShadow(context, symbol, symbolRenderX, itemY + 2, symbolColor);
             }
 
             if (visibleElements.size() > maxDisplayed) {
@@ -325,13 +325,13 @@ public class WhitelistButton extends Button {
                         cursorPos += clip.length();
                     }
                 } catch (Exception e) {
-                    Sydney.LOGGER.error("{}: Failed to process clipboard paste", e.getClass().getName(), e);
+                    ISU.LOGGER.error("{}: Failed to process clipboard paste", e.getClass().getName(), e);
                 }
             } else if (keyCode == GLFW.GLFW_KEY_C && selecting) {
                 try {
                     mc.keyboard.setClipboard(searchQuery);
                 } catch (Exception e) {
-                    Sydney.LOGGER.error("{}: Failed to process clipboard change", e.getClass().getName(), e);
+                    ISU.LOGGER.error("{}: Failed to process clipboard change", e.getClass().getName(), e);
                 }
             } else if (keyCode == GLFW.GLFW_KEY_A) {
                 selecting = true;
@@ -502,7 +502,7 @@ public class WhitelistButton extends Button {
         int currentWidth = 0;
 
         for (ColoredSegment seg : segments) {
-            int segWidth = Sydney.FONT_MANAGER.getWidth(seg.text);
+            int segWidth = ISU.FONT_MANAGER.getWidth(seg.text);
             if (currentWidth + segWidth <= maxWidth) {
                 truncated.add(seg);
                 currentWidth += segWidth;
@@ -512,8 +512,8 @@ public class WhitelistButton extends Button {
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < seg.text.length(); i++) {
                         char c = seg.text.charAt(i);
-                        int charWidth = Sydney.FONT_MANAGER.getWidth(String.valueOf(c));
-                        if (charWidth <= spaceLeft - Sydney.FONT_MANAGER.getWidth("…")) {
+                        int charWidth = ISU.FONT_MANAGER.getWidth(String.valueOf(c));
+                        if (charWidth <= spaceLeft - ISU.FONT_MANAGER.getWidth("…")) {
                             sb.append(c);
                             spaceLeft -= charWidth;
                         } else {

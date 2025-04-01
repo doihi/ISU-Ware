@@ -2,7 +2,7 @@ package me.aidan.sydney.mixins;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.visuals.ShadersModule;
 import me.aidan.sydney.utils.IMinecraft;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -18,6 +18,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 public class EntityRenderDispatcherMixin implements IMinecraft {
     @WrapOperation(method = "render(Lnet/minecraft/entity/Entity;DDDFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/client/render/entity/EntityRenderer;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/EntityRenderDispatcher;renderFire(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/client/render/entity/state/EntityRenderState;Lorg/joml/Quaternionf;)V"))
     private void render$renderFire(EntityRenderDispatcher instance, MatrixStack matrices, VertexConsumerProvider vertexConsumers, EntityRenderState renderState, Quaternionf rotation, Operation<Void> original) {
-        original.call(instance, matrices, Sydney.MODULE_MANAGER.getModule(ShadersModule.class).isToggled() ? mc.getBufferBuilders().getEntityVertexConsumers() : vertexConsumers, renderState, rotation);
+        original.call(instance, matrices, ISU.MODULE_MANAGER.getModule(ShadersModule.class).isToggled() ? mc.getBufferBuilders().getEntityVertexConsumers() : vertexConsumers, renderState, rotation);
     }
 }

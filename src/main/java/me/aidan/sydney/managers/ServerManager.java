@@ -3,7 +3,7 @@ package me.aidan.sydney.managers;
 import it.unimi.dsi.fastutil.Pair;
 import it.unimi.dsi.fastutil.objects.ObjectObjectImmutablePair;
 import lombok.Getter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.*;
 import me.aidan.sydney.modules.impl.miscellaneous.FastLatencyModule;
@@ -33,7 +33,7 @@ public class ServerManager implements IMinecraft {
     private Pair<ServerAddress, ServerInfo> lastConnection;
 
     public ServerManager() {
-        Sydney.EVENT_HANDLER.subscribe(this);
+        ISU.EVENT_HANDLER.subscribe(this);
     }
 
     @SubscribeEvent
@@ -66,12 +66,12 @@ public class ServerManager implements IMinecraft {
         if (event.getPacket() instanceof PlayerListS2CPacket packet) {
             if (packet.getActions().contains(PlayerListS2CPacket.Action.ADD_PLAYER)) {
                 for(PlayerListS2CPacket.Entry entry : packet.getPlayerAdditionEntries()) {
-                    Sydney.EVENT_HANDLER.post(new PlayerConnectEvent(entry.profile().getId()));
+                    ISU.EVENT_HANDLER.post(new PlayerConnectEvent(entry.profile().getId()));
                 }
             }
         } else if(event.getPacket() instanceof PlayerRemoveS2CPacket packet) {
             for(UUID id : packet.profileIds()) {
-                Sydney.EVENT_HANDLER.post(new PlayerDisconnectEvent(id));
+                ISU.EVENT_HANDLER.post(new PlayerDisconnectEvent(id));
             }
         }
     }
@@ -103,8 +103,8 @@ public class ServerManager implements IMinecraft {
     }
 
     public int getPing() {
-        if (Sydney.MODULE_MANAGER.getModule(FastLatencyModule.class).isToggled()) {
-            return Sydney.MODULE_MANAGER.getModule(FastLatencyModule.class).getLatency();
+        if (ISU.MODULE_MANAGER.getModule(FastLatencyModule.class).isToggled()) {
+            return ISU.MODULE_MANAGER.getModule(FastLatencyModule.class).getLatency();
         }
 
         PlayerListEntry entry = mc.getNetworkHandler().getPlayerListEntry(mc.player.getUuid());

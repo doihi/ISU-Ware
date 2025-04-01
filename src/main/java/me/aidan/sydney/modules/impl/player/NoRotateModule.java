@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.player;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PacketReceiveEvent;
 import me.aidan.sydney.mixins.accessors.PlayerPositionAccessor;
@@ -23,8 +23,8 @@ public class NoRotateModule extends Module {
 
         if (event.getPacket() instanceof PlayerPositionLookS2CPacket packet) {
             if (spoof.getValue()) {
-                Sydney.ROTATION_MANAGER.packetRotate(packet.change().yaw(), packet.change().pitch());
-                Sydney.ROTATION_MANAGER.packetRotate(mc.player.getYaw(), mc.player.getPitch());
+                ISU.ROTATION_MANAGER.packetRotate(packet.change().yaw(), packet.change().pitch());
+                ISU.ROTATION_MANAGER.packetRotate(mc.player.getYaw(), mc.player.getPitch());
             }
 
             ((PlayerPositionAccessor) (Object) packet.change()).setYaw(mc.player.getYaw());

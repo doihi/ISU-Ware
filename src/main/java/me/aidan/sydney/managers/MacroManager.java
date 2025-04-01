@@ -1,7 +1,7 @@
 package me.aidan.sydney.managers;
 
 import lombok.Getter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.KeyInputEvent;
 import me.aidan.sydney.events.impl.MouseInputEvent;
@@ -17,7 +17,7 @@ public class    MacroManager implements IMinecraft {
 
     public MacroManager() {
         macros = new HashMap<>();
-        Sydney.EVENT_HANDLER.subscribe(this);
+        ISU.EVENT_HANDLER.subscribe(this);
     }
 
     @SubscribeEvent
@@ -29,7 +29,7 @@ public class    MacroManager implements IMinecraft {
             if (event.getKey() != value) continue;
 
             if (key == null) {
-                Sydney.CHAT_MANAGER.error("An error happened while executing the " + ChatUtils.getPrimary() + KeyboardUtils.getKeyName(value) + ChatUtils.getSecondary() + " macro.");
+                ISU.CHAT_MANAGER.error("An error happened while executing the " + ChatUtils.getPrimary() + KeyboardUtils.getKeyName(value) + ChatUtils.getSecondary() + " macro.");
                 continue;
             }
 
@@ -38,8 +38,8 @@ public class    MacroManager implements IMinecraft {
                 if (str.startsWith("/")) {
                     mc.player.networkHandler.sendChatCommand(str.substring(1));
                 } else {
-                    if (str.startsWith(Sydney.COMMAND_MANAGER.getPrefix())) {
-                        Sydney.COMMAND_MANAGER.execute(str);
+                    if (str.startsWith(ISU.COMMAND_MANAGER.getPrefix())) {
+                        ISU.COMMAND_MANAGER.execute(str);
                     } else {
                         mc.player.networkHandler.sendChatMessage(str);
                     }
@@ -57,7 +57,7 @@ public class    MacroManager implements IMinecraft {
             if (value != (-event.getButton() - 1)) continue;
 
             if (key == null) {
-                Sydney.CHAT_MANAGER.error("An error happened while executing the " + ChatUtils.getPrimary() + KeyboardUtils.getKeyName(value) + ChatUtils.getSecondary() + " macro.");
+                ISU.CHAT_MANAGER.error("An error happened while executing the " + ChatUtils.getPrimary() + KeyboardUtils.getKeyName(value) + ChatUtils.getSecondary() + " macro.");
                 continue;
             }
 

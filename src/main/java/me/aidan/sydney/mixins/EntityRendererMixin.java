@@ -1,6 +1,6 @@
 package me.aidan.sydney.mixins;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.visuals.NameTagsModule;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class EntityRendererMixin<T extends Entity, S extends EntityRenderState> {
     @Inject(method = "getDisplayName", at = @At("HEAD"), cancellable = true)
     private void getDisplayName(T entity, CallbackInfoReturnable<Text> info) {
-        if (entity instanceof PlayerEntity && Sydney.MODULE_MANAGER.getModule(NameTagsModule.class).isToggled()) {
+        if (entity instanceof PlayerEntity && ISU.MODULE_MANAGER.getModule(NameTagsModule.class).isToggled()) {
             info.setReturnValue(null);
         }
     }

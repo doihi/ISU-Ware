@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.combat;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PlayerUpdateEvent;
 import me.aidan.sydney.modules.Module;
@@ -62,7 +62,7 @@ public class SelfTrapModule extends Module {
 
             if (autoSwitch.getValue().equalsIgnoreCase("None") && !(mc.player.getMainHandStack().getItem() instanceof BlockItem)) {
                 if (itemDisable.getValue()) {
-                    Sydney.CHAT_MANAGER.tagged("You are currently not holding any blocks.", getName());
+                    ISU.CHAT_MANAGER.tagged("You are currently not holding any blocks.", getName());
                     setToggled(false);
                 }
 
@@ -82,7 +82,7 @@ public class SelfTrapModule extends Module {
 
             if (slot == -1) {
                 if (itemDisable.getValue()) {
-                    Sydney.CHAT_MANAGER.tagged("No blocks could be found in your hotbar.", getName());
+                    ISU.CHAT_MANAGER.tagged("No blocks could be found in your hotbar.", getName());
                     setToggled(false);
                 }
 

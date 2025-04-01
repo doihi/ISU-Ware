@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.movement;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PlayerMoveEvent;
 import me.aidan.sydney.modules.Module;
@@ -18,7 +18,7 @@ public class AccelerateModule extends Module {
 
     @SubscribeEvent
     public void onPlayerMove(PlayerMoveEvent event) {
-        if(getNull() || (Sydney.MODULE_MANAGER.getModule(HoleSnapModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(HoleSnapModule.class).hole != null) || Sydney.MODULE_MANAGER.getModule(SpeedModule.class).isToggled()) return;
+        if(getNull() || (ISU.MODULE_MANAGER.getModule(HoleSnapModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(HoleSnapModule.class).hole != null) || ISU.MODULE_MANAGER.getModule(SpeedModule.class).isToggled()) return;
 
         if (mc.player.fallDistance >= 5.0f || mc.player.isSneaking() || mc.player.isClimbing() || mc.world.getBlockState(mc.player.getBlockPos()).getBlock() == Blocks.COBWEB || mc.player.getAbilities().flying || mc.player.isGliding())
             return;

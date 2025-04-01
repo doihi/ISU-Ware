@@ -1,6 +1,6 @@
 package me.aidan.sydney.mixins;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.visuals.EntityModifierModule;
 import me.aidan.sydney.modules.impl.visuals.NoRenderModule;
 import me.aidan.sydney.utils.IMinecraft;
@@ -69,28 +69,28 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
 
     @Inject(method = "render(Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At("HEAD"), cancellable = true)
     private void render(S livingEntityRenderState, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo info) {
-        if (Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).corpses.getValue() && livingEntityRenderState.deathTime > 0) {
+        if (ISU.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(NoRenderModule.class).corpses.getValue() && livingEntityRenderState.deathTime > 0) {
             info.cancel();
         }
     }
 
     @ModifyArgs(method = "render(Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;scale(FFF)V", ordinal = 1))
     private void render$scale(Args args, S livingEntityRenderState, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
-        if (Sydney.MODULE_MANAGER.getModule(EntityModifierModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(EntityModifierModule.class).players.getValue()) {
+        if (ISU.MODULE_MANAGER.getModule(EntityModifierModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(EntityModifierModule.class).players.getValue()) {
             if (!((Object) this instanceof PlayerEntityRenderer)) return;
 
-            args.set(0, -Sydney.MODULE_MANAGER.getModule(EntityModifierModule.class).playerScale.getValue().floatValue());
-            args.set(1, -Sydney.MODULE_MANAGER.getModule(EntityModifierModule.class).playerScale.getValue().floatValue());
-            args.set(2, Sydney.MODULE_MANAGER.getModule(EntityModifierModule.class).playerScale.getValue().floatValue());
+            args.set(0, -ISU.MODULE_MANAGER.getModule(EntityModifierModule.class).playerScale.getValue().floatValue());
+            args.set(1, -ISU.MODULE_MANAGER.getModule(EntityModifierModule.class).playerScale.getValue().floatValue());
+            args.set(2, ISU.MODULE_MANAGER.getModule(EntityModifierModule.class).playerScale.getValue().floatValue());
         }
     }
 
     @ModifyArgs(method = "render(Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/model/EntityModel;render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;III)V"))
     private void render$render(Args args, S livingEntityRenderState, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
-        if (Sydney.MODULE_MANAGER.getModule(EntityModifierModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(EntityModifierModule.class).players.getValue()) {
+        if (ISU.MODULE_MANAGER.getModule(EntityModifierModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(EntityModifierModule.class).players.getValue()) {
             if (!((Object) this instanceof PlayerEntityRenderer)) return;
 
-            args.set(4, Sydney.MODULE_MANAGER.getModule(EntityModifierModule.class).playerColor.getColor().getRGB());
+            args.set(4, ISU.MODULE_MANAGER.getModule(EntityModifierModule.class).playerColor.getColor().getRGB());
         }
     }
 
@@ -106,10 +106,10 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
 
         float g = MathHelper.lerpAngleDegrees(f, livingEntity.prevHeadYaw, livingEntity.headYaw);
 
-        if (livingEntity == mc.player && Sydney.ROTATION_MANAGER.inRenderTime()) {
-            livingEntityRenderState.bodyYaw = Sydney.ROTATION_MANAGER.getRenderRotations()[0];
-            livingEntityRenderState.yawDegrees = MathHelper.wrapDegrees(Sydney.ROTATION_MANAGER.getRenderRotations()[0] - livingEntityRenderState.bodyYaw);
-            livingEntityRenderState.pitch = Sydney.ROTATION_MANAGER.getRenderRotations()[1];
+        if (livingEntity == mc.player && ISU.ROTATION_MANAGER.inRenderTime()) {
+            livingEntityRenderState.bodyYaw = ISU.ROTATION_MANAGER.getRenderRotations()[0];
+            livingEntityRenderState.yawDegrees = MathHelper.wrapDegrees(ISU.ROTATION_MANAGER.getRenderRotations()[0] - livingEntityRenderState.bodyYaw);
+            livingEntityRenderState.pitch = ISU.ROTATION_MANAGER.getRenderRotations()[1];
         } else {
             livingEntityRenderState.bodyYaw = clampBodyYaw(livingEntity, g, f);
             livingEntityRenderState.yawDegrees = MathHelper.wrapDegrees(g - livingEntityRenderState.bodyYaw);
@@ -158,7 +158,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
 
     @Override
     public void sydney$render(LivingEntityRenderState livingEntityRenderState, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
-        if (Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).corpses.getValue() && livingEntityRenderState.deathTime > 0) return;
+        if (ISU.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(NoRenderModule.class).corpses.getValue() && livingEntityRenderState.deathTime > 0) return;
 
         matrixStack.push();
 

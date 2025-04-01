@@ -1,7 +1,7 @@
 package me.aidan.sydney.modules.impl.miscellaneous;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.Module;
 import me.aidan.sydney.modules.RegisterModule;
 import me.aidan.sydney.utils.graphics.Renderer2D;
@@ -29,19 +29,19 @@ public class ShulkerInfoModule extends Module {
                 } catch (Exception ignored) { }
             }
             x += 4;
-            y -= 62 + Sydney.FONT_MANAGER.getHeight();
+            y -= 62 + ISU.FONT_MANAGER.getHeight();
 
             RenderSystem.disableDepthTest();
             GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
 
-            Renderer2D.renderQuad(context.getMatrices(), x, y, x + 164, y + 60 + Sydney.FONT_MANAGER.getHeight(), new Color(0, 0, 0, 200));
-            Renderer2D.renderOutline(context.getMatrices(), x, y, x + 164, y + 60 + Sydney.FONT_MANAGER.getHeight(), color);
+            Renderer2D.renderQuad(context.getMatrices(), x, y, x + 164, y + 60 + ISU.FONT_MANAGER.getHeight(), new Color(0, 0, 0, 200));
+            Renderer2D.renderOutline(context.getMatrices(), x, y, x + 164, y + 60 + ISU.FONT_MANAGER.getHeight(), color);
 
-            Sydney.FONT_MANAGER.drawTextWithShadow(context, itemStack.getName().getString(), x + 3, y + 3, Color.WHITE);
+            ISU.FONT_MANAGER.drawTextWithShadow(context, itemStack.getName().getString(), x + 3, y + 3, Color.WHITE);
 
             int row = 0, i = 0;
             for(ItemStack stack : component.stream().toList()) {
-                int offsetX = x + 1 + i * 18, offsetY = y + Sydney.FONT_MANAGER.getHeight() + 5 + row * 18;
+                int offsetX = x + 1 + i * 18, offsetY = y + ISU.FONT_MANAGER.getHeight() + 5 + row * 18;
                 context.drawItem(stack, offsetX, offsetY);
                 context.drawStackOverlay(mc.textRenderer, stack, offsetX, offsetY);
                 i++;

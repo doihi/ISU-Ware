@@ -1,6 +1,6 @@
 package me.aidan.sydney.gui.special;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.utils.IMinecraft;
 import me.aidan.sydney.utils.color.ColorUtils;
 import me.aidan.sydney.utils.graphics.Renderer2D;
@@ -31,7 +31,7 @@ public class MainMenuScreen extends Screen implements IMinecraft {
     private final int buttonWidth = 80, buttonHeight = 16;
 
     public MainMenuScreen() {
-        super(Text.literal(Sydney.MOD_ID + "-menu"));
+        super(Text.literal(ISU.MOD_ID + "-menu"));
 
         splashText = getSplashText();
     }
@@ -57,14 +57,14 @@ public class MainMenuScreen extends Screen implements IMinecraft {
         }
 
         // Watermark
-        drawText(context, Formatting.WHITE + "Syd" + Formatting.RESET + "ney", width/2f - Sydney.FONT_MANAGER.getWidth("Sydney"), height/2f - Sydney.FONT_MANAGER.getHeight()*2 - 5, 2, ColorUtils.getRainbow(2L, 0.7f, 1.0f, 255, width/2*5L));
+        drawText(context, Formatting.WHITE + "Syd" + Formatting.RESET + "ney", width/2f - ISU.FONT_MANAGER.getWidth("Sydney"), height/2f - ISU.FONT_MANAGER.getHeight()*2 - 5, 2, ColorUtils.getRainbow(2L, 0.7f, 1.0f, 255, width/2*5L));
 
         // Time
         String date = new SimpleDateFormat("MM/dd/yy").format(new Date()) + " " + new SimpleDateFormat("hh:mm aa").format(new Date());
-        drawText(context, date, width/2f - Sydney.FONT_MANAGER.getWidth(date)/2f, 6, 1, Color.GRAY);
+        drawText(context, date, width/2f - ISU.FONT_MANAGER.getWidth(date)/2f, 6, 1, Color.GRAY);
 
         // Client version
-        drawText(context, Sydney.MOD_NAME + " " + Sydney.MOD_VERSION + "-mc" + Sydney.MINECRAFT_VERSION + "+", 2, height - Sydney.FONT_MANAGER.getHeight() - 2, 1, Color.GRAY);
+        drawText(context, ISU.MOD_NAME + " " + ISU.MOD_VERSION + "-mc" + ISU.MINECRAFT_VERSION + "+", 2, height - ISU.FONT_MANAGER.getHeight() - 2, 1, Color.GRAY);
 
         drawButton(context, "Singleplayer", width/2f - buttonWidth - 2, height/2f, mouseX, mouseY);
         drawButton(context, "Multiplayer", width/2f, height/2f, mouseX, mouseY);
@@ -72,14 +72,14 @@ public class MainMenuScreen extends Screen implements IMinecraft {
         drawButton(context, "Quit Game", width - buttonWidth/2f - 2, height - buttonHeight - 2, mouseX, mouseY);
 
         // Splash
-        drawText(context, splashText, width/2f - Sydney.FONT_MANAGER.getWidth(splashText)/2f, height/2f + buttonHeight + 5f, 1, Color.WHITE);
+        drawText(context, splashText, width/2f - ISU.FONT_MANAGER.getWidth(splashText)/2f, height/2f + buttonHeight + 5f, 1, Color.WHITE);
 
         // Status
     }
 
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if(button == 0) {
-            if(width/2f - Sydney.FONT_MANAGER.getWidth("Sydney") <= mouseX && height/2f - Sydney.FONT_MANAGER.getHeight()*2 - 5 <= mouseY && width/2f + Sydney.FONT_MANAGER.getWidth("Sydney") > mouseX && height/2f - 5 > mouseY) {
+            if(width/2f - ISU.FONT_MANAGER.getWidth("Sydney") <= mouseX && height/2f - ISU.FONT_MANAGER.getHeight()*2 - 5 <= mouseY && width/2f + ISU.FONT_MANAGER.getWidth("Sydney") > mouseX && height/2f - 5 > mouseY) {
                 try {
                     Util.getOperatingSystem().open(new URI("https://youtu.be/INE4RacaApQ?si=ShQU8VjfpgdxW8nb"));
                 } catch (Exception ignored) { }
@@ -108,7 +108,7 @@ public class MainMenuScreen extends Screen implements IMinecraft {
 
     private void drawButton(DrawContext context, String text, float x, float y, int mouseX, int mouseY) {
         Renderer2D.renderQuad(context.getMatrices(), x - buttonWidth/2f, y, x + buttonWidth/2f, y + buttonHeight, isHoveringButton(x, y, mouseX, mouseY) ? new Color(0, 0, 0, 80) : new Color(0, 0, 0, 50));
-        drawText(context, text, x - Sydney.FONT_MANAGER.getWidth(text)/2f, y + 4, 1, isHoveringButton(x, y, mouseX, mouseY) ? Color.WHITE : Color.GRAY);
+        drawText(context, text, x - ISU.FONT_MANAGER.getWidth(text)/2f, y + 4, 1, isHoveringButton(x, y, mouseX, mouseY) ? Color.WHITE : Color.GRAY);
     }
 
     public boolean isHoveringButton(double x, double y, double mouseX, double mouseY) {
@@ -119,13 +119,13 @@ public class MainMenuScreen extends Screen implements IMinecraft {
         context.getMatrices().push();
         context.getMatrices().translate(x, y, 0);
         context.getMatrices().scale(scale, scale, 0);
-        Sydney.FONT_MANAGER.drawText(context, text, 0, 0, color);
+        ISU.FONT_MANAGER.drawText(context, text, 0, 0, color);
         context.getMatrices().pop();
     }
 
     private String getSplashText() {
         String splash = "";
-        Identifier identifier = Identifier.of(Sydney.MOD_ID, "splash.txt");
+        Identifier identifier = Identifier.of(ISU.MOD_ID, "splash.txt");
 
         try {
             Resource resource = mc.getResourceManager().getResource(identifier).orElseThrow();

@@ -2,7 +2,7 @@ package me.aidan.sydney.commands;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.commands.impl.ModuleCommand;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.ChatInputEvent;
@@ -18,7 +18,7 @@ public class CommandManager {
     private String prefix = ".";
 
     public CommandManager() {
-        Sydney.EVENT_HANDLER.subscribe(this);
+        ISU.EVENT_HANDLER.subscribe(this);
 
         try {
             for (Class<?> clazz : new Reflections("me.aidan.sydney.commands.impl").getSubTypesOf(Command.class)) {
@@ -28,10 +28,10 @@ public class CommandManager {
                 commands.add((Command) clazz.getDeclaredConstructor().newInstance());
             }
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException exception) {
-            Sydney.LOGGER.error("Failed to register the client's modules!", exception);
+            ISU.LOGGER.error("Failed to register the client's modules!", exception);
         }
 
-        Sydney.MODULE_MANAGER.getModules().forEach(m -> commands.add(new ModuleCommand(m)));
+        ISU.MODULE_MANAGER.getModules().forEach(m -> commands.add(new ModuleCommand(m)));
     }
 
     @SubscribeEvent
@@ -55,7 +55,7 @@ public class CommandManager {
             }
         }
 
-        if (!foundCommand) Sydney.CHAT_MANAGER.warn("Could not find the command specified.");
+        if (!foundCommand) ISU.CHAT_MANAGER.warn("Could not find the command specified.");
     }
 
     public Command getCommand(String name) {

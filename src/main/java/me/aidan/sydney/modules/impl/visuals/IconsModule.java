@@ -1,7 +1,7 @@
 package me.aidan.sydney.modules.impl.visuals;
 
 import lombok.Getter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.EntitySpawnEvent;
 import me.aidan.sydney.events.impl.PacketReceiveEvent;
@@ -100,7 +100,7 @@ public class IconsModule extends Module {
             if (chorus.getValue()) {
                 for (Icon icon : iconList.stream().filter(icon -> icon.type == Icon.Type.CHORUS).toList()) {
                     icon.render(matrices, System.currentTimeMillis() - icon.time >= 600 + duration.getValue().intValue() ? 0 : 1, () -> {
-                        Renderer2D.renderTexture(matrices, -6f, -6.5f, 6f, 6.5f, Identifier.of(Sydney.MOD_ID, "textures/chorus.png"), Color.WHITE);
+                        Renderer2D.renderTexture(matrices, -6f, -6.5f, 6f, 6.5f, Identifier.of(ISU.MOD_ID, "textures/chorus.png"), Color.WHITE);
                     }, chorusColor.getColor());
                 }
             }
@@ -108,7 +108,7 @@ public class IconsModule extends Module {
             if (pearls.getValue()) {
                 for (Icon icon : iconList.stream().filter(icon -> icon.type == Icon.Type.PEARL).toList()) {
                     icon.render(matrices, !(mc.world.getEntityById(pearlMap.get(icon)) instanceof EnderPearlEntity) ? 0 : 1, () -> {
-                        Renderer2D.renderTexture(matrices, -6.5f, -6.5f, 6.5f, 6.5f, Identifier.of(Sydney.MOD_ID, "textures/pearl.png"), Color.WHITE);
+                        Renderer2D.renderTexture(matrices, -6.5f, -6.5f, 6.5f, 6.5f, Identifier.of(ISU.MOD_ID, "textures/pearl.png"), Color.WHITE);
                     }, pearlsColor.getColor());
                 }
             }

@@ -2,7 +2,7 @@ package me.aidan.sydney.modules.impl.miscellaneous;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.*;
 import me.aidan.sydney.mixins.accessors.MouseAccessor;
@@ -44,7 +44,7 @@ public class SydneyRoboticsModule extends Module {
         try {
             client.sendMessage("update;" + mc.player.getName().getString());
         } catch (IOException exception) {
-            Sydney.LOGGER.error("An exception has been thrown by clientside Sydney Robotics!", exception);
+            ISU.LOGGER.error("An exception has been thrown by clientside Sydney Robotics!", exception);
         }
     }
 
@@ -55,7 +55,7 @@ public class SydneyRoboticsModule extends Module {
         try {
             client.sendMessage("module;" + event.getModule().getName() + ";" + event.getModule().isToggled());
         } catch (IOException exception) {
-            Sydney.LOGGER.error("An exception has been thrown by clientside Sydney Robotics!", exception);
+            ISU.LOGGER.error("An exception has been thrown by clientside Sydney Robotics!", exception);
         }
     }
 
@@ -66,7 +66,7 @@ public class SydneyRoboticsModule extends Module {
         try {
             client.sendMessage("key;" + event.getKey() + ";" + event.getScancode() + ";" + event.getAction() + ";" + event.getModifiers());
         } catch (IOException exception) {
-            Sydney.LOGGER.error("An exception has been thrown by clientside Sydney Robotics!", exception);
+            ISU.LOGGER.error("An exception has been thrown by clientside Sydney Robotics!", exception);
         }
     }
 
@@ -77,7 +77,7 @@ public class SydneyRoboticsModule extends Module {
         try {
             client.sendMessage("mouse;" + event.getButton() + ";" + event.getAction() + ";" + event.getMods());
         } catch (IOException exception) {
-            Sydney.LOGGER.error("An exception has been thrown by clientside Sydney Robotics!", exception);
+            ISU.LOGGER.error("An exception has been thrown by clientside Sydney Robotics!", exception);
         }
     }
 
@@ -88,7 +88,7 @@ public class SydneyRoboticsModule extends Module {
         try {
             client.sendMessage("yaw;" + event.getYaw());
         } catch (IOException exception) {
-            Sydney.LOGGER.error("An exception has been thrown by clientside Sydney Robotics!", exception);
+            ISU.LOGGER.error("An exception has been thrown by clientside Sydney Robotics!", exception);
         }
     }
 
@@ -99,7 +99,7 @@ public class SydneyRoboticsModule extends Module {
         try {
             client.sendMessage("pitch;" + event.getPitch());
         } catch (IOException exception) {
-            Sydney.LOGGER.error("An exception has been thrown by clientside Sydney Robotics!", exception);
+            ISU.LOGGER.error("An exception has been thrown by clientside Sydney Robotics!", exception);
         }
     }
 
@@ -115,8 +115,8 @@ public class SydneyRoboticsModule extends Module {
         if (mc.player.squaredDistanceTo(player.getPos()) <= MathHelper.square(1.5) && (mc.options.forwardKey.isPressed() || mc.options.backKey.isPressed() || mc.options.leftKey.isPressed() || mc.options.rightKey.isPressed()))
             return;
 
-        if (Sydney.MODULE_MANAGER.getModule(HoleSnapModule.class).isToggled()) return;
-        if (Sydney.MODULE_MANAGER.getModule(HitboxDesyncModule.class).isToggled()) return;
+        if (ISU.MODULE_MANAGER.getModule(HoleSnapModule.class).isToggled()) return;
+        if (ISU.MODULE_MANAGER.getModule(HitboxDesyncModule.class).isToggled()) return;
 
         MovementUtils.moveTowards(event, Vec3d.ofCenter(player.getBlockPos(), 0), MovementUtils.getPotionSpeed(MovementUtils.DEFAULT_SPEED));
     }
@@ -132,8 +132,8 @@ public class SydneyRoboticsModule extends Module {
 
                 client.startConnection("127.0.0.1", Integer.parseInt(port.getValue()));
             } catch (IOException exception) {
-                Sydney.LOGGER.error("An exception has been thrown by clientside Sydney Robotics!", exception);
-                Sydney.CHAT_MANAGER.error("Failed to establish a connection to the SydneyRobotics server.");
+                ISU.LOGGER.error("An exception has been thrown by clientside Sydney Robotics!", exception);
+                ISU.CHAT_MANAGER.error("Failed to establish a connection to the SydneyRobotics server.");
                 setToggled(false);
             }
         } else {
@@ -151,8 +151,8 @@ public class SydneyRoboticsModule extends Module {
                     }
                 }).start();
             } catch (IOException exception) {
-                Sydney.LOGGER.error("An exception has been thrown by serverside Sydney Robotics!", exception);
-                Sydney.CHAT_MANAGER.error("Failed to start the SydneyRobotics server.");
+                ISU.LOGGER.error("An exception has been thrown by serverside Sydney Robotics!", exception);
+                ISU.CHAT_MANAGER.error("Failed to start the SydneyRobotics server.");
                 setToggled(false);
             }
         }
@@ -233,22 +233,22 @@ public class SydneyRoboticsModule extends Module {
                 String[] split = inputLine.split(";");
 
                 if (split[0].equalsIgnoreCase("module") && split.length == 3) {
-                    Module module = Sydney.MODULE_MANAGER.getModule(split[1]);
+                    Module module = ISU.MODULE_MANAGER.getModule(split[1]);
                     if (module != null) {
-                        Sydney.TASK_MANAGER.submit(() -> module.setToggled(Boolean.parseBoolean(split[2])));
+                        ISU.TASK_MANAGER.submit(() -> module.setToggled(Boolean.parseBoolean(split[2])));
                     }
                 }
 
                 if (split[0].equalsIgnoreCase("update") && split.length == 2) {
-                    Sydney.MODULE_MANAGER.getModule(SydneyRoboticsModule.class).setTarget(split[1]);
+                    ISU.MODULE_MANAGER.getModule(SydneyRoboticsModule.class).setTarget(split[1]);
                 }
 
                 if (split[0].equalsIgnoreCase("key") && split.length == 5 && mc.keyboard != null) {
-                    Sydney.TASK_MANAGER.submit(() -> mc.keyboard.onKey(mc.getWindow().getHandle(), Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3]), Integer.parseInt(split[4])));
+                    ISU.TASK_MANAGER.submit(() -> mc.keyboard.onKey(mc.getWindow().getHandle(), Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3]), Integer.parseInt(split[4])));
                 }
 
                 if (split[0].equalsIgnoreCase("mouse") && split.length == 4 && mc.mouse != null) {
-                    Sydney.TASK_MANAGER.submit(() -> ((MouseAccessor) mc.mouse).invokeOnMouseButton(mc.getWindow().getHandle(), Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3])));
+                    ISU.TASK_MANAGER.submit(() -> ((MouseAccessor) mc.mouse).invokeOnMouseButton(mc.getWindow().getHandle(), Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3])));
                 }
 
                 if (split[0].equalsIgnoreCase("yaw") && split.length == 2 && mc.player != null) {
@@ -259,7 +259,7 @@ public class SydneyRoboticsModule extends Module {
                     mc.player.setPitch(Float.parseFloat(split[1]));
                 }
 
-                if (!Sydney.MODULE_MANAGER.getModule(SydneyRoboticsModule.class).isToggled()) {
+                if (!ISU.MODULE_MANAGER.getModule(SydneyRoboticsModule.class).isToggled()) {
                     stopConnection();
                     break;
                 }

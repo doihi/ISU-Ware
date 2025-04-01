@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.combat;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PacketReceiveEvent;
 import me.aidan.sydney.events.impl.PlayerJumpEvent;
@@ -72,8 +72,8 @@ public class SurroundModule extends Module {
         if (mc.player == null || mc.world == null) return;
         lastPosition = PositionUtils.getFlooredPosition(mc.player);
 
-        if(stepToggle.getValue() && Sydney.MODULE_MANAGER.getModule(StepModule.class).isToggled()) Sydney.MODULE_MANAGER.getModule(StepModule.class).setToggled(false);
-        if(speedToggle.getValue() && Sydney.MODULE_MANAGER.getModule(SpeedModule.class).isToggled()) Sydney.MODULE_MANAGER.getModule(SpeedModule.class).setToggled(false);
+        if(stepToggle.getValue() && ISU.MODULE_MANAGER.getModule(StepModule.class).isToggled()) ISU.MODULE_MANAGER.getModule(StepModule.class).setToggled(false);
+        if(speedToggle.getValue() && ISU.MODULE_MANAGER.getModule(SpeedModule.class).isToggled()) ISU.MODULE_MANAGER.getModule(SpeedModule.class).setToggled(false);
         if(center.getValue()) mc.player.setPosition(lastPosition.getX() + 0.5, lastPosition.getY(), lastPosition.getZ() + 0.5);
     }
 
@@ -87,7 +87,7 @@ public class SurroundModule extends Module {
     @SubscribeEvent
     public void onPlayerUpdate(PlayerUpdateEvent event) {
         if (mc.player == null || mc.world == null) return;
-        if (jumpDisable.getValue() && (mc.player.fallDistance > 2.0f || ((Sydney.MODULE_MANAGER.getModule(StepModule.class).isToggled() || Sydney.MODULE_MANAGER.getModule(SpeedModule.class).isToggled()) && (lastPosition == null || lastPosition.getY() != PositionUtils.getFlooredPosition(mc.player).getY())))) {
+        if (jumpDisable.getValue() && (mc.player.fallDistance > 2.0f || ((ISU.MODULE_MANAGER.getModule(StepModule.class).isToggled() || ISU.MODULE_MANAGER.getModule(SpeedModule.class).isToggled()) && (lastPosition == null || lastPosition.getY() != PositionUtils.getFlooredPosition(mc.player).getY())))) {
             setToggled(false);
             return;
         }
@@ -102,7 +102,7 @@ public class SurroundModule extends Module {
 
         if (autoSwitch.getValue().equalsIgnoreCase("None") && !(mc.player.getMainHandStack().getItem() instanceof BlockItem)) {
             if (itemDisable.getValue()) {
-                Sydney.CHAT_MANAGER.tagged("You are currently not holding any blocks.", getName());
+                ISU.CHAT_MANAGER.tagged("You are currently not holding any blocks.", getName());
                 setToggled(false);
             }
 
@@ -115,7 +115,7 @@ public class SurroundModule extends Module {
 
         if (slot == -1) {
             if (itemDisable.getValue()) {
-                Sydney.CHAT_MANAGER.tagged("No blocks could be found in your hotbar.", getName());
+                ISU.CHAT_MANAGER.tagged("No blocks could be found in your hotbar.", getName());
                 setToggled(false);
             }
 
@@ -125,7 +125,7 @@ public class SurroundModule extends Module {
 
         targetPositions = HoleUtils.getFeetPositions(mc.player, extension.getValue(), floor.getValue(), false);
 
-        HitboxDesyncModule module = Sydney.MODULE_MANAGER.getModule(HitboxDesyncModule.class);
+        HitboxDesyncModule module = ISU.MODULE_MANAGER.getModule(HitboxDesyncModule.class);
         List<BlockPos> positions = targetPositions.stream().filter(position -> mc.player.squaredDistanceTo(Vec3d.ofCenter(position)) <= MathHelper.square(range.getValue().doubleValue()))
                 .filter(position -> WorldUtils.isPlaceable(position, module.isToggled() && !module.close.getValue()))
                 .toList();

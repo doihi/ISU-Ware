@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.visuals;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.RenderWorldEvent;
 import me.aidan.sydney.events.impl.TickEvent;

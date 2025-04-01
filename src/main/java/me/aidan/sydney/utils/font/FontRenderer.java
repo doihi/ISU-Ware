@@ -7,7 +7,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import lombok.SneakyThrows;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.core.FontModule;
 import me.aidan.sydney.modules.impl.miscellaneous.NameProtectModule;
 import me.aidan.sydney.utils.IMinecraft;
@@ -68,9 +68,9 @@ public class FontRenderer implements Closeable, IMinecraft {
             init(this.fonts, this.size);
         }
 
-        if (Sydney.MODULE_MANAGER != null && Sydney.MODULE_MANAGER.getModule(FontModule.class).isToggled()) {
-            x += Sydney.MODULE_MANAGER.getModule(FontModule.class).xOffset.getValue().floatValue();
-            y += Sydney.MODULE_MANAGER.getModule(FontModule.class).yOffset.getValue().floatValue();
+        if (ISU.MODULE_MANAGER != null && ISU.MODULE_MANAGER.getModule(FontModule.class).isToggled()) {
+            x += ISU.MODULE_MANAGER.getModule(FontModule.class).xOffset.getValue().floatValue();
+            y += ISU.MODULE_MANAGER.getModule(FontModule.class).yOffset.getValue().floatValue();
         }
 
         if ((color & -67108864) == 0) color |= -16777216;
@@ -161,7 +161,7 @@ public class FontRenderer implements Closeable, IMinecraft {
     }
 
     public float getTextWidth(String text) {
-        NameProtectModule module = Sydney.MODULE_MANAGER.getModule(NameProtectModule.class);
+        NameProtectModule module = ISU.MODULE_MANAGER.getModule(NameProtectModule.class);
         if (module.isToggled()) text = text.replaceAll(mc.getSession().getUsername(), module.name.getValue());
 
         char[] characters = stripControlCodes(text).toCharArray();

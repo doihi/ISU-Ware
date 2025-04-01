@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.miscellaneous;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PlayerUpdateEvent;
 import me.aidan.sydney.modules.Module;
@@ -40,7 +40,7 @@ public class InventoryCleanerModule extends Module {
 
                 mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, InventoryUtils.indexToSlot(i), 0, SlotActionType.PICKUP, mc.player);
                 mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, -999, 0, SlotActionType.PICKUP, mc.player);
-                ticks = 2 + Sydney.SERVER_MANAGER.getPingDelay();
+                ticks = 2 + ISU.SERVER_MANAGER.getPingDelay();
             }
         }
 

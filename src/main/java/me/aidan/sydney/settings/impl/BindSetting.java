@@ -2,7 +2,7 @@ package me.aidan.sydney.settings.impl;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.impl.SettingChangeEvent;
 import me.aidan.sydney.settings.Setting;
 
@@ -41,7 +41,7 @@ public class BindSetting extends Setting {
 
     public void setValue(int value) {
         this.value = value;
-        Sydney.EVENT_HANDLER.post(new SettingChangeEvent(this));
+        ISU.EVENT_HANDLER.post(new SettingChangeEvent(this));
     }
 
     public static class Visibility extends Setting.Visibility {

@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.visuals;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.RenderEntityEvent;
 import me.aidan.sydney.events.impl.RenderHandEvent;
@@ -39,7 +39,7 @@ public class ShadersModule extends Module {
     public void onRenderShader(RenderShaderEvent event) {
         if (mc.player == null || mc.world == null) return;
 
-        Sydney.SHADER_MANAGER.prepare();
+        ISU.SHADER_MANAGER.prepare();
     }
 
     @SubscribeEvent
@@ -47,8 +47,8 @@ public class ShadersModule extends Module {
         if (mc.player == null || mc.world == null) return;
         if (!isValidEntity(event.getEntity())) return;
 
-        Color color = (event.getEntity() instanceof PlayerEntity player && Sydney.FRIEND_MANAGER.contains(player.getName().getString()) && !friends.getValue().equals("Sync")) ? (friends.getValue().equals("Default") ? Sydney.FRIEND_MANAGER.getDefaultFriendColor() : friendColor.getColor()) : this.color.getColor();
-        event.setVertexConsumers(Sydney.SHADER_MANAGER.create(event.getVertexConsumers(), color));
+        Color color = (event.getEntity() instanceof PlayerEntity player && ISU.FRIEND_MANAGER.contains(player.getName().getString()) && !friends.getValue().equals("Sync")) ? (friends.getValue().equals("Default") ? ISU.FRIEND_MANAGER.getDefaultFriendColor() : friendColor.getColor()) : this.color.getColor();
+        event.setVertexConsumers(ISU.SHADER_MANAGER.create(event.getVertexConsumers(), color));
     }
 
     @SubscribeEvent
@@ -56,10 +56,10 @@ public class ShadersModule extends Module {
         if (mc.player == null || mc.world == null) return;
 
         if (players.getValue() || hostiles.getValue() || animals.getValue() || ambient.getValue() || invisibles.getValue() || items.getValue() || crystals.getValue() || others.getValue()) {
-            Sydney.SHADER_MANAGER.getVertexConsumerProvider().draw();
+            ISU.SHADER_MANAGER.getVertexConsumerProvider().draw();
         }
 
-        if (!hands.getValue()) Sydney.SHADER_MANAGER.render(mode.getValue().equalsIgnoreCase("Fill") ? 0 : mode.getValue().equalsIgnoreCase("Outline") ? 1 : 2, opacity.getValue().intValue() / 255.0f);
+        if (!hands.getValue()) ISU.SHADER_MANAGER.render(mode.getValue().equalsIgnoreCase("Fill") ? 0 : mode.getValue().equalsIgnoreCase("Outline") ? 1 : 2, opacity.getValue().intValue() / 255.0f);
     }
 
     @SubscribeEvent
@@ -67,7 +67,7 @@ public class ShadersModule extends Module {
         if (mc.player == null || mc.world == null) return;
         if (!hands.getValue()) return;
 
-        event.setVertexConsumers(Sydney.SHADER_MANAGER.create(event.getVertexConsumers(), color.getColor()));
+        event.setVertexConsumers(ISU.SHADER_MANAGER.create(event.getVertexConsumers(), color.getColor()));
     }
 
     @SubscribeEvent
@@ -75,7 +75,7 @@ public class ShadersModule extends Module {
         if (mc.player == null || mc.world == null) return;
         if (!hands.getValue()) return;
 
-        Sydney.SHADER_MANAGER.getVertexConsumerProvider().draw();
+        ISU.SHADER_MANAGER.getVertexConsumerProvider().draw();
     }
 
     @SubscribeEvent
@@ -83,7 +83,7 @@ public class ShadersModule extends Module {
         if (mc.player == null || mc.world == null) return;
         if (!hands.getValue()) return;
 
-        Sydney.SHADER_MANAGER.render(mode.getValue().equalsIgnoreCase("Fill") ? 0 : mode.getValue().equalsIgnoreCase("Outline") ? 1 : 2, opacity.getValue().intValue() / 255.0f);
+        ISU.SHADER_MANAGER.render(mode.getValue().equalsIgnoreCase("Fill") ? 0 : mode.getValue().equalsIgnoreCase("Outline") ? 1 : 2, opacity.getValue().intValue() / 255.0f);
     }
 
     public boolean isValidEntity(Entity entity) {

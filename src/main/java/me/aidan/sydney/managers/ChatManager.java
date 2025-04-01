@@ -1,6 +1,6 @@
 package me.aidan.sydney.managers;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.TickEvent;
 import me.aidan.sydney.mixins.accessors.ChatHudAccessor;
@@ -26,7 +26,7 @@ public class ChatManager implements IMinecraft {
     private final List<String> awaitMessages = new ArrayList<>();
 
     public ChatManager() {
-        Sydney.EVENT_HANDLER.subscribe(this);
+        ISU.EVENT_HANDLER.subscribe(this);
     }
 
     @SubscribeEvent
@@ -131,7 +131,7 @@ public class ChatManager implements IMinecraft {
             ((IChatHudLineVisible) (Object) visible).sydney$setClientIdentifier(identifier);
 
             ((ChatHudAccessor) mc.inGameHud.getChatHud()).getVisibleMessages().addFirst(visible);
-            if (Sydney.MODULE_MANAGER.getModule(BetterChatModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(BetterChatModule.class).animation.getValue()) Sydney.MODULE_MANAGER.getModule(BetterChatModule.class).getAnimationMap().put(visible, System.currentTimeMillis());
+            if (ISU.MODULE_MANAGER.getModule(BetterChatModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(BetterChatModule.class).animation.getValue()) ISU.MODULE_MANAGER.getModule(BetterChatModule.class).getAnimationMap().put(visible, System.currentTimeMillis());
         }
 
         while (((ChatHudAccessor) mc.inGameHud.getChatHud()).getVisibleMessages().size() > 100) {
@@ -169,7 +169,7 @@ public class ChatManager implements IMinecraft {
     }
 
     private String getWatermark(String text) {
-        if (!Sydney.MODULE_MANAGER.getModule(CommandsModule.class).watermark.getValue()) return "";
-        return FormattingUtils.getFormatting(Sydney.MODULE_MANAGER.getModule(CommandsModule.class).secondaryWatermarkColor.getValue()) + Sydney.MODULE_MANAGER.getModule(CommandsModule.class).opening.getValue() + FormattingUtils.getFormatting(Sydney.MODULE_MANAGER.getModule(CommandsModule.class).primaryWatermarkColor.getValue()) + (text == null ? Sydney.MODULE_MANAGER.getModule(CommandsModule.class).watermarkText.getValue() : text) + FormattingUtils.getFormatting(Sydney.MODULE_MANAGER.getModule(CommandsModule.class).secondaryWatermarkColor.getValue()) + Sydney.MODULE_MANAGER.getModule(CommandsModule.class).closing.getValue();
+        if (!ISU.MODULE_MANAGER.getModule(CommandsModule.class).watermark.getValue()) return "";
+        return FormattingUtils.getFormatting(ISU.MODULE_MANAGER.getModule(CommandsModule.class).secondaryWatermarkColor.getValue()) + ISU.MODULE_MANAGER.getModule(CommandsModule.class).opening.getValue() + FormattingUtils.getFormatting(ISU.MODULE_MANAGER.getModule(CommandsModule.class).primaryWatermarkColor.getValue()) + (text == null ? ISU.MODULE_MANAGER.getModule(CommandsModule.class).watermarkText.getValue() : text) + FormattingUtils.getFormatting(ISU.MODULE_MANAGER.getModule(CommandsModule.class).secondaryWatermarkColor.getValue()) + ISU.MODULE_MANAGER.getModule(CommandsModule.class).closing.getValue();
     }
 }

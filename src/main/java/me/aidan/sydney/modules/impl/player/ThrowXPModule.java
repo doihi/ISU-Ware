@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.player;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PlayerUpdateEvent;
 import me.aidan.sydney.modules.Module;
@@ -32,7 +32,7 @@ public class ThrowXPModule extends Module {
     @SubscribeEvent
     public void onPlayerUpdate(PlayerUpdateEvent event) {
         if (autoSwitch.getValue().equalsIgnoreCase("None") && !(mc.player.getMainHandStack().getItem() instanceof BlockItem)) {
-            Sydney.CHAT_MANAGER.tagged("You are currently not holding any experience bottles.", getName());
+            ISU.CHAT_MANAGER.tagged("You are currently not holding any experience bottles.", getName());
             setToggled(false);
             return;
         }
@@ -51,7 +51,7 @@ public class ThrowXPModule extends Module {
         int previousSlot = mc.player.getInventory().selectedSlot;
 
         if (slot == -1) {
-            Sydney.CHAT_MANAGER.tagged("No experience bottles could be found in your hotbar.", getName());
+            ISU.CHAT_MANAGER.tagged("No experience bottles could be found in your hotbar.", getName());
             setToggled(false);
             return;
         }

@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.combat;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PlayerUpdateEvent;
 import me.aidan.sydney.modules.Module;
@@ -59,13 +59,13 @@ public class SelfBowModule extends Module {
             if(!todo) return;
         } else {
             if (autoSwitch.getValue().equals("None") && mc.player.getInventory().getMainHandStack().getItem() != Items.BOW) {
-                Sydney.CHAT_MANAGER.tagged("You are currently not holding a bow.", getName());
+                ISU.CHAT_MANAGER.tagged("You are currently not holding a bow.", getName());
                 setToggled(false);
                 return;
             }
 
             if (!autoSwitch.getValue().equals("None") && slot == -1) {
-                Sydney.CHAT_MANAGER.tagged("Could not find a bow in your hotbar.", getName());
+                ISU.CHAT_MANAGER.tagged("Could not find a bow in your hotbar.", getName());
                 setToggled(false);
                 return;
             }
@@ -88,7 +88,7 @@ public class SelfBowModule extends Module {
             if (arrow != bestArrow) InventoryUtils.swap("Pickup", arrow, bestArrow);
         }
 
-        Sydney.ROTATION_MANAGER.packetRotate(mc.player.getYaw(), -90.0f);
+        ISU.ROTATION_MANAGER.packetRotate(mc.player.getYaw(), -90.0f);
         mc.options.useKey.setPressed(false);
         mc.interactionManager.stopUsingItem(mc.player);
         chargeTicks = 0;

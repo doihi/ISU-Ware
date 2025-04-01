@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.miscellaneous;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PacketReceiveEvent;
 import me.aidan.sydney.modules.Module;
@@ -24,11 +24,11 @@ public class AutoLoginModule extends Module {
 
             if(s.contains("/register")) {
                 mc.getNetworkHandler().sendChatCommand("register " + password.getValue() + " " + password.getValue());
-                Sydney.CHAT_MANAGER.tagged("Registered successfully.", getName());
+                ISU.CHAT_MANAGER.tagged("Registered successfully.", getName());
                 timer.reset();
             } else if(s.contains("/login")) {
                 mc.getNetworkHandler().sendChatCommand("login " + password.getValue());
-                Sydney.CHAT_MANAGER.tagged("Logged in as " + mc.getSession().getUsername() + ".", getName());
+                ISU.CHAT_MANAGER.tagged("Logged in as " + mc.getSession().getUsername() + ".", getName());
                 timer.reset();
             }
         }

@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.core;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.MouseInputEvent;
 import me.aidan.sydney.events.impl.SettingChangeEvent;
@@ -35,7 +35,7 @@ public class FriendModule extends Module {
     @SubscribeEvent
     public void onSettingChange(SettingChangeEvent event) {
         if (event.getSetting().equals(friendlyFire)) {
-            Sydney.CHAT_MANAGER.warn(ChatUtils.getPrimary() + "Friendly fire" + ChatUtils.getSecondary() + " has been turned " + (friendlyFire.getValue() ? Formatting.GREEN + "on" + Formatting.RESET + ". Friends will now be attacked." : Formatting.RED + "off" + Formatting.RESET + ". Friends will now no longer be attacked."));
+            ISU.CHAT_MANAGER.warn(ChatUtils.getPrimary() + "Friendly fire" + ChatUtils.getSecondary() + " has been turned " + (friendlyFire.getValue() ? Formatting.GREEN + "on" + Formatting.RESET + ". Friends will now be attacked." : Formatting.RED + "off" + Formatting.RESET + ". Friends will now no longer be attacked."));
         }
     }
 
@@ -48,12 +48,12 @@ public class FriendModule extends Module {
 
         String name = player.getGameProfile().getName();
 
-        if (Sydney.FRIEND_MANAGER.contains(name)) {
-            Sydney.FRIEND_MANAGER.remove(name);
-            Sydney.CHAT_MANAGER.tagged("Successfully removed " + ChatUtils.getPrimary() + name + ChatUtils.getSecondary() + " from your friends list.", "MCF", getName());
+        if (ISU.FRIEND_MANAGER.contains(name)) {
+            ISU.FRIEND_MANAGER.remove(name);
+            ISU.CHAT_MANAGER.tagged("Successfully removed " + ChatUtils.getPrimary() + name + ChatUtils.getSecondary() + " from your friends list.", "MCF", getName());
         } else {
-            Sydney.FRIEND_MANAGER.add(name);
-            Sydney.CHAT_MANAGER.tagged("Successfully added " + ChatUtils.getPrimary() + name + ChatUtils.getSecondary() + " to your friends list.", "MCF", getName());
+            ISU.FRIEND_MANAGER.add(name);
+            ISU.CHAT_MANAGER.tagged("Successfully added " + ChatUtils.getPrimary() + name + ChatUtils.getSecondary() + " to your friends list.", "MCF", getName());
         }
     }
 }

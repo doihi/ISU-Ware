@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.player;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PlayerUpdateEvent;
 import me.aidan.sydney.modules.Module;
@@ -41,7 +41,7 @@ public class ReplenishModule extends Module {
                 if (switchMode.getValue().equalsIgnoreCase("Quick")) mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, InventoryUtils.indexToSlot(slot), 0, SlotActionType.QUICK_MOVE, mc.player);
                 else InventoryUtils.swap(switchMode.getValue(), slot, i);
 
-                ticks = 2 + Sydney.SERVER_MANAGER.getPingDelay();
+                ticks = 2 + ISU.SERVER_MANAGER.getPingDelay();
             }
         }
 

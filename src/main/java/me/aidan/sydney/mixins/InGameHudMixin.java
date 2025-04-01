@@ -1,7 +1,7 @@
 package me.aidan.sydney.mixins;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.impl.RenderOverlayEvent;
 import me.aidan.sydney.modules.impl.core.HUDModule;
 import me.aidan.sydney.modules.impl.visuals.CrosshairModule;
@@ -28,42 +28,42 @@ public class InGameHudMixin {
     @Inject(method = "render", at = @At("HEAD"))
     private void render(DrawContext context, RenderTickCounter tickCounter, CallbackInfo info) {
         if (client.options.hudHidden) return;
-        Sydney.EVENT_HANDLER.post(new RenderOverlayEvent(context, tickCounter.getTickDelta(true)));
+        ISU.EVENT_HANDLER.post(new RenderOverlayEvent(context, tickCounter.getTickDelta(true)));
     }
 
     @Inject(method = "renderStatusEffectOverlay", at = @At("HEAD"), cancellable = true)
     private void renderStatusEffectOverlay(DrawContext context, RenderTickCounter tickCounter, CallbackInfo info) {
-        if (Sydney.MODULE_MANAGER != null && Sydney.MODULE_MANAGER.getModule(HUDModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(HUDModule.class).vanillaPotions.getValue().equalsIgnoreCase("Hide")) {
+        if (ISU.MODULE_MANAGER != null && ISU.MODULE_MANAGER.getModule(HUDModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(HUDModule.class).vanillaPotions.getValue().equalsIgnoreCase("Hide")) {
             info.cancel();
         }
     }
 
     @Inject(method = "renderPortalOverlay", at = @At("HEAD"), cancellable = true)
     private void renderPortalOverlay(DrawContext context, float nauseaStrength, CallbackInfo info) {
-        if (Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).portalOverlay.getValue()) {
+        if (ISU.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(NoRenderModule.class).portalOverlay.getValue()) {
             info.cancel();
         }
     }
 
     @Inject(method = "renderVignetteOverlay", at = @At("HEAD"), cancellable = true)
     private void renderVignetteOverlay(DrawContext context, Entity entity, CallbackInfo info) {
-        if (Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).vignette.getValue()) {
+        if (ISU.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(NoRenderModule.class).vignette.getValue()) {
             info.cancel();
         }
     }
 
     @WrapWithCondition(method = "renderMiscOverlays", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderOverlay(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/util/Identifier;F)V", ordinal = 0))
     private boolean renderPumpkinOverlay(InGameHud instance, DrawContext context, Identifier texture, float opacity) {
-        return !(Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).pumpkinOverlay.getValue());
+        return !(ISU.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(NoRenderModule.class).pumpkinOverlay.getValue());
     }
 
     @WrapWithCondition(method = "renderMiscOverlays", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderOverlay(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/util/Identifier;F)V", ordinal = 1))
     private boolean renderSnowOverlay(InGameHud instance, DrawContext context, Identifier texture, float opacity) {
-        return !(Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).snowOverlay.getValue());
+        return !(ISU.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(NoRenderModule.class).snowOverlay.getValue());
     }
 
     @Inject(method = "renderCrosshair", at = @At(value = "HEAD"), cancellable = true)
     private void renderCrosshair(DrawContext context, RenderTickCounter tickCounter, CallbackInfo info) {
-        if(Sydney.MODULE_MANAGER.getModule(CrosshairModule.class).isToggled()) info.cancel();
+        if(ISU.MODULE_MANAGER.getModule(CrosshairModule.class).isToggled()) info.cancel();
     }
 }

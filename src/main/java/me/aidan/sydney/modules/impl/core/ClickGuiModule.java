@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.core;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.Module;
 import me.aidan.sydney.modules.RegisterModule;
 import me.aidan.sydney.settings.impl.BooleanSetting;
@@ -24,7 +24,7 @@ public class ClickGuiModule extends Module {
             return;
         }
 
-        mc.setScreen(Sydney.CLICK_GUI);
+        mc.setScreen(ISU.CLICK_GUI);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class ClickGuiModule extends Module {
     }
 
     public boolean isRainbow() {
-        if(color.isSync()) return Sydney.MODULE_MANAGER.getModule(ColorModule.class).color.isRainbow();
+        if(color.isSync()) return ISU.MODULE_MANAGER.getModule(ColorModule.class).color.isRainbow();
         return color.isRainbow();
     }
 }

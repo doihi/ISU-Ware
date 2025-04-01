@@ -1,6 +1,6 @@
 package me.aidan.sydney.gui.impl;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.gui.ClickGuiScreen;
 import me.aidan.sydney.gui.api.Button;
 import me.aidan.sydney.gui.api.Frame;
@@ -43,14 +43,14 @@ public class StringButton extends Button {
                 int clampedIndex = Math.max(0, Math.min(cursorIndex, currentString.length()));
                 String before = currentString.substring(0, clampedIndex);
                 String after = currentString.substring(clampedIndex);
-                String cursorChar = Sydney.CLICK_GUI.isShowLine() ? "|" : " ";
+                String cursorChar = ISU.CLICK_GUI.isShowLine() ? "|" : " ";
                 displayText = before + cursorChar + after;
             }
         } else {
             displayText = setting.getTag() + " " + Formatting.GRAY + setting.getValue();
         }
 
-        Sydney.FONT_MANAGER.drawTextWithShadow(context, displayText, getX() + getTextPadding() + 1, getY() + 2, selecting ? ClickGuiScreen.getButtonColor(getY(), 255) : Color.WHITE);
+        ISU.FONT_MANAGER.drawTextWithShadow(context, displayText, getX() + getTextPadding() + 1, getY() + 2, selecting ? ClickGuiScreen.getButtonColor(getY(), 255) : Color.WHITE);
     }
 
     @Override
@@ -148,7 +148,7 @@ public class StringButton extends Button {
                         cursorIndex += clipboard.length();
                     }
                 } catch (Exception exception) {
-                    Sydney.LOGGER.error("{}: Failed to process clipboard paste", exception.getClass().getName(), exception);
+                    ISU.LOGGER.error("{}: Failed to process clipboard paste", exception.getClass().getName(), exception);
                 }
                 return;
             }
@@ -157,7 +157,7 @@ public class StringButton extends Button {
                 try {
                     mc.keyboard.setClipboard(currentString);
                 } catch (Exception exception) {
-                    Sydney.LOGGER.error("{}: Failed to process clipboard change", exception.getClass().getName(), exception);
+                    ISU.LOGGER.error("{}: Failed to process clipboard change", exception.getClass().getName(), exception);
                 }
                 return;
             }

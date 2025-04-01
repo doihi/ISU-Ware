@@ -1,6 +1,6 @@
 package me.aidan.sydney.mixins;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.visuals.EntityModifierModule;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -28,7 +28,7 @@ public class EndCrystalEntityRendererMixin {
 
     @Inject(method = "render(Lnet/minecraft/client/render/entity/state/EndCrystalEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At("HEAD"))
     private void render$HEAD(EndCrystalEntityRenderState endCrystalEntityRenderState, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo info) {
-        if (Sydney.MODULE_MANAGER.getModule(EntityModifierModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(EntityModifierModule.class).crystals.getValue()) {
+        if (ISU.MODULE_MANAGER.getModule(EntityModifierModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(EntityModifierModule.class).crystals.getValue()) {
             END_CRYSTAL = RenderLayer.getEntityTranslucent(TEXTURE);
             return;
         }
@@ -38,18 +38,18 @@ public class EndCrystalEntityRendererMixin {
 
     @ModifyArgs(method = "render(Lnet/minecraft/client/render/entity/state/EndCrystalEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;scale(FFF)V", ordinal = 0))
     private void render$scale(Args args) {
-        if (Sydney.MODULE_MANAGER.getModule(EntityModifierModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(EntityModifierModule.class).crystals.getValue()) {
-            args.set(0, 2.0F * Sydney.MODULE_MANAGER.getModule(EntityModifierModule.class).crystalScale.getValue().floatValue());
-            args.set(1, 2.0F * Sydney.MODULE_MANAGER.getModule(EntityModifierModule.class).crystalScale.getValue().floatValue());
-            args.set(2, 2.0F * Sydney.MODULE_MANAGER.getModule(EntityModifierModule.class).crystalScale.getValue().floatValue());
+        if (ISU.MODULE_MANAGER.getModule(EntityModifierModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(EntityModifierModule.class).crystals.getValue()) {
+            args.set(0, 2.0F * ISU.MODULE_MANAGER.getModule(EntityModifierModule.class).crystalScale.getValue().floatValue());
+            args.set(1, 2.0F * ISU.MODULE_MANAGER.getModule(EntityModifierModule.class).crystalScale.getValue().floatValue());
+            args.set(2, 2.0F * ISU.MODULE_MANAGER.getModule(EntityModifierModule.class).crystalScale.getValue().floatValue());
         }
     }
 
     @Inject(method = "getYOffset", at = @At(value = "HEAD"), cancellable = true)
     private static void getYOffset(float f, CallbackInfoReturnable<Float> info) {
-        if (Sydney.MODULE_MANAGER.getModule(EntityModifierModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(EntityModifierModule.class).crystals.getValue()) {
+        if (ISU.MODULE_MANAGER.getModule(EntityModifierModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(EntityModifierModule.class).crystals.getValue()) {
             float bounce = MathHelper.sin(f * 0.2F) / 2.0F + 0.5F;
-            bounce = (bounce * bounce + bounce) * 0.4F * Sydney.MODULE_MANAGER.getModule(EntityModifierModule.class).crystalBounce.getValue().floatValue();
+            bounce = (bounce * bounce + bounce) * 0.4F * ISU.MODULE_MANAGER.getModule(EntityModifierModule.class).crystalBounce.getValue().floatValue();
 
             info.setReturnValue(bounce - 1.4F);
         }

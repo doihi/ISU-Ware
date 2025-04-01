@@ -1,7 +1,7 @@
 package me.aidan.sydney.mixins;
 
 import com.mojang.authlib.GameProfile;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.core.CapesModule;
 import me.aidan.sydney.utils.IMinecraft;
 import net.minecraft.client.network.PlayerListEntry;
@@ -20,8 +20,8 @@ public class PlayerListEntryMixin implements IMinecraft {
 
     @Inject(method = "getSkinTextures", at = @At("TAIL"), cancellable = true)
     private void getSkinTextures(CallbackInfoReturnable<SkinTextures> info) {
-        if (((profile.getName().equals(mc.player.getGameProfile().getName()) && profile.getId().equals(mc.player.getGameProfile().getId()))) && Sydney.MODULE_MANAGER.getModule(CapesModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(CapesModule.class).getCapeTexture() != null) {
-            Identifier identifier = Sydney.MODULE_MANAGER.getModule(CapesModule.class).getCapeTexture();
+        if (((profile.getName().equals(mc.player.getGameProfile().getName()) && profile.getId().equals(mc.player.getGameProfile().getId()))) && ISU.MODULE_MANAGER.getModule(CapesModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(CapesModule.class).getCapeTexture() != null) {
+            Identifier identifier = ISU.MODULE_MANAGER.getModule(CapesModule.class).getCapeTexture();
             SkinTextures texture = info.getReturnValue();
 
             info.setReturnValue(new SkinTextures(texture.texture(), texture.textureUrl(), identifier, identifier, texture.model(), texture.secure()));

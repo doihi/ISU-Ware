@@ -2,7 +2,7 @@ package me.aidan.sydney.gui.impl;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.gui.ClickGuiScreen;
 import me.aidan.sydney.modules.Module;
 import me.aidan.sydney.gui.api.Button;
@@ -50,16 +50,16 @@ public class ModuleButton extends Button {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        if(this.isHovering(mouseX, mouseY) && Sydney.CLICK_GUI.getDescriptionFrame().getDescription().isEmpty()) Sydney.CLICK_GUI.getDescriptionFrame().setDescription(this.getDescription());
+        if(this.isHovering(mouseX, mouseY) && ISU.CLICK_GUI.getDescriptionFrame().getDescription().isEmpty()) ISU.CLICK_GUI.getDescriptionFrame().setDescription(this.getDescription());
 
         Renderer2D.renderQuad(context.getMatrices(), getX() + getPadding(), getY(), getX() + getWidth() - getPadding(), getY() + getHeight() - 1, ClickGuiScreen.getButtonColor(getY(), module.isToggled() ? 80 : 30));
-        Sydney.FONT_MANAGER.drawTextWithShadow(context, (module.isToggled() ? "" : Formatting.GRAY ) + module.getName(), getX() + getTextPadding(), getY() + 2, Color.WHITE);
+        ISU.FONT_MANAGER.drawTextWithShadow(context, (module.isToggled() ? "" : Formatting.GRAY ) + module.getName(), getX() + getTextPadding(), getY() + 2, Color.WHITE);
 
         if(open) {
             for(Button button : buttons) {
                 if(!button.isVisible()) continue;
                 button.render(context, mouseX, mouseY, delta);
-                if(button.isHovering(mouseX, mouseY) && Sydney.CLICK_GUI.getDescriptionFrame().getDescription().isEmpty()) Sydney.CLICK_GUI.getDescriptionFrame().setDescription(button.getDescription());
+                if(button.isHovering(mouseX, mouseY) && ISU.CLICK_GUI.getDescriptionFrame().getDescription().isEmpty()) ISU.CLICK_GUI.getDescriptionFrame().setDescription(button.getDescription());
             }
         }
     }

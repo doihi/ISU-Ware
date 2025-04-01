@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.movement;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.*;
 import me.aidan.sydney.modules.Module;
@@ -86,7 +86,7 @@ public class NoSlowModule extends Module {
 
     @Override
     public void onDisable() {
-        Sydney.WORLD_MANAGER.setTimerMultiplier(1.0f);
+        ISU.WORLD_MANAGER.setTimerMultiplier(1.0f);
 
         if (mc.player == null) return;
 

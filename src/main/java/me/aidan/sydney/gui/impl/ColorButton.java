@@ -1,6 +1,6 @@
 package me.aidan.sydney.gui.impl;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.gui.ClickGuiScreen;
 import me.aidan.sydney.modules.impl.core.ColorModule;
 import me.aidan.sydney.gui.api.Button;
@@ -31,7 +31,7 @@ public class ColorButton extends Button {
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         Color outlineColor = Color.BLACK, realColor = Color.getHSBColor(hsb[0], 1, 1);
 
-        Sydney.FONT_MANAGER.drawTextWithShadow(context, setting.getTag(), getX() + getTextPadding() + 1, getY() + 2, Color.WHITE);
+        ISU.FONT_MANAGER.drawTextWithShadow(context, setting.getTag(), getX() + getTextPadding() + 1, getY() + 2, Color.WHITE);
 
         Renderer2D.renderQuad(context.getMatrices(), getX() + getWidth() - getPadding() - 9, getY() + 2, getX() + getWidth() - getPadding() - 1, getY() + getParent().getHeight() - 3, ColorUtils.getColor(setting.getColor(), 255));
         Renderer2D.renderOutline(context.getMatrices(), getX() + getWidth() - getPadding() - 9, getY() + 2, getX() + getWidth() - getPadding() - 1, getY() + getParent().getHeight() - 3, outlineColor);
@@ -92,25 +92,25 @@ public class ColorButton extends Button {
 
             // copy button
             Renderer2D.renderQuad(context.getMatrices(), getX() + getPadding() + 1, getY() + offset, getX() + (getWidth()/2f) - 0.5f, getY() + offset + getParent().getHeight(), ClickGuiScreen.getButtonColor(getY(), 100));
-            Sydney.FONT_MANAGER.drawTextWithShadow(context, "Copy", getX() + getPadding() + (getWidth()/4) - 1 - Sydney.FONT_MANAGER.getWidth("Copy")/2, getY() + offset + 2, Color.WHITE);
+            ISU.FONT_MANAGER.drawTextWithShadow(context, "Copy", getX() + getPadding() + (getWidth()/4) - 1 - ISU.FONT_MANAGER.getWidth("Copy")/2, getY() + offset + 2, Color.WHITE);
             hoveringCopy = isHoveringComponent(mouseX, mouseY, getX() + getPadding() + 1, getY() + offset, getX() + (getWidth()/2f) - 0.5f, getY() + offset + getParent().getHeight());
 
             // paste button
             Renderer2D.renderQuad(context.getMatrices(), getX() + (getWidth()/2f) + 0.5f, getY() + offset, getX() + getWidth() - getPadding() - 1, getY() + offset + getParent().getHeight(), ClickGuiScreen.getButtonColor(getY(), 100));
-            Sydney.FONT_MANAGER.drawTextWithShadow(context, "Paste", getX() + (getWidth()/2) + (getWidth()/4) - 1 - Sydney.FONT_MANAGER.getWidth("Paste")/2, getY() + offset + 2, Color.WHITE);
+            ISU.FONT_MANAGER.drawTextWithShadow(context, "Paste", getX() + (getWidth()/2) + (getWidth()/4) - 1 - ISU.FONT_MANAGER.getWidth("Paste")/2, getY() + offset + 2, Color.WHITE);
             hoveringPaste = isHoveringComponent(mouseX, mouseY, getX() + (getWidth()/2f) + 0.5f, getY() + offset, getX() + getWidth() - getPadding() - 1, getY() + offset + getParent().getHeight());
 
             offset += this.getParent().getHeight() + 1;
 
             // sync button
             if(setting.isSync()) Renderer2D.renderQuad(context.getMatrices(), getX() + getPadding() + 1, getY() + offset, getX() + getWidth() - getPadding() - 1, getY() + offset + getParent().getHeight(), ClickGuiScreen.getButtonColor(getY(), 100));
-            Sydney.FONT_MANAGER.drawTextWithShadow(context, "Sync", getX() + (getWidth()/2) - Sydney.FONT_MANAGER.getWidth("Sync")/2, getY() + offset + 2, Color.WHITE);
+            ISU.FONT_MANAGER.drawTextWithShadow(context, "Sync", getX() + (getWidth()/2) - ISU.FONT_MANAGER.getWidth("Sync")/2, getY() + offset + 2, Color.WHITE);
             hoveringSync = isHoveringComponent(mouseX, mouseY, getX() + getPadding() + 1, getY() + offset, getX() + getWidth() - getPadding() - 1, getY() + offset + getParent().getHeight());
 
             offset += this.getParent().getHeight() + 1;
 
             if(setting.isRainbow()) Renderer2D.renderQuad(context.getMatrices(), getX() + getPadding() + 1, getY() + offset, getX() + getWidth() - getPadding() - 1, getY() + offset + getParent().getHeight(), ClickGuiScreen.getButtonColor(getY(), 100));
-            Sydney.FONT_MANAGER.drawTextWithShadow(context, "Rainbow", getX() + (getWidth()/2) - Sydney.FONT_MANAGER.getWidth("Rainbow")/2, getY() + offset + 2, Color.WHITE);
+            ISU.FONT_MANAGER.drawTextWithShadow(context, "Rainbow", getX() + (getWidth()/2) - ISU.FONT_MANAGER.getWidth("Rainbow")/2, getY() + offset + 2, Color.WHITE);
             hoveringRainbow = isHoveringComponent(mouseX, mouseY, getX() + getPadding() + 1, getY() + offset, getX() + getWidth() - getPadding() - 1, getY() + offset + getParent().getHeight());
 
             offset += this.getParent().getHeight() + 1;
@@ -130,15 +130,15 @@ public class ColorButton extends Button {
             if(hoveringAlpha) draggingAlpha = true;
 
             if(hoveringCopy) {
-                Sydney.CLICK_GUI.setColorClipboard(setting.getValue().getColor());
+                ISU.CLICK_GUI.setColorClipboard(setting.getValue().getColor());
                 playClickSound();
             }
-            if(hoveringPaste && Sydney.CLICK_GUI.getColorClipboard() != null) {
-                setting.setColor(Sydney.CLICK_GUI.getColorClipboard());
+            if(hoveringPaste && ISU.CLICK_GUI.getColorClipboard() != null) {
+                setting.setColor(ISU.CLICK_GUI.getColorClipboard());
                 hsb = Color.RGBtoHSB(setting.getColor().getRed(), setting.getColor().getGreen(), setting.getColor().getBlue(), null);
                 playClickSound();
             }
-            if(setting != Sydney.MODULE_MANAGER.getModule(ColorModule.class).color && hoveringSync) {
+            if(setting != ISU.MODULE_MANAGER.getModule(ColorModule.class).color && hoveringSync) {
                 setting.setSync(!setting.isSync());
                 playClickSound();
             }

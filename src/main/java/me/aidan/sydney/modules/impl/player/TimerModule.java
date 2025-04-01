@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.player;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.TickEvent;
 import me.aidan.sydney.modules.Module;
@@ -14,17 +14,17 @@ public class TimerModule extends Module {
     @SubscribeEvent(priority = Integer.MIN_VALUE)
     public void onTick(TickEvent event) {
         if (mc.player == null || mc.world == null) return;
-        Sydney.WORLD_MANAGER.setTimerMultiplier(multiplier.getValue().floatValue());
+        ISU.WORLD_MANAGER.setTimerMultiplier(multiplier.getValue().floatValue());
     }
 
     @Override
     public void onEnable() {
-        Sydney.WORLD_MANAGER.setTimerMultiplier(multiplier.getValue().floatValue());
+        ISU.WORLD_MANAGER.setTimerMultiplier(multiplier.getValue().floatValue());
     }
 
     @Override
     public void onDisable() {
-        Sydney.WORLD_MANAGER.setTimerMultiplier(1.0f);
+        ISU.WORLD_MANAGER.setTimerMultiplier(1.0f);
     }
 
     @Override

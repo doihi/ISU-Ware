@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.player;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.Module;
 import me.aidan.sydney.modules.RegisterModule;
 import me.aidan.sydney.settings.impl.ModeSetting;
@@ -23,7 +23,7 @@ public class ThrowFireworkModule extends Module {
         }
 
         if (autoSwitch.getValue().equalsIgnoreCase("None") && mc.player.getMainHandStack().getItem() != Items.FIREWORK_ROCKET) {
-            Sydney.CHAT_MANAGER.tagged("You are currently not holding any fireworks.", getName());
+            ISU.CHAT_MANAGER.tagged("You are currently not holding any fireworks.", getName());
             setToggled(false);
             return;
         }
@@ -37,7 +37,7 @@ public class ThrowFireworkModule extends Module {
         int previousSlot = mc.player.getInventory().selectedSlot;
 
         if (slot == -1) {
-            Sydney.CHAT_MANAGER.tagged("No fireworks could be found in your hotbar.", getName());
+            ISU.CHAT_MANAGER.tagged("No fireworks could be found in your hotbar.", getName());
             setToggled(false);
             return;
         }

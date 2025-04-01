@@ -3,7 +3,7 @@ package me.aidan.sydney.managers;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.RenderOverlayEvent;
 import me.aidan.sydney.events.impl.RenderWorldEvent;
@@ -39,7 +39,7 @@ public class RenderManager implements IMinecraft {
     private long animationStart = 0;
 
     public RenderManager() {
-        Sydney.EVENT_HANDLER.subscribe(this);
+        ISU.EVENT_HANDLER.subscribe(this);
     }
 
     @SubscribeEvent
@@ -51,7 +51,7 @@ public class RenderManager implements IMinecraft {
     @SubscribeEvent
     public void onRenderWorld$placePositions(RenderWorldEvent event) {
         if (mc.player == null || mc.world == null || renderPositions.isEmpty()) return;
-        RendersModule module = Sydney.MODULE_MANAGER.getModule(RendersModule.class);
+        RendersModule module = ISU.MODULE_MANAGER.getModule(RendersModule.class);
 
         for (RenderPosition position : renderPositions) {
             float scale = position.get();
@@ -70,7 +70,7 @@ public class RenderManager implements IMinecraft {
         if (mc.player == null || mc.world == null) return;
         if (crystalTarget == null || crystalTarget.getPosition() == null) return;
 
-        AutoCrystalModule autoCrystalModule = Sydney.MODULE_MANAGER.getModule(AutoCrystalModule.class);
+        AutoCrystalModule autoCrystalModule = ISU.MODULE_MANAGER.getModule(AutoCrystalModule.class);
 
         float scale;
         if (crystalTarget.getTarget() == 1) scale = Easing.ease(Easing.toDelta(crystalTarget.getTime(), autoCrystalModule.duration.getValue().intValue()), Easing.Method.EASE_OUT_CUBIC);
@@ -95,9 +95,9 @@ public class RenderManager implements IMinecraft {
         }
 
         if (autoCrystalModule.renderMode.getValue().equalsIgnoreCase("Fill") || autoCrystalModule.renderMode.getValue().equalsIgnoreCase("Both"))
-            Renderer3D.renderGradientBox(event.getMatrices(), box, Sydney.MODULE_MANAGER.getModule(RendersModule.class).getColor(autoCrystalModule.mode.getValue(), autoCrystalModule.fillColorUp.getColor(), scale), Sydney.MODULE_MANAGER.getModule(RendersModule.class).getColor(autoCrystalModule.mode.getValue(), autoCrystalModule.fillColorDown.getColor(), scale));
+            Renderer3D.renderGradientBox(event.getMatrices(), box, ISU.MODULE_MANAGER.getModule(RendersModule.class).getColor(autoCrystalModule.mode.getValue(), autoCrystalModule.fillColorUp.getColor(), scale), ISU.MODULE_MANAGER.getModule(RendersModule.class).getColor(autoCrystalModule.mode.getValue(), autoCrystalModule.fillColorDown.getColor(), scale));
         if (autoCrystalModule.renderMode.getValue().equalsIgnoreCase("Outline") || autoCrystalModule.renderMode.getValue().equalsIgnoreCase("Both"))
-            Renderer3D.renderGradientBoxOutline(event.getMatrices(), box, Sydney.MODULE_MANAGER.getModule(RendersModule.class).getColor(autoCrystalModule.mode.getValue(), autoCrystalModule.outlineColorUp.getColor(), scale), Sydney.MODULE_MANAGER.getModule(RendersModule.class).getColor(autoCrystalModule.mode.getValue(), autoCrystalModule.outlineColorDown.getColor(), scale));
+            Renderer3D.renderGradientBoxOutline(event.getMatrices(), box, ISU.MODULE_MANAGER.getModule(RendersModule.class).getColor(autoCrystalModule.mode.getValue(), autoCrystalModule.outlineColorUp.getColor(), scale), ISU.MODULE_MANAGER.getModule(RendersModule.class).getColor(autoCrystalModule.mode.getValue(), autoCrystalModule.outlineColorDown.getColor(), scale));
     }
 
     @SubscribeEvent
@@ -107,7 +107,7 @@ public class RenderManager implements IMinecraft {
         if (crystalTarget.getTarget() != 1) return;
 
         MatrixStack matrices = event.getMatrices();
-        AutoCrystalModule module = Sydney.MODULE_MANAGER.getModule(AutoCrystalModule.class);
+        AutoCrystalModule module = ISU.MODULE_MANAGER.getModule(AutoCrystalModule.class);
 
         Vec3d vec3d = new Vec3d(crystalTarget.getPosition().toCenterPos().x - mc.getEntityRenderDispatcher().camera.getPos().x, crystalTarget.getPosition().toCenterPos().y - mc.getEntityRenderDispatcher().camera.getPos().y, crystalTarget.getPosition().toCenterPos().z - mc.getEntityRenderDispatcher().camera.getPos().z);
         if(module.animationMode.getValue().equals("Slide")) vec3d = new Vec3d(renderPosition.x + 0.5 - mc.getEntityRenderDispatcher().camera.getPos().x, renderPosition.y + 0.5 - mc.getEntityRenderDispatcher().camera.getPos().y, renderPosition.z + 0.5 - mc.getEntityRenderDispatcher().camera.getPos().z);
@@ -124,17 +124,17 @@ public class RenderManager implements IMinecraft {
             Renderer2D.renderCircle(matrices, 0, 0, 12.0f - module.iconRadius.getValue().floatValue(), module.iconColor.getColor());
 
             if (module.renderDamage.getValue()) {
-                Renderer2D.renderTexture(matrices, -5.5f, -8.5f, 5.5f, 2.5f, Identifier.of(Sydney.MOD_ID, "textures/crystal.png"), Color.WHITE);
+                Renderer2D.renderTexture(matrices, -5.5f, -8.5f, 5.5f, 2.5f, Identifier.of(ISU.MOD_ID, "textures/crystal.png"), Color.WHITE);
 
                 matrices.push();
                 matrices.scale(0.45f, 0.45f, 0.45f);
 
                 String text = module.getCalculationDamage();
-                Sydney.FONT_MANAGER.drawTextWithShadow(matrices, text, -Sydney.FONT_MANAGER.getWidth(text) / 2 - 1, 7, mc.getBufferBuilders().getEntityVertexConsumers(), Color.WHITE);
+                ISU.FONT_MANAGER.drawTextWithShadow(matrices, text, -ISU.FONT_MANAGER.getWidth(text) / 2 - 1, 7, mc.getBufferBuilders().getEntityVertexConsumers(), Color.WHITE);
 
                 matrices.pop();
             } else {
-                Renderer2D.renderTexture(matrices, -6.5f, -6.5f, 6.5f, 6.5f, Identifier.of(Sydney.MOD_ID, "textures/crystal.png"), Color.WHITE);
+                Renderer2D.renderTexture(matrices, -6.5f, -6.5f, 6.5f, 6.5f, Identifier.of(ISU.MOD_ID, "textures/crystal.png"), Color.WHITE);
             }
 
             matrices.pop();
@@ -146,7 +146,7 @@ public class RenderManager implements IMinecraft {
                 matrices.scale(0.025f, -0.025f, 0.025f);
 
                 String text = module.getCalculationDamage();
-                Sydney.FONT_MANAGER.drawTextWithShadow(matrices, text, -Sydney.FONT_MANAGER.getWidth(text) / 2, -Sydney.FONT_MANAGER.getHeight() / 2, mc.getBufferBuilders().getEntityVertexConsumers(), Color.WHITE);
+                ISU.FONT_MANAGER.drawTextWithShadow(matrices, text, -ISU.FONT_MANAGER.getWidth(text) / 2, -ISU.FONT_MANAGER.getHeight() / 2, mc.getBufferBuilders().getEntityVertexConsumers(), Color.WHITE);
 
                 matrices.pop();
             }
@@ -154,7 +154,7 @@ public class RenderManager implements IMinecraft {
     }
 
     public void setRenderPosition(BlockPos position) {
-        if (!Sydney.MODULE_MANAGER.getModule(AutoCrystalModule.class).isToggled()) position = null;
+        if (!ISU.MODULE_MANAGER.getModule(AutoCrystalModule.class).isToggled()) position = null;
 
         if (position == null) {
             if (crystalTarget != null) {

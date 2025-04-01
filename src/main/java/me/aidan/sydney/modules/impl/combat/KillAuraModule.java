@@ -1,7 +1,7 @@
 package me.aidan.sydney.modules.impl.combat;
 
 import lombok.Getter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PlayerUpdateEvent;
 import me.aidan.sydney.events.impl.RenderWorldEvent;
@@ -75,7 +75,7 @@ public class KillAuraModule extends Module {
                         && entity.age >= ticksExisted.getValue().intValue()
                         && entity.getBoundingBox().squaredMagnitude(mc.player.getEyePos()) < MathHelper.square(range.getValue().doubleValue())
                         && mc.world.getWorldBorder().contains(entity.getBlockPos())
-                        && (friends.getValue() || !Sydney.FRIEND_MANAGER.contains(entity.getName().getString()))
+                        && (friends.getValue() || !ISU.FRIEND_MANAGER.contains(entity.getName().getString()))
                         && isValidEntity(entity)
                         && (WorldUtils.canSee(entity) || (!raytrace.getValue() && entity.getBoundingBox().squaredMagnitude(mc.player.getEyePos()) < MathHelper.square(wallsRange.getValue().doubleValue()))));
 
@@ -103,7 +103,7 @@ public class KillAuraModule extends Module {
         int slot = InventoryUtils.findBestSword(InventoryUtils.HOTBAR_START, InventoryUtils.HOTBAR_END);
         if (autoSwitch.getValue().equalsIgnoreCase("Normal") && slot == -1) return;
 
-        if (rotate.getValue().equalsIgnoreCase("Hold")) Sydney.ROTATION_MANAGER.rotate(RotationUtils.getRotations(target), this);
+        if (rotate.getValue().equalsIgnoreCase("Hold")) ISU.ROTATION_MANAGER.rotate(RotationUtils.getRotations(target), this);
 
         attacking = true;
 
@@ -111,7 +111,7 @@ public class KillAuraModule extends Module {
         if (hitDelay.getValue().equalsIgnoreCase("Custom") && !timer.hasTimeElapsed(1000.0f - speed.getValue().floatValue() * 50.0f))
             return;
 
-        if (rotate.getValue().equalsIgnoreCase("Normal")) Sydney.ROTATION_MANAGER.rotate(RotationUtils.getRotations(target), this);
+        if (rotate.getValue().equalsIgnoreCase("Normal")) ISU.ROTATION_MANAGER.rotate(RotationUtils.getRotations(target), this);
 
         shouldAttack = true;
     }
@@ -123,7 +123,7 @@ public class KillAuraModule extends Module {
             return;
         }
 
-        if (rotate.getValue().equalsIgnoreCase("Packet")) Sydney.ROTATION_MANAGER.packetRotate(RotationUtils.getRotations(target));
+        if (rotate.getValue().equalsIgnoreCase("Packet")) ISU.ROTATION_MANAGER.packetRotate(RotationUtils.getRotations(target));
 
         if (autoSwitch.getValue().equalsIgnoreCase("Normal")) InventoryUtils.switchSlot("Normal", InventoryUtils.findBestSword(InventoryUtils.HOTBAR_START, InventoryUtils.HOTBAR_END), mc.player.getInventory().selectedSlot);
         mc.interactionManager.attackEntity(mc.player, target);

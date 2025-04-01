@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.visuals;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.RenderWorldEvent;
 import me.aidan.sydney.events.impl.TickEvent;
@@ -56,8 +56,8 @@ public class HoleESPModule extends Module {
         if (mc.player == null || mc.world == null) return;
 
         List<BlockPos> sphere = new ArrayList<>();
-        for (int i = 0; i < Sydney.WORLD_MANAGER.getRadius(range.getValue().doubleValue()); i++) {
-            sphere.add(mc.player.getBlockPos().add(Sydney.WORLD_MANAGER.getOffset(i)));
+        for (int i = 0; i < ISU.WORLD_MANAGER.getRadius(range.getValue().doubleValue()); i++) {
+            sphere.add(mc.player.getBlockPos().add(ISU.WORLD_MANAGER.getOffset(i)));
         }
 
         Runnable runnable = () -> {

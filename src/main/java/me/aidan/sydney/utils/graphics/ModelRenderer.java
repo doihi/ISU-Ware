@@ -1,6 +1,6 @@
 package me.aidan.sydney.utils.graphics;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.visuals.NoInterpolationModule;
 import me.aidan.sydney.utils.IMinecraft;
 import me.aidan.sydney.utils.mixins.ILivingEntityRenderer;
@@ -38,7 +38,7 @@ public class ModelRenderer implements IMinecraft {
         ModelRenderer.render = render;
         ModelRenderer.camera = mc.gameRenderer.getCamera().getPos();
 
-        if (!Sydney.MODULE_MANAGER.getModule(NoInterpolationModule.class).isToggled()) ModelRenderer.offset = new Vec3d(MathHelper.lerp(tickDelta, entity.lastRenderX, entity.getX()), MathHelper.lerp(tickDelta, entity.lastRenderY, entity.getY()), MathHelper.lerp(tickDelta, entity.lastRenderZ, entity.getZ()));
+        if (!ISU.MODULE_MANAGER.getModule(NoInterpolationModule.class).isToggled()) ModelRenderer.offset = new Vec3d(MathHelper.lerp(tickDelta, entity.lastRenderX, entity.getX()), MathHelper.lerp(tickDelta, entity.lastRenderY, entity.getY()), MathHelper.lerp(tickDelta, entity.lastRenderZ, entity.getZ()));
         else ModelRenderer.offset = new Vec3d(entity.getX(), entity.getY(), entity.getZ());
 
         EntityRenderer<?, ?> renderer = mc.getEntityRenderDispatcher().getRenderer(entity);
@@ -95,21 +95,25 @@ public class ModelRenderer implements IMinecraft {
                 List<Renderer3D.VertexCollection> debugLines = render.shine() ? Renderer3D.SHINE_DEBUG_LINES : Renderer3D.DEBUG_LINES;
 
                 if (render.fill) {
-                    quads.add(new Renderer3D.VertexCollection(new Renderer3D.Vertex(matrix4f, (float) (offset.getX() + xs[0] - camera.getX()), (float) (offset.getY() + ys[0] - camera.getY()), (float) (offset.getZ() + zs[0] - camera.getZ()), render.fillColor().getRGB()),
+                    quads.add(new Renderer3D.VertexCollection(
+                            new Renderer3D.Vertex(matrix4f, (float) (offset.getX() + xs[0] - camera.getX()), (float) (offset.getY() + ys[0] - camera.getY()), (float) (offset.getZ() + zs[0] - camera.getZ()), render.fillColor().getRGB()),
                             new Renderer3D.Vertex(matrix4f, (float) (offset.getX() + xs[1] - camera.getX()), (float) (offset.getY() + ys[1] - camera.getY()), (float) (offset.getZ() + zs[1] - camera.getZ()), render.fillColor().getRGB()),
                             new Renderer3D.Vertex(matrix4f, (float) (offset.getX() + xs[2] - camera.getX()), (float) (offset.getY() + ys[2] - camera.getY()), (float) (offset.getZ() + zs[2] - camera.getZ()), render.fillColor().getRGB()),
-                            new Renderer3D.Vertex(matrix4f, (float) (offset.getX() + xs[3] - camera.getX()), (float) (offset.getY() + ys[3] - camera.getY()), (float) (offset.getZ() + zs[3] - camera.getZ()), render.fillColor().getRGB())));
+                            new Renderer3D.Vertex(matrix4f, (float) (offset.getX() + xs[3] - camera.getX()), (float) (offset.getY() + ys[3] - camera.getY()), (float) (offset.getZ() + zs[3] - camera.getZ()), render.fillColor().getRGB()))
+                            );
                 }
 
                 if (render.outline) {
-                    debugLines.add(new Renderer3D.VertexCollection(new Renderer3D.Vertex(matrix4f, (float) (offset.x + xs[0] - camera.getX()), (float) (offset.y + ys[0] - camera.getY()), (float) (offset.z + zs[0] - camera.getZ()), render.outlineColor().getRGB()),
+                    debugLines.add(
+                            new Renderer3D.VertexCollection(new Renderer3D.Vertex(matrix4f, (float) (offset.x + xs[0] - camera.getX()), (float) (offset.y + ys[0] - camera.getY()), (float) (offset.z + zs[0] - camera.getZ()), render.outlineColor().getRGB()),
                             new Renderer3D.Vertex(matrix4f, (float) (offset.x + xs[1] - camera.getX()), (float) (offset.y + ys[1] - camera.getY()), (float) (offset.z + zs[1] - camera.getZ()), render.outlineColor().getRGB()),
                             new Renderer3D.Vertex(matrix4f, (float) (offset.x + xs[1] - camera.getX()), (float) (offset.y + ys[1] - camera.getY()), (float) (offset.z + zs[1] - camera.getZ()), render.outlineColor().getRGB()),
                             new Renderer3D.Vertex(matrix4f, (float) (offset.x + xs[2] - camera.getX()), (float) (offset.y + ys[2] - camera.getY()), (float) (offset.z + zs[2] - camera.getZ()), render.outlineColor().getRGB()),
                             new Renderer3D.Vertex(matrix4f, (float) (offset.x + xs[2] - camera.getX()), (float) (offset.y + ys[2] - camera.getY()), (float) (offset.z + zs[2] - camera.getZ()), render.outlineColor().getRGB()),
                             new Renderer3D.Vertex(matrix4f, (float) (offset.x + xs[3] - camera.getX()), (float) (offset.y + ys[3] - camera.getY()), (float) (offset.z + zs[3] - camera.getZ()), render.outlineColor().getRGB()),
                             new Renderer3D.Vertex(matrix4f, (float) (offset.x + xs[0] - camera.getX()), (float) (offset.y + ys[0] - camera.getY()), (float) (offset.z + zs[0] - camera.getZ()), render.outlineColor().getRGB()),
-                            new Renderer3D.Vertex(matrix4f, (float) (offset.x + xs[0] - camera.getX()), (float) (offset.y + ys[0] - camera.getY()), (float) (offset.z + zs[0] - camera.getZ()), render.outlineColor().getRGB())));
+                            new Renderer3D.Vertex(matrix4f, (float) (offset.x + xs[0] - camera.getX()), (float) (offset.y + ys[0] - camera.getY()), (float) (offset.z + zs[0] - camera.getZ()), render.outlineColor().getRGB()))
+                            );
                 }
 
                 i = 0;

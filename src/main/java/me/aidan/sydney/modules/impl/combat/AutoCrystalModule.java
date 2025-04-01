@@ -2,7 +2,7 @@ package me.aidan.sydney.modules.impl.combat;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.*;
 import me.aidan.sydney.modules.Module;
@@ -162,9 +162,9 @@ public class AutoCrystalModule extends Module {
     public void onPlayerUpdate(PlayerUpdateEvent event) {
         if (mc.player == null || mc.world == null) return;
 
-        attackedCrystals.entrySet().removeIf(entry -> System.currentTimeMillis() - entry.getValue() > Sydney.SERVER_MANAGER.getPing() * 2L);
-        placedCrystals.entrySet().removeIf(entry -> System.currentTimeMillis() - entry.getValue() > Sydney.SERVER_MANAGER.getPing() * 2L + (20 - attackSpeed.getValue().floatValue()) * 50L);
-        countedCrystals.entrySet().removeIf(entry -> System.currentTimeMillis() - entry.getValue() > Sydney.SERVER_MANAGER.getPing() * 2L);
+        attackedCrystals.entrySet().removeIf(entry -> System.currentTimeMillis() - entry.getValue() > ISU.SERVER_MANAGER.getPing() * 2L);
+        placedCrystals.entrySet().removeIf(entry -> System.currentTimeMillis() - entry.getValue() > ISU.SERVER_MANAGER.getPing() * 2L + (20 - attackSpeed.getValue().floatValue()) * 50L);
+        countedCrystals.entrySet().removeIf(entry -> System.currentTimeMillis() - entry.getValue() > ISU.SERVER_MANAGER.getPing() * 2L);
 
         crystalsPerSecond = crystalCounter.getCount();
 
@@ -181,7 +181,7 @@ public class AutoCrystalModule extends Module {
             target = placeTarget == null ? null : placeTarget.getPlayer();
 
             if (blockDestruction.getValue() && asynchronous.getValue()) {
-                SpeedMineModule module = Sydney.MODULE_MANAGER.getModule(SpeedMineModule.class);
+                SpeedMineModule module = ISU.MODULE_MANAGER.getModule(SpeedMineModule.class);
                 BlockPos position = null;
 
                 if (module.getPrimary() != null && module.getPrimary().isMining()) position = module.getPrimary().getPosition();
@@ -268,8 +268,8 @@ public class AutoCrystalModule extends Module {
         if (!WorldUtils.canSee(crystal) && (raytrace.getValue() || crystal.getBoundingBox().squaredMagnitude(mc.player.getEyePos()) > MathHelper.square(attackWallsRange.getValue().doubleValue())))
             return;
 
-        if (rotate.getValue().equalsIgnoreCase("Packet")) Sydney.ROTATION_MANAGER.packetRotate(RotationUtils.getRotations(Vec3d.ofCenter(crystal.getBlockPos(), 0)));
-        if (rotate.getValue().equalsIgnoreCase("Normal")) Sydney.ROTATION_MANAGER.rotate(calculateRotations(Vec3d.ofCenter(crystal.getBlockPos(), 0)), Sydney.ROTATION_MANAGER.getModulePriority(this));
+        if (rotate.getValue().equalsIgnoreCase("Packet")) ISU.ROTATION_MANAGER.packetRotate(RotationUtils.getRotations(Vec3d.ofCenter(crystal.getBlockPos(), 0)));
+        if (rotate.getValue().equalsIgnoreCase("Normal")) ISU.ROTATION_MANAGER.rotate(calculateRotations(Vec3d.ofCenter(crystal.getBlockPos(), 0)), ISU.ROTATION_MANAGER.getModulePriority(this));
 
         attack(crystal);
 
@@ -301,22 +301,22 @@ public class AutoCrystalModule extends Module {
         PlaceTarget mineTarget = this.mineTarget == null ? null : this.mineTarget.clone();
         if (mineTarget == null || (mineTarget.getPosition() != null && !minedPosition.equals(mineTarget.getException()))) mineTarget = calculatePlacements(minedPosition);
         if (mineTarget == null || mineTarget.getPosition() == null) {
-            Sydney.RENDER_MANAGER.setRenderPosition(null);
+            ISU.RENDER_MANAGER.setRenderPosition(null);
             return;
         }
 
         BlockPos position = mineTarget.getPosition();
-        Sydney.RENDER_MANAGER.setRenderPosition(position);
+        ISU.RENDER_MANAGER.setRenderPosition(position);
 
         if (mc.player.getEyePos().squaredDistanceTo(Vec3d.ofCenter(position)) > MathHelper.square(placeRange.getValue().doubleValue())) return;
         if (!WorldUtils.canSee(position) && (raytrace.getValue() || mc.player.getEyePos().squaredDistanceTo(Vec3d.ofCenter(position)) > MathHelper.square(placeWallsRange.getValue().doubleValue())))
             return;
 
-        if (rotate.getValue().equalsIgnoreCase("Normal")) Sydney.ROTATION_MANAGER.rotate(calculateRotations(Vec3d.ofCenter(position, 1)), this, Sydney.ROTATION_MANAGER.getModulePriority(this) + 1);
-        if (!rotate.getValue().equalsIgnoreCase("None")) Sydney.ROTATION_MANAGER.packetRotate(RotationUtils.getRotations(Vec3d.ofCenter(position, 1)));
+        if (rotate.getValue().equalsIgnoreCase("Normal")) ISU.ROTATION_MANAGER.rotate(calculateRotations(Vec3d.ofCenter(position, 1)), this, ISU.ROTATION_MANAGER.getModulePriority(this) + 1);
+        if (!rotate.getValue().equalsIgnoreCase("None")) ISU.ROTATION_MANAGER.packetRotate(RotationUtils.getRotations(Vec3d.ofCenter(position, 1)));
 
         for (Entity entity : mc.world.getOtherEntities(null, new Box(position.up())).stream().filter(entity -> entity instanceof EndCrystalEntity).toList()) {
-            if (!rotate.getValue().equalsIgnoreCase("None")) Sydney.ROTATION_MANAGER.packetRotate(RotationUtils.getRotations(entity));
+            if (!rotate.getValue().equalsIgnoreCase("None")) ISU.ROTATION_MANAGER.packetRotate(RotationUtils.getRotations(entity));
 
             mc.player.networkHandler.sendPacket(PlayerInteractEntityC2SPacket.attack(entity, mc.player.isSneaking()));
             mc.player.networkHandler.sendPacket(new HandSwingC2SPacket(Hand.MAIN_HAND));
@@ -324,7 +324,7 @@ public class AutoCrystalModule extends Module {
             break;
         }
 
-        SpeedMineModule module = Sydney.MODULE_MANAGER.getModule(SpeedMineModule.class);
+        SpeedMineModule module = ISU.MODULE_MANAGER.getModule(SpeedMineModule.class);
         boolean flag = module.switchReset.getValue() && (module.switchMode.getValue().equalsIgnoreCase("Normal") || module.switchMode.getValue().equalsIgnoreCase("AltSwap") || module.switchMode.getValue().equalsIgnoreCase("AltPickup"));
 
         if (!autoSwitch.getValue().equalsIgnoreCase("None") &&  mc.player.getMainHandStack().getItem() != Items.END_CRYSTAL && mc.player.getOffHandStack().getItem() != Items.END_CRYSTAL) {
@@ -379,7 +379,7 @@ public class AutoCrystalModule extends Module {
         attackRunnable = null;
         placeRunnable = null;
 
-        Sydney.RENDER_MANAGER.setRenderPosition(null);
+        ISU.RENDER_MANAGER.setRenderPosition(null);
 
         attackedCrystals.clear();
         placedCrystals.clear();
@@ -427,7 +427,7 @@ public class AutoCrystalModule extends Module {
         EndCrystalEntity crystal = overrideCrystal == null ? attackTarget : overrideCrystal;
         if (crystal == null) return;
 
-        if (rotate.getValue().equalsIgnoreCase("Normal")) Sydney.ROTATION_MANAGER.rotate(calculateRotations(Vec3d.ofCenter(crystal.getBlockPos(), 0)), Sydney.ROTATION_MANAGER.getModulePriority(this));
+        if (rotate.getValue().equalsIgnoreCase("Normal")) ISU.ROTATION_MANAGER.rotate(calculateRotations(Vec3d.ofCenter(crystal.getBlockPos(), 0)), ISU.ROTATION_MANAGER.getModulePriority(this));
 
         if (!attackTimer.hasTimeElapsed(1000.0f - attackSpeed.getValue().floatValue() * 50.0f) || attackedSequentially) {
             if (attackedSequentially) attackedSequentially = false;
@@ -446,7 +446,7 @@ public class AutoCrystalModule extends Module {
             return;
 
         attackRunnable = () -> {
-            if (rotate.getValue().equalsIgnoreCase("Packet")) Sydney.ROTATION_MANAGER.packetRotate(RotationUtils.getRotations(Vec3d.ofCenter(crystal.getBlockPos(), 0)));
+            if (rotate.getValue().equalsIgnoreCase("Packet")) ISU.ROTATION_MANAGER.packetRotate(RotationUtils.getRotations(Vec3d.ofCenter(crystal.getBlockPos(), 0)));
 
             attack(crystal);
         };
@@ -455,7 +455,7 @@ public class AutoCrystalModule extends Module {
     private void placeCrystals(boolean sequential) {
         PlaceTarget placeTarget = this.placeTarget == null ? null : this.placeTarget.clone();
         if (placeTarget == null || placeTarget.getPosition() == null) {
-            Sydney.RENDER_MANAGER.setRenderPosition(null);
+            ISU.RENDER_MANAGER.setRenderPosition(null);
             return;
         }
 
@@ -466,7 +466,7 @@ public class AutoCrystalModule extends Module {
             return;
 
         BlockPos position = placeTarget.getPosition();
-        Sydney.RENDER_MANAGER.setRenderPosition(position);
+        ISU.RENDER_MANAGER.setRenderPosition(position);
 
         if (mc.player.getEyePos().squaredDistanceTo(Vec3d.ofCenter(position)) > MathHelper.square(placeRange.getValue().doubleValue())) return;
         if (!mc.world.getWorldBorder().contains(position)) return;
@@ -475,7 +475,7 @@ public class AutoCrystalModule extends Module {
         if (!WorldUtils.canSee(position) && (raytrace.getValue() || mc.player.getEyePos().squaredDistanceTo(Vec3d.ofCenter(position)) > MathHelper.square(placeWallsRange.getValue().doubleValue()))) return;
         if (mc.world.getOtherEntities(null, new Box(position.add(0, 1, 0))).stream().anyMatch(entity -> entity.isAlive() && !(entity instanceof ExperienceOrbEntity) && !(entity instanceof EndCrystalEntity))) return;
 
-        if (rotate.getValue().equalsIgnoreCase("Normal")) Sydney.ROTATION_MANAGER.rotate(calculateRotations(Vec3d.ofCenter(position, 1)), Sydney.ROTATION_MANAGER.getModulePriority(this));
+        if (rotate.getValue().equalsIgnoreCase("Normal")) ISU.ROTATION_MANAGER.rotate(calculateRotations(Vec3d.ofCenter(position, 1)), ISU.ROTATION_MANAGER.getModulePriority(this));
 
         if (!placeTimer.hasTimeElapsed(1000.0f - placeSpeed.getValue().floatValue() * 50.0f)) return;
         if (!sequential && placedSequentially) {
@@ -486,7 +486,7 @@ public class AutoCrystalModule extends Module {
         placeRunnable = () -> {
             boolean switched = false;
 
-            if (rotate.getValue().equalsIgnoreCase("Packet")) Sydney.ROTATION_MANAGER.packetRotate(RotationUtils.getRotations(Vec3d.ofCenter(position, 1)));
+            if (rotate.getValue().equalsIgnoreCase("Packet")) ISU.ROTATION_MANAGER.packetRotate(RotationUtils.getRotations(Vec3d.ofCenter(position, 1)));
 
             if (mc.player.getMainHandStack().getItem() != Items.END_CRYSTAL && mc.player.getOffHandStack().getItem() != Items.END_CRYSTAL) {
                 InventoryUtils.switchSlot(autoSwitch.getValue(), slot, previousSlot);
@@ -500,7 +500,7 @@ public class AutoCrystalModule extends Module {
             }
 
             if (godSync.getValue()) {
-                boolean flag = !antiKick.getValue() || !(mc.player.getMainHandStack().getItem() instanceof ExperienceBottleItem) && !(mc.player.getOffHandStack().getItem() instanceof ExperienceBottleItem) && !Sydney.MODULE_MANAGER.getModule(ThrowXPModule.class).isToggled();
+                boolean flag = !antiKick.getValue() || !(mc.player.getMainHandStack().getItem() instanceof ExperienceBottleItem) && !(mc.player.getOffHandStack().getItem() instanceof ExperienceBottleItem) && !ISU.MODULE_MANAGER.getModule(ThrowXPModule.class).isToggled();
                 if ((!antiKick.getValue() || kickTicks > kickThreshold.getValue().intValue()) && flag) {
                     if (!fast.getValue()) {
                         for (Entity entity : mc.world.getEntities()) {
@@ -563,7 +563,7 @@ public class AutoCrystalModule extends Module {
             if (!WorldUtils.canSee(crystal) && (raytrace.getValue() || crystal.getBoundingBox().squaredMagnitude(mc.player.getEyePos()) > MathHelper.square(attackWallsRange.getValue().doubleValue())))
                 continue;
 
-            if (!Sydney.MODULE_MANAGER.getModule(SuicideModule.class).isToggled()) {
+            if (!ISU.MODULE_MANAGER.getModule(SuicideModule.class).isToggled()) {
                 float damage = DamageUtils.getCrystalDamage(mc.player, null, crystal, ignoreTerrain.getValue());
                 if (damage > maximumSelfDamage.getValue().floatValue()) continue;
                 if (antiSuicide.getValue() && damage > mc.player.getHealth() + mc.player.getAbsorptionAmount()) continue;
@@ -608,8 +608,8 @@ public class AutoCrystalModule extends Module {
 
         int calculations = 0;
 
-        for (int i = 0; i < Sydney.WORLD_MANAGER.getRadius(Math.max(placeRange.getValue().doubleValue(), placeWallsRange.getValue().doubleValue())); i++) {
-            BlockPos position = mc.player.getBlockPos().add(Sydney.WORLD_MANAGER.getOffset(i));
+        for (int i = 0; i < ISU.WORLD_MANAGER.getRadius(Math.max(placeRange.getValue().doubleValue(), placeWallsRange.getValue().doubleValue())); i++) {
+            BlockPos position = mc.player.getBlockPos().add(ISU.WORLD_MANAGER.getOffset(i));
 
             if (mc.player.getEyePos().squaredDistanceTo(Vec3d.ofCenter(position)) > MathHelper.square(placeRange.getValue().doubleValue())) continue;
             if (!mc.world.getWorldBorder().contains(position)) continue;
@@ -621,7 +621,7 @@ public class AutoCrystalModule extends Module {
 
             List<Entity> obstructingCrystals = mc.world.getOtherEntities(null, new Box(position.add(0, 1, 0))).stream().filter(entity -> entity instanceof EndCrystalEntity crystal && crystal.age >= (20 - attackSpeed.getValue().intValue()) + 15).toList();
 
-            if (!Sydney.MODULE_MANAGER.getModule(SuicideModule.class).isToggled()) {
+            if (!ISU.MODULE_MANAGER.getModule(SuicideModule.class).isToggled()) {
                 float selfDamage = DamageUtils.getCrystalDamage(mc.player, null, position, exception, ignoreTerrain.getValue());
                 if (selfDamage > maximumSelfDamage.getValue().floatValue()) continue;
                 if (antiSuicide.getValue() && selfDamage > mc.player.getHealth() + mc.player.getAbsorptionAmount()) continue;
@@ -665,12 +665,12 @@ public class AutoCrystalModule extends Module {
         if (yawStep.getValue()) {
             float yaw;
 
-            float difference = Sydney.ROTATION_MANAGER.getServerYaw() - rotations[0];
+            float difference = ISU.ROTATION_MANAGER.getServerYaw() - rotations[0];
             if (Math.abs(difference) > 180.0f) difference += difference > 0.0f ? -360.0f : 360.0f;
 
             float deltaYaw = (difference > 0.0f ? -1 : 1) * yawStepThreshold.getValue().floatValue();
 
-            if (Math.abs(difference) > yawStepThreshold.getValue().floatValue()) yaw = Sydney.ROTATION_MANAGER.getServerYaw() + deltaYaw;
+            if (Math.abs(difference) > yawStepThreshold.getValue().floatValue()) yaw = ISU.ROTATION_MANAGER.getServerYaw() + deltaYaw;
             else yaw = rotations[0];
 
             rotations[0] = yaw;
@@ -726,7 +726,7 @@ public class AutoCrystalModule extends Module {
 
     private List<PlayerEntity> getPlayers() {
         List<PlayerEntity> players = new ArrayList<>();
-        if (Sydney.MODULE_MANAGER.getModule(SuicideModule.class).isToggled()) {
+        if (ISU.MODULE_MANAGER.getModule(SuicideModule.class).isToggled()) {
             players.add(mc.player);
             return players;
         }
@@ -735,7 +735,7 @@ public class AutoCrystalModule extends Module {
             if (player == mc.player) continue;
             if (!player.isAlive()) continue;
             if (mc.player.squaredDistanceTo(player) > MathHelper.square(enemyRange.getValue().doubleValue())) continue;
-            if (Sydney.FRIEND_MANAGER.contains(player.getName().getString())) continue;
+            if (ISU.FRIEND_MANAGER.contains(player.getName().getString())) continue;
 
             players.add(player);
         }
@@ -751,7 +751,7 @@ public class AutoCrystalModule extends Module {
     private float getMinimumDamage(PlayerEntity player, float minimumDamage) {
         if (player == null) return minimumDamage;
 
-        if (chestBreak.getValue() && mc.world.getOtherEntities(null, new Box(player.getBlockPos()).expand(1)).stream().anyMatch(entity -> entity instanceof ItemEntity item && item.getStack().getItem() == Items.OBSIDIAN && item.getStack().getCount() >= 8 && item.age <= 2 + Sydney.SERVER_MANAGER.getPingDelay() + (20 - placeSpeed.getValue().intValue())) && !mc.world.getOtherEntities(null, new Box(mc.player.getBlockPos()).expand(1)).stream().anyMatch(entity -> entity instanceof ItemEntity item && item.getStack().getItem() == Items.OBSIDIAN && item.getStack().getCount() >= 8 && item.age <= 2 + Sydney.SERVER_MANAGER.getPingDelay() + (20 - placeSpeed.getValue().intValue()))) return 2.0f;
+        if (chestBreak.getValue() && mc.world.getOtherEntities(null, new Box(player.getBlockPos()).expand(1)).stream().anyMatch(entity -> entity instanceof ItemEntity item && item.getStack().getItem() == Items.OBSIDIAN && item.getStack().getCount() >= 8 && item.age <= 2 + ISU.SERVER_MANAGER.getPingDelay() + (20 - placeSpeed.getValue().intValue())) && !mc.world.getOtherEntities(null, new Box(mc.player.getBlockPos()).expand(1)).stream().anyMatch(entity -> entity instanceof ItemEntity item && item.getStack().getItem() == Items.OBSIDIAN && item.getStack().getCount() >= 8 && item.age <= 2 + ISU.SERVER_MANAGER.getPingDelay() + (20 - placeSpeed.getValue().intValue()))) return 2.0f;
         if (facePlaceMode.getValue().equalsIgnoreCase("None")) return minimumDamage;
 
         if (facePlaceSpeed.getValue().equalsIgnoreCase("Normal") || facePlaceTimer.hasTimeElapsed(facePlaceDelay.getValue().longValue() * 50L)) {

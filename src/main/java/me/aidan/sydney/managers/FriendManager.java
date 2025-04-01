@@ -1,7 +1,7 @@
 package me.aidan.sydney.managers;
 
 import lombok.Getter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.core.FriendModule;
 
 import java.awt.*;
@@ -30,11 +30,11 @@ public class FriendManager {
     }
 
     public boolean getFriendFire() {
-        return Sydney.MODULE_MANAGER.getModule(FriendModule.class).friendlyFire.getValue();
+        return ISU.MODULE_MANAGER.getModule(FriendModule.class).friendlyFire.getValue();
     }
 
     public void sendFriendMessage(String name) {
-        Sydney.MODULE_MANAGER.getModule(FriendModule.class).sendFriendMessage(name);
+        ISU.MODULE_MANAGER.getModule(FriendModule.class).sendFriendMessage(name);
     }
 
     public Color getDefaultFriendColor() {

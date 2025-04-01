@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.combat;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.KeyInputEvent;
 import me.aidan.sydney.events.impl.PlayerUpdateEvent;
@@ -46,7 +46,7 @@ public class AutoArmorModule extends Module {
         if (mc.player == null || mc.world == null) return;
 
         if(smartElytra.getValue() && elytra.getValue()) {
-            if((mc.player.isOnGround() && !(mc.player.getMainHandStack().getItem() instanceof ExperienceBottleItem) || EntityUtils.isInWeb(mc.player) || Sydney.MODULE_MANAGER.getModule(MaceAuraModule.class).isToggled())) elytra.setValue(false);
+            if((mc.player.isOnGround() && !(mc.player.getMainHandStack().getItem() instanceof ExperienceBottleItem) || EntityUtils.isInWeb(mc.player) || ISU.MODULE_MANAGER.getModule(MaceAuraModule.class).isToggled())) elytra.setValue(false);
         }
 
         if (ticks <= 0) {
@@ -74,7 +74,7 @@ public class AutoArmorModule extends Module {
             mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, InventoryUtils.indexToSlot(armor), 0, SlotActionType.PICKUP, mc.player);
             mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, x, 0, SlotActionType.PICKUP, mc.player);
 
-            ticks = 2 + Sydney.SERVER_MANAGER.getPingDelay();
+            ticks = 2 + ISU.SERVER_MANAGER.getPingDelay();
         }
     }
 

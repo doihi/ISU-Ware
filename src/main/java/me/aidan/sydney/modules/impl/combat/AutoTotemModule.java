@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.combat;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PlayerPopEvent;
 import me.aidan.sydney.events.impl.PlayerUpdateEvent;
@@ -38,7 +38,7 @@ public class AutoTotemModule extends Module {
 
     @SubscribeEvent
     public void onPlayerPop(PlayerPopEvent event) {
-        if (event.getPlayer() == mc.player && !Sydney.MODULE_MANAGER.getModule(SuicideModule.class).isToggled()) {
+        if (event.getPlayer() == mc.player && !ISU.MODULE_MANAGER.getModule(SuicideModule.class).isToggled()) {
             ticks = 0;
         }
     }
@@ -58,7 +58,7 @@ public class AutoTotemModule extends Module {
 
         int slot;
 
-        if (item == Items.TOTEM_OF_UNDYING && Sydney.MODULE_MANAGER.getModule(SuicideModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(SuicideModule.class).offhandOverride.getValue()) {
+        if (item == Items.TOTEM_OF_UNDYING && ISU.MODULE_MANAGER.getModule(SuicideModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(SuicideModule.class).offhandOverride.getValue()) {
             if (mc.player.getOffHandStack().isEmpty()) return;
 
             slot = InventoryUtils.findEmptySlot(InventoryUtils.HOTBAR_START, InventoryUtils.INVENTORY_END);
@@ -77,7 +77,7 @@ public class AutoTotemModule extends Module {
         if (slot == -1) return;
 
         InventoryUtils.swap("Pickup", slot, 45);
-        ticks = 2 + Sydney.SERVER_MANAGER.getPingDelay();
+        ticks = 2 + ISU.SERVER_MANAGER.getPingDelay();
     }
 
     @SubscribeEvent
@@ -94,7 +94,7 @@ public class AutoTotemModule extends Module {
             if (needsTotem()) return Items.TOTEM_OF_UNDYING;
 
             if (item.getValue().equalsIgnoreCase("Crystal") && smartMine.getValue()) {
-                SpeedMineModule module = Sydney.MODULE_MANAGER.getModule(SpeedMineModule.class);
+                SpeedMineModule module = ISU.MODULE_MANAGER.getModule(SpeedMineModule.class);
                 if ((module.getPrimary() == null || !module.getPrimary().isMining()) && (module.getSecondary() == null || !module.getSecondary().isMining())) {
                     return Items.TOTEM_OF_UNDYING;
                 }
@@ -117,13 +117,13 @@ public class AutoTotemModule extends Module {
     }
 
     private boolean needsTotem() {
-        if (Sydney.MODULE_MANAGER.getModule(SuicideModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(SuicideModule.class).offhandOverride.getValue()) return false;
+        if (ISU.MODULE_MANAGER.getModule(SuicideModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(SuicideModule.class).offhandOverride.getValue()) return false;
 
         if (mc.player.getHealth() + mc.player.getAbsorptionAmount() <= health.getValue().floatValue()) return true;
         if (mc.player.fallDistance > fallDistance.getValue().floatValue()) return true;
         if (elytraCheck.getValue() && mc.player.getEquippedStack(EquipmentSlot.CHEST).getItem() == Items.ELYTRA) return true;
 
-        return antiMace.getValue() && (mc.world.getPlayers().stream().anyMatch(entity -> entity != mc.player && !Sydney.FRIEND_MANAGER.contains(entity.getName().getString()) && mc.player.squaredDistanceTo(entity) <= MathHelper.square(maceRange.getValue().floatValue()) && entity.fallDistance >= 1.5 && entity.getMainHandStack().getItem().equals(Items.MACE)));
+        return antiMace.getValue() && (mc.world.getPlayers().stream().anyMatch(entity -> entity != mc.player && !ISU.FRIEND_MANAGER.contains(entity.getName().getString()) && mc.player.squaredDistanceTo(entity) <= MathHelper.square(maceRange.getValue().floatValue()) && entity.fallDistance >= 1.5 && entity.getMainHandStack().getItem().equals(Items.MACE)));
     }
 
     private boolean hasItem(Item item) {

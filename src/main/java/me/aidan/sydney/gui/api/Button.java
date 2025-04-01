@@ -2,7 +2,7 @@ package me.aidan.sydney.gui.api;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.core.ClickGuiModule;
 import me.aidan.sydney.settings.Setting;
 import me.aidan.sydney.utils.IMinecraft;
@@ -49,6 +49,6 @@ public class Button implements IMinecraft {
     }
 
     public void playClickSound() {
-        if(Sydney.MODULE_MANAGER.getModule(ClickGuiModule.class).sounds.getValue()) mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0f));
+        if(ISU.MODULE_MANAGER.getModule(ClickGuiModule.class).sounds.getValue()) mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0f));
     }
 }

@@ -1,6 +1,6 @@
 package me.aidan.sydney.mixins;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.miscellaneous.ExtraTabModule;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.PlayerListHud;
@@ -29,14 +29,14 @@ public abstract class PlayerListHudMixin {
 
     @Inject(method = "collectPlayerEntries", at = @At("HEAD"), cancellable = true)
     private void collectPlayerEntries(CallbackInfoReturnable<List<PlayerListEntry>> info) {
-        if (Sydney.MODULE_MANAGER.getModule(ExtraTabModule.class).isToggled()) {
-            info.setReturnValue(client.player.networkHandler.getListedPlayerListEntries().stream().sorted(ENTRY_ORDERING).limit(Sydney.MODULE_MANAGER.getModule(ExtraTabModule.class).limit.getValue().longValue()).toList());
+        if (ISU.MODULE_MANAGER.getModule(ExtraTabModule.class).isToggled()) {
+            info.setReturnValue(client.player.networkHandler.getListedPlayerListEntries().stream().sorted(ENTRY_ORDERING).limit(ISU.MODULE_MANAGER.getModule(ExtraTabModule.class).limit.getValue().longValue()).toList());
         }
     }
 
     @Inject(method = "getPlayerName", at = @At(value = "HEAD"), cancellable = true)
     private void getPlayerName(PlayerListEntry entry, CallbackInfoReturnable<Text> info) {
-        if (Sydney.MODULE_MANAGER.getModule(ExtraTabModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(ExtraTabModule.class).friends.getValue() && Sydney.FRIEND_MANAGER.contains(entry.getProfile().getName())) {
+        if (ISU.MODULE_MANAGER.getModule(ExtraTabModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(ExtraTabModule.class).friends.getValue() && ISU.FRIEND_MANAGER.contains(entry.getProfile().getName())) {
             if (entry.getDisplayName() != null) {
                 MutableText text = Text.empty();
 

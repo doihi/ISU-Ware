@@ -1,6 +1,6 @@
 package me.aidan.sydney.mixins;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.impl.RemoveFireworkEvent;
 import me.aidan.sydney.utils.IMinecraft;
 import net.minecraft.entity.projectile.FireworkRocketEntity;
@@ -22,7 +22,7 @@ public class FireworkRocketEntityMixin implements IMinecraft {
         FireworkRocketEntity entity = ((FireworkRocketEntity) (Object) this);
 
         RemoveFireworkEvent event = new RemoveFireworkEvent(entity);
-        Sydney.EVENT_HANDLER.post(event);
+        ISU.EVENT_HANDLER.post(event);
 
         if (event.isCancelled()) {
             info.cancel();

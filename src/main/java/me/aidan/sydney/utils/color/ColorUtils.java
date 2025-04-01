@@ -1,6 +1,6 @@
 package me.aidan.sydney.utils.color;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.core.ColorModule;
 import me.aidan.sydney.settings.impl.ColorSetting;
 import net.minecraft.util.Formatting;
@@ -21,11 +21,11 @@ public class ColorUtils {
     }
 
     public static Color getGlobalColor() {
-        return Sydney.MODULE_MANAGER.getModule(ColorModule.class).color.getColor();
+        return ISU.MODULE_MANAGER.getModule(ColorModule.class).color.getColor();
     }
 
     public static Color getGlobalColor(int alpha) {
-        return getColor(Sydney.MODULE_MANAGER.getModule(ColorModule.class).color.getColor(), alpha);
+        return getColor(ISU.MODULE_MANAGER.getModule(ColorModule.class).color.getColor(), alpha);
     }
 
     public static Color getColor(Color color, int alpha) {
@@ -41,11 +41,11 @@ public class ColorUtils {
     }
 
     public static Color getRainbow(int alpha) {
-        return getRainbow(Sydney.MODULE_MANAGER.getModule(ColorModule.class).rainbowSpeed.getValue().longValue(), Sydney.MODULE_MANAGER.getModule(ColorModule.class).rainbowSaturation.getValue().floatValue() / 100.0f, Sydney.MODULE_MANAGER.getModule(ColorModule.class).rainbowBrightness.getValue().floatValue() / 100.0f, alpha);
+        return getRainbow(ISU.MODULE_MANAGER.getModule(ColorModule.class).rainbowSpeed.getValue().longValue(), ISU.MODULE_MANAGER.getModule(ColorModule.class).rainbowSaturation.getValue().floatValue() / 100.0f, ISU.MODULE_MANAGER.getModule(ColorModule.class).rainbowBrightness.getValue().floatValue() / 100.0f, alpha);
     }
 
     public static Color getOffsetRainbow(int alpha, long index) {
-        return getRainbow(Sydney.MODULE_MANAGER.getModule(ColorModule.class).rainbowSpeed.getValue().longValue(), Sydney.MODULE_MANAGER.getModule(ColorModule.class).rainbowSaturation.getValue().floatValue() / 100.0f, Sydney.MODULE_MANAGER.getModule(ColorModule.class).rainbowBrightness.getValue().floatValue() / 100.0f, alpha, index);
+        return getRainbow(ISU.MODULE_MANAGER.getModule(ColorModule.class).rainbowSpeed.getValue().longValue(), ISU.MODULE_MANAGER.getModule(ColorModule.class).rainbowSaturation.getValue().floatValue() / 100.0f, ISU.MODULE_MANAGER.getModule(ColorModule.class).rainbowBrightness.getValue().floatValue() / 100.0f, alpha, index);
     }
 
     public static Color getRainbow(long speed, float saturation, float brightness, int alpha) {
@@ -62,7 +62,7 @@ public class ColorUtils {
     }
 
     public static Color getOffsetWave(Color color, long index) {
-        return getWave(color, Sydney.MODULE_MANAGER.getModule(ColorModule.class).rainbowSpeed.getValue().longValue(), 255, index);
+        return getWave(color, ISU.MODULE_MANAGER.getModule(ColorModule.class).rainbowSpeed.getValue().longValue(), 255, index);
     }
 
     public static Color getWave(Color color, long speed, int alpha, long index) {
@@ -86,7 +86,7 @@ public class ColorUtils {
     public static Color getPulse(Color color, long speed) {
         speed = Math.max(1, Math.min(speed, 20));
 
-        double sin = Math.sin(2 * Math.PI * (speed/20f) * ((System.currentTimeMillis() - Sydney.UPTIME)/1000f));
+        double sin = Math.sin(2 * Math.PI * (speed/20f) * ((System.currentTimeMillis() - ISU.UPTIME)/1000f));
         double scale = (sin + 1)/2f;
         return new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) (color.getAlpha() * scale));
     }

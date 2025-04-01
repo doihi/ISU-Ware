@@ -1,6 +1,6 @@
 package me.aidan.sydney.utils.minecraft;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.movement.HitboxDesyncModule;
 import me.aidan.sydney.utils.IMinecraft;
 import net.minecraft.block.Blocks;
@@ -61,7 +61,7 @@ public class HoleUtils implements IMinecraft {
         HashSet<BlockPos> positions = new HashSet<>();
         HashSet<BlockPos> blacklist = new HashSet<>();
 
-        HitboxDesyncModule hitboxDesyncModule = Sydney.MODULE_MANAGER.getModule(HitboxDesyncModule.class);
+        HitboxDesyncModule hitboxDesyncModule = ISU.MODULE_MANAGER.getModule(HitboxDesyncModule.class);
 
         BlockPos feetPos = PositionUtils.getFlooredPosition(target);
         blacklist.add(feetPos);

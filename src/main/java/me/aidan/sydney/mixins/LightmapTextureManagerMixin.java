@@ -1,6 +1,6 @@
 package me.aidan.sydney.mixins;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.visuals.FullBrightModule;
 import me.aidan.sydney.modules.impl.visuals.NoRenderModule;
 import net.minecraft.client.gl.SimpleFramebuffer;
@@ -21,15 +21,15 @@ public class LightmapTextureManagerMixin {
 
     @Inject(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/SimpleFramebuffer;endWrite()V", shift = At.Shift.BEFORE))
     private void update$endWrite(float delta, CallbackInfo info) {
-        FullBrightModule module = Sydney.MODULE_MANAGER.getModule(FullBrightModule.class);
-        if (Sydney.MODULE_MANAGER != null && module.isToggled() && module.mode.getValue().equalsIgnoreCase("Gamma")) {
+        FullBrightModule module = ISU.MODULE_MANAGER.getModule(FullBrightModule.class);
+        if (ISU.MODULE_MANAGER != null && module.isToggled() && module.mode.getValue().equalsIgnoreCase("Gamma")) {
             lightmapFramebuffer.clear();
         }
     }
 
     @Inject(method = "getDarknessFactor(F)F", at = @At("HEAD"), cancellable = true)
     private void getDarknessFactor(float delta, CallbackInfoReturnable<Float> info) {
-        if (Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).blindness.getValue()) {
+        if (ISU.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(NoRenderModule.class).blindness.getValue()) {
             info.setReturnValue(0.0f);
         }
     }

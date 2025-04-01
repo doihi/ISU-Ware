@@ -1,6 +1,6 @@
 package me.aidan.sydney.mixins;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.impl.MouseInputEvent;
 import me.aidan.sydney.events.impl.UnfilteredMouseInputEvent;
 import net.minecraft.client.MinecraftClient;
@@ -18,9 +18,9 @@ public class MouseMixin {
 
     @Inject(method = "onMouseButton", at = @At("HEAD"))
     private void onMouseButton(long window, int button, int action, int mods, CallbackInfo info) {
-        Sydney.EVENT_HANDLER.post(new UnfilteredMouseInputEvent(button, action, mods));
+        ISU.EVENT_HANDLER.post(new UnfilteredMouseInputEvent(button, action, mods));
         if (window == client.getWindow().getHandle() && action == 1 && client.currentScreen == null) {
-            Sydney.EVENT_HANDLER.post(new MouseInputEvent(button));
+            ISU.EVENT_HANDLER.post(new MouseInputEvent(button));
         }
     }
 }

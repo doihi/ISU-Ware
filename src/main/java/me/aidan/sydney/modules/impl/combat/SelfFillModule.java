@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.combat;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PlayerUpdateEvent;
 import me.aidan.sydney.modules.Module;
@@ -66,7 +66,7 @@ public class SelfFillModule extends Module {
 
         if (jumpMode.getValue().equalsIgnoreCase("Packet") && burrow.getValue().equalsIgnoreCase("Bypass")) {
             if (!rotatedBypass) {
-                Sydney.ROTATION_MANAGER.rotate(RotationUtils.getRotations(WorldUtils.getHitVector(lastPosition, direction)), this);
+                ISU.ROTATION_MANAGER.rotate(RotationUtils.getRotations(WorldUtils.getHitVector(lastPosition, direction)), this);
                 rotatedBypass = true;
                 ticks = 0;
                 return;
@@ -76,7 +76,7 @@ public class SelfFillModule extends Module {
         }
 
         if (autoSwitch.getValue().equalsIgnoreCase("None") && (!(mc.player.getMainHandStack().getItem() instanceof BlockItem) || (obsidianOnly.getValue() && mc.player.getMainHandStack().getItem() != Items.OBSIDIAN))) {
-            Sydney.CHAT_MANAGER.tagged("You are currently not holding any " + (obsidianOnly.getValue() ? "valid " : "") + "blocks.", getName());
+            ISU.CHAT_MANAGER.tagged("You are currently not holding any " + (obsidianOnly.getValue() ? "valid " : "") + "blocks.", getName());
             setToggled(false);
             return;
         }
@@ -90,7 +90,7 @@ public class SelfFillModule extends Module {
         if (obsidianOnly.getValue()) slot = InventoryUtils.find(Items.OBSIDIAN, 0, autoSwitch.getValue().equalsIgnoreCase("AltSwap") || autoSwitch.getValue().equalsIgnoreCase("AltPickup") ? 35 : 8);
 
         if (!autoSwitch.getValue().equalsIgnoreCase("None") && slot == -1) {
-            Sydney.CHAT_MANAGER.tagged("There are currently no " + (obsidianOnly.getValue() ? "valid " : "") + "blocks in your hotbar.", getName());
+            ISU.CHAT_MANAGER.tagged("There are currently no " + (obsidianOnly.getValue() ? "valid " : "") + "blocks in your hotbar.", getName());
             setToggled(false);
             return;
         }
@@ -126,7 +126,7 @@ public class SelfFillModule extends Module {
         }
 
         if (!mc.player.isOnGround()) {
-            Sydney.CHAT_MANAGER.tagged("You are currently in the air.", getName());
+            ISU.CHAT_MANAGER.tagged("You are currently in the air.", getName());
             setToggled(false);
             return;
         }

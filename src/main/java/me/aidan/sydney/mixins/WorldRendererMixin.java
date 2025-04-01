@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.impl.RenderEntityEvent;
 import me.aidan.sydney.events.impl.RenderShaderEvent;
 import me.aidan.sydney.modules.impl.visuals.BlockHighlightModule;
@@ -34,33 +34,33 @@ public abstract class WorldRendererMixin {
 
     @Inject(method = "render", at = @At(value = "HEAD"))
     private void render(ObjectAllocator allocator, RenderTickCounter tickCounter, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, Matrix4f positionMatrix, Matrix4f projectionMatrix, CallbackInfo info, @Local(argsOnly = true) LocalBooleanRef blockOutline) {
-        if (Sydney.MODULE_MANAGER != null && Sydney.MODULE_MANAGER.getModule(BlockHighlightModule.class).isToggled()) {
+        if (ISU.MODULE_MANAGER != null && ISU.MODULE_MANAGER.getModule(BlockHighlightModule.class).isToggled()) {
             blockOutline.set(false);
         }
     }
 
     @ModifyArg(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;setupTerrain(Lnet/minecraft/client/render/Camera;Lnet/minecraft/client/render/Frustum;ZZ)V"), index = 3)
     private boolean render$setupTerrain(boolean spectator) {
-        return Sydney.MODULE_MANAGER.getModule(FreecamModule.class).isToggled() || spectator;
+        return ISU.MODULE_MANAGER.getModule(FreecamModule.class).isToggled() || spectator;
     }
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", ordinal = 0, shift = At.Shift.BEFORE))
     private void render$swap(ObjectAllocator allocator, RenderTickCounter tickCounter, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, Matrix4f positionMatrix, Matrix4f projectionMatrix, CallbackInfo info) {
-        Sydney.EVENT_HANDLER.post(new RenderShaderEvent());
+        ISU.EVENT_HANDLER.post(new RenderShaderEvent());
     }
 
     @Inject(method = "hasBlindnessOrDarkness(Lnet/minecraft/client/render/Camera;)Z", at = @At("HEAD"), cancellable = true)
     private void hasBlindnessOrDarkness(Camera camera, CallbackInfoReturnable<Boolean> info) {
-        if (Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).blindness.getValue()) {
+        if (ISU.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(NoRenderModule.class).blindness.getValue()) {
             info.setReturnValue(false);
         }
     }
 
     @Inject(method = "renderEntity", at = @At("HEAD"), cancellable = true)
     private void renderEntity$HEAD(Entity entity, double cameraX, double cameraY, double cameraZ, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, CallbackInfo info) {
-        if (entity != MinecraftClient.getInstance().player && entity instanceof PlayerEntity && Sydney.MODULE_MANAGER.getModule(NoInterpolationModule.class).isToggled()) {
+        if (entity != MinecraftClient.getInstance().player && entity instanceof PlayerEntity && ISU.MODULE_MANAGER.getModule(NoInterpolationModule.class).isToggled()) {
             RenderEntityEvent event = new RenderEntityEvent(entity, vertexConsumers);
-            Sydney.EVENT_HANDLER.post(event);
+            ISU.EVENT_HANDLER.post(event);
 
             entityRenderDispatcher.render(entity, entity.getX() - cameraX, entity.getY() - cameraY, entity.getZ() - cameraZ, tickDelta, matrices, event.getVertexConsumers(), this.entityRenderDispatcher.getLight(entity, tickDelta));
             info.cancel();
@@ -70,15 +70,15 @@ public abstract class WorldRendererMixin {
     @WrapOperation(method = "renderEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/EntityRenderDispatcher;render(Lnet/minecraft/entity/Entity;DDDFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V"))
     private <E extends Entity> void renderEntity$render(EntityRenderDispatcher instance, E entity, double x, double y, double z, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, Operation<Void> original) {
         RenderEntityEvent event = new RenderEntityEvent(entity, vertexConsumers);
-        Sydney.EVENT_HANDLER.post(event);
+        ISU.EVENT_HANDLER.post(event);
 
         original.call(instance, entity, x, y, z, tickDelta, matrices, event.getVertexConsumers(), light);
     }
 
     @Inject(method = "onResized", at = @At("TAIL"))
     private void onResized(int width, int height, CallbackInfo info) {
-        if (Sydney.SHADER_MANAGER != null) {
-            Sydney.SHADER_MANAGER.resize(width, height);
+        if (ISU.SHADER_MANAGER != null) {
+            ISU.SHADER_MANAGER.resize(width, height);
         }
     }
 }

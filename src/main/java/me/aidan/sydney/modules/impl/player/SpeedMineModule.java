@@ -2,7 +2,7 @@ package me.aidan.sydney.modules.impl.player;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.*;
 import me.aidan.sydney.modules.Module;
@@ -263,7 +263,7 @@ public class SpeedMineModule extends Module {
             if (player == mc.player) continue;
             if (!player.isAlive() || player.getHealth() <= 0.0f) continue;
             if (mc.player.squaredDistanceTo(player) > MathHelper.square(range.getValue().doubleValue() + 2.0)) continue;
-            if (Sydney.FRIEND_MANAGER.contains(player.getName().getString())) continue;
+            if (ISU.FRIEND_MANAGER.contains(player.getName().getString())) continue;
 
             List<Position> feetPositions = getPositions(player);
             BlockPos position = getTargetPosition(feetPositions);
@@ -396,20 +396,20 @@ public class SpeedMineModule extends Module {
                 int slot = switchMode.getValue().equalsIgnoreCase("None") ? -1 : InventoryUtils.findFastestItem(this.state, InventoryUtils.HOTBAR_START, switchMode.getValue().equalsIgnoreCase("AltSwap") || switchMode.getValue().equalsIgnoreCase("AltPickup") ? InventoryUtils.INVENTORY_END : InventoryUtils.HOTBAR_END);
                 if (slot == -1) slot = mc.player.getInventory().selectedSlot;
 
-                float delta = WorldUtils.getMineSpeed(this.state, slot) / Sydney.WORLD_MANAGER.getTimerMultiplier();
+                float delta = WorldUtils.getMineSpeed(this.state, slot) / ISU.WORLD_MANAGER.getTimerMultiplier();
 
                 prevProgress = progress;
                 progress = MathHelper.clamp(progress + delta, 0.0f, getSpeed());
 
                 if (rotate.getValue().equalsIgnoreCase("Normal") && progress + (delta * 2) >= getSpeed()) {
-                    Sydney.ROTATION_MANAGER.rotate(RotationUtils.getRotations(WorldUtils.getHitVector(position, direction)), Sydney.ROTATION_MANAGER.getModulePriority(Sydney.MODULE_MANAGER.getModule(SpeedMineModule.class)));
+                    ISU.ROTATION_MANAGER.rotate(RotationUtils.getRotations(WorldUtils.getHitVector(position, direction)), ISU.ROTATION_MANAGER.getModulePriority(ISU.MODULE_MANAGER.getModule(SpeedMineModule.class)));
                 }
 
                 if (progress >= getSpeed() && !state.isReplaceable() && (whileEating.getValue() || !mc.player.isUsingItem())) {
                     if (!instantMine || instantTimer.hasTimeElapsed(instantDelay.getValue().longValue() * 50L)) {
-                        Sydney.EVENT_HANDLER.post(new DestroyBlockEvent(position));
+                        ISU.EVENT_HANDLER.post(new DestroyBlockEvent(position));
 
-                        if (rotate.getValue().equalsIgnoreCase("Packet")) Sydney.ROTATION_MANAGER.packetRotate(RotationUtils.getRotations(WorldUtils.getHitVector(position, direction)));
+                        if (rotate.getValue().equalsIgnoreCase("Packet")) ISU.ROTATION_MANAGER.packetRotate(RotationUtils.getRotations(WorldUtils.getHitVector(position, direction)));
 
                         int previousSlot = mc.player.getInventory().selectedSlot;
                         InventoryUtils.switchSlot(switchMode.getValue(), slot, previousSlot);

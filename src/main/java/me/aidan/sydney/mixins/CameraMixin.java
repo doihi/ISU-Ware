@@ -1,6 +1,6 @@
 package me.aidan.sydney.mixins;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.modules.impl.visuals.FreecamModule;
 import me.aidan.sydney.modules.impl.visuals.NoRenderModule;
 import me.aidan.sydney.modules.impl.visuals.ViewClipModule;
@@ -23,43 +23,43 @@ public class CameraMixin {
 
     @ModifyArgs(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;clipToSpace(F)F"))
     private void update(Args args) {
-        if (Sydney.MODULE_MANAGER.getModule(ViewClipModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(ViewClipModule.class).extend.getValue()) {
-            args.set(0, Sydney.MODULE_MANAGER.getModule(ViewClipModule.class).distance.getValue().floatValue());
+        if (ISU.MODULE_MANAGER.getModule(ViewClipModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(ViewClipModule.class).extend.getValue()) {
+            args.set(0, ISU.MODULE_MANAGER.getModule(ViewClipModule.class).distance.getValue().floatValue());
         }
     }
 
     @Inject(method = "clipToSpace", at = @At("HEAD"), cancellable = true)
     private void clipToSpace(float f, CallbackInfoReturnable<Float> info) {
-        if (Sydney.MODULE_MANAGER.getModule(ViewClipModule.class).isToggled()) {
+        if (ISU.MODULE_MANAGER.getModule(ViewClipModule.class).isToggled()) {
             info.setReturnValue(f);
         }
     }
 
     @Inject(method = "getSubmersionType", at = @At("HEAD"), cancellable = true)
     private void getSubmersionType(CallbackInfoReturnable<CameraSubmersionType> info) {
-        if (Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(NoRenderModule.class).liquidOverlay.getValue()) {
+        if (ISU.MODULE_MANAGER.getModule(NoRenderModule.class).isToggled() && ISU.MODULE_MANAGER.getModule(NoRenderModule.class).liquidOverlay.getValue()) {
             info.setReturnValue(CameraSubmersionType.NONE);
         }
     }
 
     @Inject(method = "update", at = @At("TAIL"))
     private void update$TAIL(BlockView area, Entity focusedEntity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo info) {
-        if (Sydney.MODULE_MANAGER.getModule(FreecamModule.class).isToggled()) {
+        if (ISU.MODULE_MANAGER.getModule(FreecamModule.class).isToggled()) {
             this.thirdPerson = true;
         }
     }
 
     @ModifyArgs(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;setRotation(FF)V"))
     private void update$setRotation(Args args) {
-        if (Sydney.MODULE_MANAGER.getModule(FreecamModule.class).isToggled()) {
-            args.setAll(Sydney.MODULE_MANAGER.getModule(FreecamModule.class).getFreeYaw(), Sydney.MODULE_MANAGER.getModule(FreecamModule.class).getFreePitch());
+        if (ISU.MODULE_MANAGER.getModule(FreecamModule.class).isToggled()) {
+            args.setAll(ISU.MODULE_MANAGER.getModule(FreecamModule.class).getFreeYaw(), ISU.MODULE_MANAGER.getModule(FreecamModule.class).getFreePitch());
         }
     }
 
     @ModifyArgs(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;setPos(DDD)V"))
     private void update$setPos(Args args) {
-        if (Sydney.MODULE_MANAGER.getModule(FreecamModule.class).isToggled()) {
-            args.setAll(Sydney.MODULE_MANAGER.getModule(FreecamModule.class).getFreeX(), Sydney.MODULE_MANAGER.getModule(FreecamModule.class).getFreeY(), Sydney.MODULE_MANAGER.getModule(FreecamModule.class).getFreeZ());
+        if (ISU.MODULE_MANAGER.getModule(FreecamModule.class).isToggled()) {
+            args.setAll(ISU.MODULE_MANAGER.getModule(FreecamModule.class).getFreeX(), ISU.MODULE_MANAGER.getModule(FreecamModule.class).getFreeY(), ISU.MODULE_MANAGER.getModule(FreecamModule.class).getFreeZ());
         }
     }
 }

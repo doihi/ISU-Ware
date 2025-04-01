@@ -1,6 +1,6 @@
 package me.aidan.sydney.modules.impl.combat;
 
-import me.aidan.sydney.Sydney;
+import me.aidan.sydney.ISU;
 import me.aidan.sydney.events.SubscribeEvent;
 import me.aidan.sydney.events.impl.PacketReceiveEvent;
 import me.aidan.sydney.events.impl.PlayerMoveEvent;
@@ -82,7 +82,7 @@ public class MaceAuraModule extends Module {
         int slot = InventoryUtils.find(Items.MACE, 0, 8);
         if(slot == -1) return;
 
-        if(rotate.getValue()) Sydney.ROTATION_MANAGER.rotate(RotationUtils.getRotations(target), this);
+        if(rotate.getValue()) ISU.ROTATION_MANAGER.rotate(RotationUtils.getRotations(target), this);
 
         attacking = true;
 
@@ -133,7 +133,7 @@ public class MaceAuraModule extends Module {
             if(player == mc.player) continue;
             if (!player.isAlive() || player.getHealth() <= 0.0f) continue;
             if (mc.player.squaredDistanceTo(player) > MathHelper.square(range.getValue().doubleValue())) continue;
-            if (Sydney.FRIEND_MANAGER.contains(player.getName().getString())) continue;
+            if (ISU.FRIEND_MANAGER.contains(player.getName().getString())) continue;
 
             if(optimalTarget == null) {
                 optimalTarget = player;
