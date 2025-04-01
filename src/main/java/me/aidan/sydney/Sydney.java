@@ -1,41 +1,23 @@
 package me.aidan.sydney;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import me.aidan.sydney.commands.CommandManager;
 import me.aidan.sydney.events.EventHandler;
 import me.aidan.sydney.gui.ClickGuiScreen;
 import me.aidan.sydney.managers.*;
 import me.aidan.sydney.modules.ModuleManager;
 import net.fabricmc.api.ModInitializer;
-
-import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 public class Sydney implements ModInitializer {
-	public static final String MOD_NAME = "ISU-Ware";
-	public static final String MOD_ID = "isu-ware";
-	public static final String MOD_VERSION = "1.0.0";
-	public static final String MINECRAFT_VERSION = "1.21.4";
-	public static final String GIT_HASH = "0";
-	public static final String GIT_REVISION = "0";
+	public static final String MOD_NAME;
+	public static final String MOD_ID;
+	public static final String MOD_VERSION;
+	public static final String MINECRAFT_VERSION;
 	public static final long UPTIME = System.currentTimeMillis();
 
 	public static final EventHandler EVENT_HANDLER = new EventHandler();
-	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
-
-	private static final ExecutorService UPDATE_EXECUTOR = Executors.newSingleThreadExecutor();
-	public static String UPDATE_STATUS = "none";
-
-	private static final String VERSION_URL = "a";
-	private static final String SECRET_KEY = "a";
+	public static final Logger LOGGER;
 
 	public static ChatManager CHAT_MANAGER;
 	public static FontManager FONT_MANAGER;
@@ -86,33 +68,11 @@ public class Sydney implements ModInitializer {
 		LOGGER.info("{} {} has been initialized.", MOD_NAME, MOD_VERSION);
 	}
 
-	public static void checkForUpdates() {
-		UPDATE_EXECUTOR.submit(() -> {
-			if (FabricLoader.getInstance().isDevelopmentEnvironment()) return;
-			if (!FabricLoader.getInstance().isModLoaded(MOD_ID + "-updater")) return;
-
-			try {
-				HttpURLConnection versionConnection = (HttpURLConnection) new URL(VERSION_URL + SECRET_KEY).openConnection();
-				versionConnection.setRequestMethod("GET");
-				versionConnection.connect();
-
-				if (versionConnection.getResponseCode() == 200) {
-					InputStreamReader reader = new InputStreamReader(versionConnection.getInputStream());
-
-					JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
-					if (!jsonObject.has("version")) return;
-
-					if (!MOD_VERSION.equalsIgnoreCase(jsonObject.get("version").getAsString())) {
-						UPDATE_STATUS = "update-available";
-					}
-				} else {
-					UPDATE_STATUS = "failed-connection";
-				}
-			} catch (IOException exception) {
-				UPDATE_STATUS = "failed";
-			}
-
-			if (UPDATE_STATUS.equalsIgnoreCase("none")) UPDATE_STATUS = "up-to-date";
-		});
+	static {
+		MOD_NAME = "ISU-Ware";
+		MOD_ID = "isu-ware";
+		MOD_VERSION = "1.0.0";
+		MINECRAFT_VERSION = "1.21.4";
+		LOGGER = LoggerFactory.getLogger(MOD_NAME);
 	}
 }

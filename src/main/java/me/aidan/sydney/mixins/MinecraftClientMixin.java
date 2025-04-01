@@ -81,7 +81,6 @@ public abstract class MinecraftClientMixin implements IMinecraft {
         }
 
         if (screen instanceof TitleScreen) {
-            Sydney.checkForUpdates();
 
             if (Sydney.MODULE_MANAGER.getModule(MenuModule.class).isToggled() && Sydney.MODULE_MANAGER.getModule(MenuModule.class).mainMenu.getValue()) {
                 this.setScreen(new MainMenuScreen());
