@@ -215,7 +215,7 @@ public class HUDModule extends Module {
         Renderer2D.renderQuad(event.getMatrices(), 2, mc.getWindow().getScaledHeight() - chatOffset, mc.getWindow().getScaledWidth() - 2, mc.getWindow().getScaledHeight() + 12 - chatOffset, new Color(0, 0, 0, (int) (mc.options.getTextBackgroundOpacity().getValue() * 255)));
 
         if (watermark.getValue()) {
-            String text = watermarkText.getValue() + (watermarkVersion.getValue() ? (watermarkSync.getValue() ? "" : inversion.getValue() ? Formatting.GRAY : Formatting.WHITE) + " " + Sydney.MOD_VERSION + (watermarkMinecraftVersion.getValue() ? "-mc" + Sydney.MINECRAFT_VERSION : "") + (watermarkRevision.getValue() ? "+" + Sydney.GIT_REVISION + "." + Sydney.GIT_HASH : "") : "");
+            String text = watermarkText.getValue() + (watermarkVersion.getValue() ? (watermarkSync.getValue() ? "" : inversion.getValue() ? Formatting.GRAY : Formatting.WHITE) + " " + Sydney.MOD_VERSION + (watermarkMinecraftVersion.getValue() ? "-mc" + Sydney.MINECRAFT_VERSION : "") + (watermarkRevision.getValue() ? "+" : "19001") : "");
             drawText(event.getContext(), text, 2, 2);
         }
 

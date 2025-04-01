@@ -64,7 +64,7 @@ public class MainMenuScreen extends Screen implements IMinecraft {
         drawText(context, date, width/2f - Sydney.FONT_MANAGER.getWidth(date)/2f, 6, 1, Color.GRAY);
 
         // Client version
-        drawText(context, Sydney.MOD_NAME + " " + Sydney.MOD_VERSION + "-mc" + Sydney.MINECRAFT_VERSION + "+" + Sydney.GIT_REVISION + "." + Sydney.GIT_HASH, 2, height - Sydney.FONT_MANAGER.getHeight() - 2, 1, Color.GRAY);
+        drawText(context, Sydney.MOD_NAME + " " + Sydney.MOD_VERSION + "-mc" + Sydney.MINECRAFT_VERSION + "+", 2, height - Sydney.FONT_MANAGER.getHeight() - 2, 1, Color.GRAY);
 
         drawButton(context, "Singleplayer", width/2f - buttonWidth - 2, height/2f, mouseX, mouseY);
         drawButton(context, "Multiplayer", width/2f, height/2f, mouseX, mouseY);
@@ -75,7 +75,6 @@ public class MainMenuScreen extends Screen implements IMinecraft {
         drawText(context, splashText, width/2f - Sydney.FONT_MANAGER.getWidth(splashText)/2f, height/2f + buttonHeight + 5f, 1, Color.WHITE);
 
         // Status
-        drawClientStatus(context);
     }
 
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
@@ -105,41 +104,6 @@ public class MainMenuScreen extends Screen implements IMinecraft {
         }
 
         return super.mouseClicked(mouseX, mouseY, button);
-    }
-
-    private void drawClientStatus(DrawContext context) {
-        if (Sydney.UPDATE_STATUS.equalsIgnoreCase("none")) return;
-
-        String primaryText = "";
-        String secondaryText = "";
-        Color color = Color.WHITE;
-
-        if (Sydney.UPDATE_STATUS.equalsIgnoreCase("update-available")) {
-            secondaryText = "An update is available for Sydney.";
-            primaryText = "Please restart the game to apply changes.";
-            color = Color.ORANGE;
-        }
-
-        if (Sydney.UPDATE_STATUS.equalsIgnoreCase("failed-connection")) {
-            secondaryText = "Failed to connect to Sydney's servers.";
-            primaryText = "Please make sure you have a working internet connection.";
-            color = Color.RED;
-        }
-
-        if (Sydney.UPDATE_STATUS.equalsIgnoreCase("failed")) {
-            secondaryText = "Failed to update Sydney.";
-            primaryText = "Please make sure the auto-updater is working properly.";
-            color = Color.RED;
-        }
-
-        if (Sydney.UPDATE_STATUS.equalsIgnoreCase("up-to-date")) {
-            primaryText = "Sydney is on the latest version.";
-        }
-
-        if (primaryText.isEmpty()) return;
-
-        if(!secondaryText.isEmpty()) drawText(context, secondaryText, width/2f - Sydney.FONT_MANAGER.getWidth(secondaryText)/2f, height - 30, 1, color);
-        drawText(context, primaryText, width/2f - Sydney.FONT_MANAGER.getWidth(primaryText)/2f, height - 20, 1, color);
     }
 
     private void drawButton(DrawContext context, String text, float x, float y, int mouseX, int mouseY) {
