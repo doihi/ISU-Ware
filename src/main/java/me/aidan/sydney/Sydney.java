@@ -34,8 +34,8 @@ public class Sydney implements ModInitializer {
 	private static final ExecutorService UPDATE_EXECUTOR = Executors.newSingleThreadExecutor();
 	public static String UPDATE_STATUS = "none";
 
-	private static final String VERSION_URL = "";
-	private static final String SECRET_KEY = "";
+	private static final String VERSION_URL = "a";
+	private static final String SECRET_KEY = "a";
 
 	public static ChatManager CHAT_MANAGER;
 	public static FontManager FONT_MANAGER;
